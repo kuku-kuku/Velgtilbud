@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useLayoutEffect, useRef } from 'react'
 import { useLocation } from 'react-router-dom'
 import { Minus, Plus } from 'lucide-react'
 import LeadForm from './LeadForm'
@@ -36,39 +36,66 @@ export default function FloatingForm() {
   const [service,   setService]   = useState<ActiveService>('flytting')
   const [collapsed, setCollapsed] = useState(false)
   const [visible,   setVisible]   = useState(false)
+  const [ready,     setReady]     = useState(false)
+  const divRef = useRef<HTMLDivElement>(null)
   const { pathname } = useLocation()
 
-  useEffect(() => {
+  // Imperatively hide the element before React re-renders — most reliable pre-paint hide
+  useLayoutEffect(() => {
+    const el = divRef.current
+    if (el) {
+      el.style.opacity = '0'
+      el.style.transform = 'translateX(2rem)'
+      el.style.pointerEvents = 'none'
+      el.style.transition = 'none'
+    }
     setVisible(false)
+    setReady(false)
+  }, [pathname])
+
+  useEffect(() => {
+    let innerCleanup: (() => void) | undefined
 
     const timer = setTimeout(() => {
-      const heroForm = document.getElementById('hero-form')
+      const el = divRef.current
+      if (el) {
+        el.style.opacity = ''
+        el.style.transform = ''
+        el.style.pointerEvents = ''
+        el.style.transition = ''
+      }
+      setReady(true)
 
+      const heroForm = document.getElementById('hero-form')
       if (heroForm) {
         const observer = new IntersectionObserver(
           ([entry]) => setVisible(!entry.isIntersecting),
           { threshold: 0 }
         )
         observer.observe(heroForm)
-        return () => observer.disconnect()
+        innerCleanup = () => observer.disconnect()
       } else {
         const handler = () => setVisible(window.scrollY > 300)
         window.addEventListener('scroll', handler, { passive: true })
         handler()
-        return () => window.removeEventListener('scroll', handler)
+        innerCleanup = () => window.removeEventListener('scroll', handler)
       }
-    }, 50)
+    }, 200)
 
-    return () => clearTimeout(timer)
+    return () => {
+      clearTimeout(timer)
+      innerCleanup?.()
+    }
   }, [pathname])
 
   const c = config[service]
 
   return (
     <div
+      ref={divRef}
       className={cn(
         'hidden lg:flex fixed right-6 top-1/2 -translate-y-1/2 z-40 w-[22rem] flex-col rounded-2xl shadow-2xl overflow-hidden border border-white/10',
-        'transition-all duration-500 ease-out',
+        ready && 'transition-all duration-500 ease-out',
         visible
           ? 'opacity-100 translate-x-0 pointer-events-auto'
           : 'opacity-0 translate-x-8 pointer-events-none'
@@ -101,7 +128,7 @@ export default function FloatingForm() {
           {(Object.keys(config) as ActiveService[]).map((s) => (
             <button
               key={s}
-              onClick={() => setService(s)}
+              onClick={() => { setService(s); setCollapsed(false) }}
               className={cn(
                 'flex-1 py-2 text-xs font-bold rounded-lg transition-all duration-200',
                 service === s ? c.activePill : c.inactivePill

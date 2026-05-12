@@ -69,7 +69,7 @@ export default function FormModal({ open, service, onClose, onServiceChange }: P
                   className={cn(
                     'flex-1 py-2 text-sm font-semibold rounded-lg transition-all duration-150',
                     isActive
-                      ? 'bg-navy text-white shadow-sm'
+                      ? t.value === 'rengjoring' ? 'bg-taupe text-white shadow-sm' : 'bg-navy text-white shadow-sm'
                       : 'bg-white text-greige hover:bg-sand/50 hover:text-navy'
                   )}
                 >
@@ -82,7 +82,7 @@ export default function FormModal({ open, service, onClose, onServiceChange }: P
 
         {/* Form */}
         <div className="px-6 pb-8 pt-4">
-          <LeadForm key={service} defaultService={service} />
+          <LeadForm service={service} onServiceChange={onServiceChange} />
         </div>
       </div>
     </div>

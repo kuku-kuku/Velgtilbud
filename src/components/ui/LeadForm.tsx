@@ -5,7 +5,7 @@ import { cn } from '@/lib/utils'
 import type { LeadFormData, ServiceType } from '@/lib/types'
 
 interface Props {
-  // When provided, form is controlled — internal selector syncs upward
+  // When provided, form is controlled — internal selector is hidden
   service?: ServiceType
   onServiceChange?: (s: ServiceType) => void
   defaultService?: ServiceType
@@ -103,27 +103,29 @@ export default function LeadForm({ service: controlledService, onServiceChange, 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={cn('flex flex-col gap-3.5', className)}>
 
-      {/* Service selector */}
-      <div>
-        <p className="label">Hva trenger du hjelp med?</p>
-        <div className="grid grid-cols-2 gap-2">
-          {serviceOptions.map((opt) => (
-            <button
-              key={opt.value}
-              type="button"
-              onClick={() => handleServiceChange(opt.value)}
-              className={cn(
-                'py-2.5 px-3 rounded-xl border text-xs font-semibold transition-all duration-150',
-                activeService === opt.value
-                  ? activeClass
-                  : 'bg-white text-greige border-sand/50 hover:border-navy/30 hover:text-navy'
-              )}
-            >
-              {opt.label}
-            </button>
-          ))}
+      {/* Service selector — hidden when controlled from outside */}
+      {controlledService === undefined && (
+        <div>
+          <p className="label">Hva trenger du hjelp med?</p>
+          <div className="grid grid-cols-2 gap-2">
+            {serviceOptions.map((opt) => (
+              <button
+                key={opt.value}
+                type="button"
+                onClick={() => handleServiceChange(opt.value)}
+                className={cn(
+                  'py-2.5 px-3 rounded-xl border text-xs font-semibold transition-all duration-150',
+                  activeService === opt.value
+                    ? activeClass
+                    : 'bg-white text-greige border-sand/50 hover:border-navy/30 hover:text-navy'
+                )}
+              >
+                {opt.label}
+              </button>
+            ))}
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Name + Phone */}
       <div className="grid grid-cols-2 gap-2">
