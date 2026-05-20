@@ -100,12 +100,23 @@ export default function LeadForm({ service: ctrl, onServiceChange, defaultServic
   const openCal = () => {
     if (dateButtonRef.current) {
       const r = dateButtonRef.current.getBoundingClientRect()
-      const popupWidth = Math.max(r.width, 288)
-      // flip up if too close to bottom
-      const spaceBelow = window.innerHeight - r.bottom
-      const top = spaceBelow > 340 ? r.bottom + 6 : r.top - 340
-      const left = Math.min(r.left, window.innerWidth - popupWidth - 16)
-      setCalPopupStyle({ position: 'fixed', top, left, width: popupWidth, zIndex: 9999 })
+      const isMobile = window.innerWidth < 1024
+      if (isMobile) {
+        const w = Math.min(window.innerWidth - 32, 360)
+        setCalPopupStyle({
+          position: 'fixed',
+          top: Math.max(16, (window.innerHeight - 420) / 2),
+          left: (window.innerWidth - w) / 2,
+          width: w,
+          zIndex: 9999,
+        })
+      } else {
+        const popupWidth = Math.max(r.width, 288)
+        const spaceBelow = window.innerHeight - r.bottom
+        const top = spaceBelow > 340 ? r.bottom + 6 : r.top - 340
+        const left = Math.min(r.left, window.innerWidth - popupWidth - 16)
+        setCalPopupStyle({ position: 'fixed', top, left, width: popupWidth, zIndex: 9999 })
+      }
     }
     setCalOpen(o => !o)
   }
