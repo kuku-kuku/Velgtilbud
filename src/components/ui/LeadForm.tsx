@@ -13,7 +13,7 @@ type StepId =
   | 'service' | 'customerType' | 'date'
   | 'fromAddress' | 'size' | 'toAddress' | 'parking'
   | 'propertyType' | 'rooms'
-  | 'contact'
+  | 'contact' | 'address'
 
 const SIZE_OPTIONS = ['0–50', '51–100', '101–150', '151–200', '200+']
 
@@ -44,14 +44,15 @@ const STEP_LABELS: Record<StepId, string> = {
   propertyType: 'Om boligen',
   rooms:        'Rom og detaljer',
   contact:      'Kontaktinfo',
+  address:      'Din adresse',
 }
 
 function getSteps(svc: ServiceChoice): StepId[] {
   if (svc === 'rengjoring') {
-    return ['service', 'customerType', 'date', 'propertyType', 'rooms', 'contact']
+    return ['service', 'customerType', 'date', 'propertyType', 'rooms', 'contact', 'address']
   }
   if (svc === 'begge') {
-    return ['service', 'customerType', 'date', 'fromAddress', 'size', 'toAddress', 'parking', 'propertyType', 'rooms', 'contact']
+    return ['service', 'customerType', 'date', 'fromAddress', 'size', 'toAddress', 'parking', 'propertyType', 'rooms', 'contact', 'address']
   }
   return ['service', 'date', 'fromAddress', 'size', 'toAddress', 'parking', 'contact']
 }
@@ -197,10 +198,9 @@ export default function LeadForm({ service: ctrl, onServiceChange, defaultServic
       const digits = data.phone.replace(/\D/g, '')
       if (!digits.match(/^(47\d{8}|\d{8})$/)) errs.phone = 'Gyldig norsk nummer (8 sifre)'
       if (!data.email.match(/^[^\s@]+@[^\s@]{2,}\.[^\s@]{2,}$/)) errs.email = 'Ugyldig e-post'
-      if (data.service === 'rengjoring') {
-        if (!data.fromStreet.trim()) errs.fromStreet = 'Påkrevd'
-        if (!data.fromPostal.match(/^\d{4}$/)) errs.fromPostal = '4 sifre'
-      }
+    } else if (currentStep === 'address') {
+      if (!data.fromStreet.trim()) errs.fromStreet = 'Påkrevd'
+      if (!data.fromPostal.match(/^\d{4}$/)) errs.fromPostal = '4 sifre'
     }
     setErrors(errs)
     return Object.keys(errs).length === 0
@@ -815,37 +815,42 @@ export default function LeadForm({ service: ctrl, onServiceChange, defaultServic
               />
               {errors.email && <p className="text-xs text-red-400 mt-1">{errors.email}</p>}
             </div>
-            {data.service === 'rengjoring' && (
-              <>
-                <div className="grid grid-cols-3 gap-2">
-                  <div className="col-span-2">
-                    <label className="label">Adresse</label>
-                    <input
-                      value={data.fromStreet}
-                      onChange={e => set('fromStreet', e.target.value)}
-                      placeholder="Gateveien"
-                      className={cn('input-field', errors.fromStreet && 'border-red-300')}
-                    />
-                    {errors.fromStreet && <p className="text-xs text-red-400 mt-1">{errors.fromStreet}</p>}
-                  </div>
-                  <div>
-                    <label className="label">Nr.</label>
-                    <input value={data.fromNo} onChange={e => set('fromNo', e.target.value)} placeholder="1A" className="input-field" />
-                  </div>
-                </div>
-                <div>
-                  <label className="label">Postnummer</label>
-                  <input
-                    value={data.fromPostal}
-                    onChange={e => set('fromPostal', e.target.value)}
-                    placeholder="7010"
-                    maxLength={4}
-                    className={cn('input-field', errors.fromPostal && 'border-red-300')}
-                  />
-                  {errors.fromPostal && <p className="text-xs text-red-400 mt-1">{errors.fromPostal}</p>}
-                </div>
-              </>
-            )}
+            <p className="text-xs text-greige leading-relaxed">
+              Gratis og uforpliktende — du velger selv om du vil akseptere tilbudet.
+            </p>
+          </div>
+        )
+
+      case 'address':
+        return (
+          <div className="flex flex-col gap-3">
+            <div className="grid grid-cols-3 gap-2">
+              <div className="col-span-2">
+                <label className="label">Adresse</label>
+                <input
+                  value={data.fromStreet}
+                  onChange={e => set('fromStreet', e.target.value)}
+                  placeholder="Gateveien"
+                  className={cn('input-field', errors.fromStreet && 'border-red-300')}
+                />
+                {errors.fromStreet && <p className="text-xs text-red-400 mt-1">{errors.fromStreet}</p>}
+              </div>
+              <div>
+                <label className="label">Nr.</label>
+                <input value={data.fromNo} onChange={e => set('fromNo', e.target.value)} placeholder="1A" className="input-field" />
+              </div>
+            </div>
+            <div>
+              <label className="label">Postnummer</label>
+              <input
+                value={data.fromPostal}
+                onChange={e => set('fromPostal', e.target.value)}
+                placeholder="7010"
+                maxLength={4}
+                className={cn('input-field', errors.fromPostal && 'border-red-300')}
+              />
+              {errors.fromPostal && <p className="text-xs text-red-400 mt-1">{errors.fromPostal}</p>}
+            </div>
             <p className="text-xs text-greige leading-relaxed">
               Gratis og uforpliktende — du velger selv om du vil akseptere tilbudet.
             </p>
