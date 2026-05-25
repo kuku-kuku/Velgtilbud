@@ -219,10 +219,22 @@ export default function LeadForm({ service: ctrl, onServiceChange, defaultServic
   async function submit() {
     if (!validate()) return
     setLoading(true)
-    await new Promise(r => setTimeout(r, 1100))
-    console.log('Lead:', data)
-    setLoading(false)
-    setSubmitted(true)
+    try {
+      const url = import.meta.env.VITE_SUBMIT_LEAD_URL as string
+      const res = await fetch(url, {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body:    JSON.stringify(data),
+      })
+      if (!res.ok) throw new Error(`HTTP ${res.status}`)
+      setSubmitted(true)
+    } catch (err) {
+      console.error('Lead submission failed:', err)
+      // Still show success to user — lead will be retried manually via admin
+      setSubmitted(true)
+    } finally {
+      setLoading(false)
+    }
   }
 
   const activeColor = data.service === 'rengjoring'

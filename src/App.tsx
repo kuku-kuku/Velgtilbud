@@ -9,6 +9,7 @@ import PrivatePage from '@/pages/PrivatePage'
 import BedrifterPage from '@/pages/BedrifterPage'
 import PartnerPage from '@/pages/PartnerPage'
 import OmOssPage from '@/pages/OmOssPage'
+import AdminPage from '@/pages/AdminPage'
 import type { ServiceType } from '@/lib/types'
 import { ArrowRight } from 'lucide-react'
 
@@ -53,6 +54,7 @@ export default function App() {
             <Route path="/bedrifter"      element={<BedrifterPage />} />
             <Route path="/bli-partner"    element={<PartnerPage />} />
             <Route path="/om-oss"         element={<OmOssPage />} />
+            <Route path="/admin"          element={<AdminPage />} />
           </Routes>
         </main>
         <Footer />
