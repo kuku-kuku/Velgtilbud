@@ -255,24 +255,16 @@ function buildPartnerEmail(lead: Record<string, unknown>, partner: Record<string
 </body></html>`
 }
 
-function buildCustomerEmail(lead: Record<string, unknown>, customerLink: string, partnerCount: number): string {
+function buildCustomerEmail(lead: Record<string, unknown>, _customerLink: string, partnerCount: number): string {
   return `<!DOCTYPE html><html><body style="font-family:sans-serif;max-width:580px;margin:0 auto;padding:28px 20px;color:#333">
-  <h2 style="color:#0E1D2D;margin:0 0 4px">Vi samler inn tilbud for deg!</h2>
-  <p style="color:#555;margin:0 0 20px;font-size:14px">
-    Hei ${lead.name}, vi har mottatt din forespørsel om <strong>${svcLabel(lead.service_type as string)}</strong> og sendt den til <strong>${partnerCount} godkjente selskaper</strong> i Trondheim.
+  <h2 style="color:#0E1D2D;margin:0 0 4px">Vi har mottatt din forespørsel!</h2>
+  <p style="color:#555;margin:0 0 16px;font-size:14px">
+    Hei ${lead.name}, takk for din forespørsel om <strong>${svcLabel(lead.service_type as string)}</strong>.
   </p>
-
-  <p style="color:#555;font-size:14px">Selskapene vil nå gi deg sine beste tilbud. Du kan se og sammenligne alle tilbud på én plass:</p>
-
-  <div style="margin:28px 0;text-align:center">
-    <a href="${customerLink}" style="display:inline-block;background:#0E1D2D;color:#fff;font-weight:700;font-size:15px;padding:14px 32px;border-radius:12px;text-decoration:none">
-      Se mine tilbud →
-    </a>
-    <p style="font-size:11px;color:#bbb;margin-top:10px">Eller kopier lenken: ${customerLink}</p>
-  </div>
-
-  <p style="font-size:13px;color:#888">Du velger selv om du vil akseptere et tilbud — helt gratis og uforpliktende.</p>
-
+  <p style="color:#555;font-size:14px;margin:0 0 16px">
+    Vi har videresendt forespørselen din til <strong>${partnerCount} godkjente selskaper</strong> i Trondheim. En av våre rådgivere vil kontakte deg med de beste tilbudene.
+  </p>
+  <p style="color:#888;font-size:13px;">Har du spørsmål? Svar på denne e-posten eller ring oss.</p>
   <p style="font-size:11px;color:#bbb;margin-top:28px;border-top:1px solid #eee;padding-top:12px">Velgtilbud.no — Trondheims ledende markedsplass</p>
 </body></html>`
 }

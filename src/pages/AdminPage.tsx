@@ -192,9 +192,30 @@ function PartnerModal({ initial, onSave, onClose }: {
 
 // ── Tabs ──────────────────────────────────────────────────────────────────────
 
+type QuoteRow = {
+  id: string
+  price: number
+  message: string | null
+  available_date: string | null
+  status: string
+  created_at: string
+  partners: { name: string; phone: string | null; email: string } | null
+}
+
 function LeadModal({ lead, onClose, onDelete }: { lead: Lead; onClose: () => void; onDelete: (id: string) => void }) {
   const cleaning = lead.service_type !== 'flyttehjelp'
   const moving   = lead.service_type !== 'rengjoring'
+  const [quotes, setQuotes]   = useState<QuoteRow[]>([])
+  const [qLoading, setQLoad]  = useState(true)
+
+  useEffect(() => {
+    supabase
+      .from('quotes')
+      .select('id, price, message, available_date, status, created_at, partners(name, phone, email)')
+      .eq('lead_id', lead.id)
+      .order('price', { ascending: true })
+      .then(({ data }) => { setQuotes((data as unknown as QuoteRow[]) ?? []); setQLoad(false) })
+  }, [lead.id])
 
   function row(label: string, value: string | number | boolean | null | undefined) {
     if (value === null || value === undefined || value === '') return null
@@ -272,6 +293,48 @@ function LeadModal({ lead, onClose, onDelete }: { lead: Lead; onClose: () => voi
               </div>
             </div>
           )}
+
+          {/* Quotes */}
+          <div>
+            <p className="text-xs font-bold text-greige uppercase tracking-wider mb-3 flex items-center gap-1.5">
+              <TrendingUp className="w-3.5 h-3.5" /> Innkomne tilbud ({quotes.length})
+            </p>
+            {qLoading ? (
+              <div className="flex justify-center py-4"><div className="w-4 h-4 border-2 border-navy/20 border-t-navy rounded-full animate-spin" /></div>
+            ) : quotes.length === 0 ? (
+              <div className="bg-offwhite rounded-xl p-4 text-center text-sm text-greige">Ingen tilbud ennå</div>
+            ) : (
+              <div className="flex flex-col gap-2">
+                {quotes.map((q, i) => (
+                  <div key={q.id} className={`rounded-xl border p-4 ${i === 0 ? 'border-sage/40 bg-sage/5' : 'border-sand/40 bg-offwhite'}`}>
+                    <div className="flex items-start justify-between mb-1">
+                      <div>
+                        <p className="font-semibold text-navy text-sm">{q.partners?.name ?? '—'}</p>
+                        {q.available_date && <p className="text-xs text-greige">Tilgjengelig: {q.available_date}</p>}
+                      </div>
+                      <div className="text-right">
+                        <p className="text-lg font-extrabold text-navy">{q.price.toLocaleString('nb-NO')} kr</p>
+                        {i === 0 && quotes.length > 1 && <p className="text-xs text-sage font-semibold">Lavest</p>}
+                      </div>
+                    </div>
+                    {q.message && <p className="text-xs text-greige mt-2 leading-relaxed">{q.message}</p>}
+                    {q.partners && (
+                      <div className="flex gap-2 mt-3">
+                        {q.partners.phone && (
+                          <a href={`tel:${q.partners.phone}`} className="flex items-center gap-1.5 text-xs text-navy border border-sand/50 rounded-lg px-2.5 py-1.5 hover:bg-white transition">
+                            <Phone className="w-3 h-3" /> {q.partners.phone}
+                          </a>
+                        )}
+                        <a href={`mailto:${q.partners.email}`} className="flex items-center gap-1.5 text-xs text-navy border border-sand/50 rounded-lg px-2.5 py-1.5 hover:bg-white transition">
+                          <Mail className="w-3 h-3" /> E-post
+                        </a>
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
 
           {/* Quick actions */}
           <div className="flex gap-3 pt-1">
