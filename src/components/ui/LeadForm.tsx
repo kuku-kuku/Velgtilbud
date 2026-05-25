@@ -7,8 +7,13 @@ import 'react-day-picker/src/style.css'
 import { cn } from '@/lib/utils'
 import type { ServiceType } from '@/lib/types'
 
-type ServiceChoice = 'begge' | 'flyttehjelp' | 'rengjoring'
-type StepId = 'service' | 'date' | 'fromAddress' | 'size' | 'toAddress' | 'parking' | 'cleaning' | 'contact'
+type ServiceChoice  = 'begge' | 'flyttehjelp' | 'rengjoring'
+type CustomerType   = 'privat' | 'borettslag' | 'bedrift'
+type StepId =
+  | 'service' | 'customerType' | 'date'
+  | 'fromAddress' | 'size' | 'toAddress' | 'parking'
+  | 'propertyType' | 'rooms'
+  | 'contact'
 
 const SIZE_OPTIONS = ['0–50', '51–100', '101–150', '151–200', '200+']
 
@@ -20,30 +25,35 @@ const FLEX_OPTIONS = [
   { v: 'mer',    l: 'Mer enn en uke' },
 ]
 
-const EXTRAS = [
-  { v: 'ovn',     l: 'Ovn innvendig'          },
-  { v: 'kjol',    l: 'Kjøleskap innvendig'     },
-  { v: 'vindu',   l: 'Vinduer (innvendig+utv)' },
-  { v: 'garanti', l: 'Garantivask'             },
+const PROPERTY_TYPES = ['Enebolig', 'Leilighet', 'Tomannsbolig', 'Rekkehus', 'Annet']
+
+const AREA_EXTRAS = [
+  { v: 'garasje', l: 'Garasje'          },
+  { v: 'balkong', l: 'Balkong/veranda'  },
+  { v: 'bod',     l: 'Bod'              },
 ]
 
 const STEP_LABELS: Record<StepId, string> = {
-  service:     'Hva trenger du?',
-  date:        'Ønsket dato',
-  fromAddress: 'Nåværende adresse',
-  size:        'Størrelse på boligen',
-  toAddress:   'Ny adresse',
-  parking:     'Parkering',
-  cleaning:    'Rengjøringsdetaljer',
-  contact:     'Kontaktinfo',
+  service:      'Hva trenger du?',
+  customerType: 'Hvem bestiller?',
+  date:         'Ønsket dato',
+  fromAddress:  'Nåværende adresse',
+  size:         'Størrelse på boligen',
+  toAddress:    'Ny adresse',
+  parking:      'Parkering',
+  propertyType: 'Om boligen',
+  rooms:        'Rom og detaljer',
+  contact:      'Kontaktinfo',
 }
 
 function getSteps(svc: ServiceChoice): StepId[] {
-  const s: StepId[] = ['service', 'date', 'fromAddress', 'size']
-  if (svc !== 'rengjoring') s.push('toAddress', 'parking')
-  if (svc !== 'flyttehjelp') s.push('cleaning')
-  s.push('contact')
-  return s
+  if (svc === 'rengjoring') {
+    return ['service', 'customerType', 'date', 'propertyType', 'rooms', 'contact']
+  }
+  if (svc === 'begge') {
+    return ['service', 'customerType', 'date', 'fromAddress', 'size', 'toAddress', 'parking', 'propertyType', 'rooms', 'contact']
+  }
+  return ['service', 'date', 'fromAddress', 'size', 'toAddress', 'parking', 'contact']
 }
 
 function toServiceType(c: ServiceChoice): ServiceType {
@@ -55,23 +65,29 @@ function toServiceChoice(s: ServiceType): ServiceChoice {
 }
 
 interface FS {
-  service: ServiceChoice
+  service:      ServiceChoice
+  customerType: CustomerType
   date: string; flex: boolean; flexRange: string
   fromStreet: string; fromNo: string; fromPostal: string; fromCity: string; fromFloor: string; fromElevator: boolean
   size: string
   toStreet: string; toNo: string; toPostal: string; toCity: string; toFloor: string; toElevator: boolean
   parkA: string; parkB: string
-  bathrooms: number; extras: string[]
+  propType: string; floors: string; wholeProperty: boolean; area: string
+  soverom: number; badwc: number; kjokken: number; stue: number
+  areaExtras: string[]; comments: string
   name: string; phone: string; email: string
 }
 
 const INIT: Omit<FS, 'service'> = {
+  customerType: 'privat',
   date: '', flex: false, flexRange: '',
   fromStreet: '', fromNo: '', fromPostal: '', fromCity: '', fromFloor: '', fromElevator: false,
   size: '',
   toStreet: '', toNo: '', toPostal: '', toCity: '', toFloor: '', toElevator: false,
   parkA: '', parkB: '',
-  bathrooms: 1, extras: [],
+  propType: '', floors: '', wholeProperty: true, area: '',
+  soverom: 0, badwc: 0, kjokken: 0, stue: 0,
+  areaExtras: [], comments: '',
   name: '', phone: '', email: '',
 }
 
@@ -169,11 +185,22 @@ export default function LeadForm({ service: ctrl, onServiceChange, defaultServic
       if (!data.toStreet.trim()) errs.toStreet = 'Påkrevd'
       if (!data.toPostal.match(/^\d{4}$/)) errs.toPostal = '4 sifre'
       if (!data.toFloor.trim()) errs.toFloor = 'Påkrevd'
+    } else if (currentStep === 'propertyType') {
+      if (!data.propType) errs.propType = 'Velg boligtype'
+      if (!data.floors) errs.floors = 'Velg antall etasjer'
+      if (!data.area.trim()) errs.area = 'Oppgi areal'
+    } else if (currentStep === 'rooms') {
+      const total = data.soverom + data.badwc + data.kjokken + data.stue
+      if (total === 0) errs.rooms = 'Velg minst ett rom'
     } else if (currentStep === 'contact') {
       if (data.name.trim().split(/\s+/).length < 2) errs.name = 'Skriv fullt navn'
       const digits = data.phone.replace(/\D/g, '')
       if (!digits.match(/^(47\d{8}|\d{8})$/)) errs.phone = 'Gyldig norsk nummer (8 sifre)'
       if (!data.email.match(/^[^\s@]+@[^\s@]{2,}\.[^\s@]{2,}$/)) errs.email = 'Ugyldig e-post'
+      if (data.service === 'rengjoring') {
+        if (!data.fromStreet.trim()) errs.fromStreet = 'Påkrevd'
+        if (!data.fromPostal.match(/^\d{4}$/)) errs.fromPostal = '4 sifre'
+      }
     }
     setErrors(errs)
     return Object.keys(errs).length === 0
@@ -221,7 +248,6 @@ export default function LeadForm({ service: ctrl, onServiceChange, defaultServic
     )
   }
 
-  // ── Elevator toggle ──────────────────────────────────────────────────────
   function ElevatorToggle({ val, onChange }: { val: boolean; onChange: (v: boolean) => void }) {
     return (
       <div className="flex gap-2">
@@ -244,7 +270,6 @@ export default function LeadForm({ service: ctrl, onServiceChange, defaultServic
     )
   }
 
-  // ── Step renderers ───────────────────────────────────────────────────────
   function renderStep() {
     switch (currentStep) {
 
@@ -273,6 +298,31 @@ export default function LeadForm({ service: ctrl, onServiceChange, defaultServic
           </div>
         )
 
+      case 'customerType':
+        return (
+          <div className="flex flex-col gap-2">
+            {([
+              { v: 'privat',     l: 'Privat'      },
+              { v: 'borettslag', l: 'Borettslag'  },
+              { v: 'bedrift',    l: 'Bedrift'      },
+            ] as { v: CustomerType; l: string }[]).map(({ v, l }) => (
+              <button
+                key={v}
+                type="button"
+                onClick={() => set('customerType', v)}
+                className={cn(
+                  'w-full py-3 px-4 rounded-xl border text-sm font-semibold text-left transition-all',
+                  data.customerType === v
+                    ? `${activeBg} text-white border-transparent`
+                    : 'bg-white text-navy border-sand/50 hover:border-navy/30'
+                )}
+              >
+                {l}
+              </button>
+            ))}
+          </div>
+        )
+
       case 'date': {
         const accentColor = data.service === 'rengjoring' ? '#8A7563' : '#0E1D2D'
         const selected = data.date ? new Date(data.date + 'T00:00:00') : undefined
@@ -287,8 +337,6 @@ export default function LeadForm({ service: ctrl, onServiceChange, defaultServic
 
         return (
           <div className="flex flex-col gap-4">
-
-            {/* Date trigger button */}
             <div>
               <button
                 ref={dateButtonRef}
@@ -307,7 +355,6 @@ export default function LeadForm({ service: ctrl, onServiceChange, defaultServic
               {errors.date && <p className="text-xs text-red-400 mt-1">{errors.date}</p>}
             </div>
 
-            {/* Calendar portal popup */}
             {calOpen && createPortal(
               <>
                 <div className="fixed inset-0 z-[9998]" onClick={() => setCalOpen(false)} />
@@ -346,7 +393,6 @@ export default function LeadForm({ service: ctrl, onServiceChange, defaultServic
               document.body
             )}
 
-            {/* Flexible toggle */}
             <div>
               <label className="label">Er datoen fleksibel?</label>
               <div className="flex gap-2">
@@ -368,7 +414,6 @@ export default function LeadForm({ service: ctrl, onServiceChange, defaultServic
               </div>
             </div>
 
-            {/* Custom flex dropdown */}
             {data.flex && (
               <div>
                 <label className="label">Hvor fleksibel?</label>
@@ -382,7 +427,6 @@ export default function LeadForm({ service: ctrl, onServiceChange, defaultServic
                   </span>
                   <ChevronDown className={cn('w-4 h-4 text-greige flex-shrink-0 transition-transform duration-150', flexOpen && 'rotate-180')} />
                 </button>
-
                 <div className={cn(
                   'grid transition-[grid-template-rows] duration-200 ease-in-out',
                   flexOpen ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'
@@ -433,7 +477,6 @@ export default function LeadForm({ service: ctrl, onServiceChange, defaultServic
                 <input value={data.fromNo} onChange={e => set('fromNo', e.target.value)} placeholder="1A" className="input-field" />
               </div>
             </div>
-
             <div className="grid grid-cols-2 gap-2">
               <div>
                 <label className="label">Postnummer</label>
@@ -451,7 +494,6 @@ export default function LeadForm({ service: ctrl, onServiceChange, defaultServic
                 <input value={data.fromCity} onChange={e => set('fromCity', e.target.value)} placeholder="Trondheim" className="input-field" />
               </div>
             </div>
-
             <div className="grid grid-cols-2 gap-2">
               <div>
                 <label className="label">Etasje</label>
@@ -515,7 +557,6 @@ export default function LeadForm({ service: ctrl, onServiceChange, defaultServic
                 <input value={data.toNo} onChange={e => set('toNo', e.target.value)} placeholder="1A" className="input-field" />
               </div>
             </div>
-
             <div className="grid grid-cols-2 gap-2">
               <div>
                 <label className="label">Postnummer</label>
@@ -533,7 +574,6 @@ export default function LeadForm({ service: ctrl, onServiceChange, defaultServic
                 <input value={data.toCity} onChange={e => set('toCity', e.target.value)} placeholder="Trondheim" className="input-field" />
               </div>
             </div>
-
             <div className="grid grid-cols-2 gap-2">
               <div>
                 <label className="label">Etasje</label>
@@ -582,41 +622,134 @@ export default function LeadForm({ service: ctrl, onServiceChange, defaultServic
           </div>
         )
 
-      case 'cleaning':
+      case 'propertyType':
         return (
-          <div className="flex flex-col gap-5">
+          <div className="flex flex-col gap-4">
             <div>
-              <label className="label">Antall bad / WC</label>
-              <div className="flex items-center gap-3 mt-1">
-                <button
-                  type="button"
-                  onClick={() => set('bathrooms', Math.max(1, data.bathrooms - 1))}
-                  className="w-10 h-10 rounded-xl border border-sand/50 flex items-center justify-center text-navy text-lg font-bold hover:border-navy/40 transition"
-                >
-                  −
-                </button>
-                <span className="w-8 text-center font-semibold text-navy text-lg">{data.bathrooms}</span>
-                <button
-                  type="button"
-                  onClick={() => set('bathrooms', data.bathrooms + 1)}
-                  className="w-10 h-10 rounded-xl border border-sand/50 flex items-center justify-center text-navy text-lg font-bold hover:border-navy/40 transition"
-                >
-                  +
-                </button>
+              <label className="label">Type bolig</label>
+              <div className="grid grid-cols-2 gap-2">
+                {PROPERTY_TYPES.map(t => (
+                  <button
+                    key={t}
+                    type="button"
+                    onClick={() => set('propType', t)}
+                    className={cn(
+                      'py-2.5 rounded-xl border text-sm font-semibold transition-all',
+                      data.propType === t
+                        ? `${activeBg} text-white border-transparent`
+                        : 'bg-white text-navy border-sand/50 hover:border-navy/30'
+                    )}
+                  >
+                    {t}
+                  </button>
+                ))}
+              </div>
+              {errors.propType && <p className="text-xs text-red-400 mt-1">{errors.propType}</p>}
+            </div>
+
+            <div>
+              <label className="label">Antall etasjer</label>
+              <div className="grid grid-cols-4 gap-2">
+                {['1', '2', '3', '4+'].map(f => (
+                  <button
+                    key={f}
+                    type="button"
+                    onClick={() => set('floors', f)}
+                    className={cn(
+                      'py-2.5 rounded-xl border text-sm font-semibold transition-all',
+                      data.floors === f
+                        ? `${activeBg} text-white border-transparent`
+                        : 'bg-white text-navy border-sand/50 hover:border-navy/30'
+                    )}
+                  >
+                    {f}
+                  </button>
+                ))}
+              </div>
+              {errors.floors && <p className="text-xs text-red-400 mt-1">{errors.floors}</p>}
+            </div>
+
+            <div>
+              <label className="label">Skal hele boligen vaskes?</label>
+              <div className="flex gap-2">
+                {([true, false] as const).map(v => (
+                  <button
+                    key={String(v)}
+                    type="button"
+                    onClick={() => set('wholeProperty', v)}
+                    className={cn(
+                      'flex-1 py-2.5 text-xs font-semibold rounded-xl border transition-all',
+                      data.wholeProperty === v
+                        ? `${activeBg} text-white border-transparent`
+                        : 'bg-white text-greige border-sand/50 hover:border-navy/30 hover:text-navy'
+                    )}
+                  >
+                    {v ? 'Ja' : 'Nei'}
+                  </button>
+                ))}
               </div>
             </div>
 
             <div>
-              <label className="label">Tilleggstjenester</label>
+              <label className="label">Omtrent hvor stort areal (kvm)</label>
+              <input
+                type="number"
+                min="1"
+                value={data.area}
+                onChange={e => set('area', e.target.value)}
+                placeholder="70"
+                className={cn('input-field', errors.area && 'border-red-300')}
+              />
+              {errors.area && <p className="text-xs text-red-400 mt-1">{errors.area}</p>}
+            </div>
+          </div>
+        )
+
+      case 'rooms': {
+        const roomTypes: { key: 'soverom' | 'badwc' | 'kjokken' | 'stue'; label: string }[] = [
+          { key: 'soverom', label: 'Soverom'  },
+          { key: 'badwc',   label: 'Bad/WC'   },
+          { key: 'kjokken', label: 'Kjøkken'  },
+          { key: 'stue',    label: 'Stue'     },
+        ]
+        return (
+          <div className="flex flex-col gap-5">
+            <div>
+              <label className="label">Antall rom som skal vaskes</label>
               <div className="flex flex-col gap-2 mt-1">
-                {EXTRAS.map(({ v, l }) => {
-                  const checked = data.extras.includes(v)
+                {roomTypes.map(({ key, label }) => (
+                  <div key={key} className="flex items-center justify-between bg-white rounded-xl border border-sand/50 px-4 py-2.5">
+                    <span className="text-sm text-navy font-medium">{label}</span>
+                    <div className="flex items-center gap-3">
+                      <button
+                        type="button"
+                        onClick={() => set(key, Math.max(0, data[key] - 1))}
+                        className="w-8 h-8 rounded-lg border border-sand/50 flex items-center justify-center text-navy font-bold hover:border-navy/40 transition"
+                      >−</button>
+                      <span className="w-6 text-center font-semibold text-navy text-sm">{data[key]}</span>
+                      <button
+                        type="button"
+                        onClick={() => set(key, data[key] + 1)}
+                        className={cn('w-8 h-8 rounded-lg flex items-center justify-center font-bold transition text-white', activeBg)}
+                      >+</button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              {errors.rooms && <p className="text-xs text-red-400 mt-1">{errors.rooms}</p>}
+            </div>
+
+            <div>
+              <label className="label">Ekstra områder (valgfritt)</label>
+              <div className="flex flex-col gap-2 mt-1">
+                {AREA_EXTRAS.map(({ v, l }) => {
+                  const checked = data.areaExtras.includes(v)
                   return (
                     <button
                       key={v}
                       type="button"
                       onClick={() =>
-                        set('extras', checked ? data.extras.filter(e => e !== v) : [...data.extras, v])
+                        set('areaExtras', checked ? data.areaExtras.filter(e => e !== v) : [...data.areaExtras, v])
                       }
                       className={cn(
                         'w-full py-2.5 px-4 rounded-xl border text-sm font-medium text-left transition-all flex items-center gap-3',
@@ -625,12 +758,10 @@ export default function LeadForm({ service: ctrl, onServiceChange, defaultServic
                           : 'bg-white border-sand/50 text-greige hover:border-navy/30 hover:text-navy'
                       )}
                     >
-                      <span
-                        className={cn(
-                          'w-4 h-4 rounded border-2 flex-shrink-0 flex items-center justify-center transition-all',
-                          checked ? 'bg-navy border-navy' : 'border-sand/60'
-                        )}
-                      >
+                      <span className={cn(
+                        'w-4 h-4 rounded border-2 flex-shrink-0 flex items-center justify-center transition-all',
+                        checked ? 'bg-navy border-navy' : 'border-sand/60'
+                      )}>
                         {checked && (
                           <svg className="w-2.5 h-2.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
@@ -643,8 +774,20 @@ export default function LeadForm({ service: ctrl, onServiceChange, defaultServic
                 })}
               </div>
             </div>
+
+            <div>
+              <label className="label">Andre kommentarer (valgfritt)</label>
+              <textarea
+                value={data.comments}
+                onChange={e => set('comments', e.target.value)}
+                placeholder="F.eks. vask av doble vinduer og håndvask stukkatur"
+                rows={3}
+                className="input-field resize-none"
+              />
+            </div>
           </div>
         )
+      }
 
       case 'contact':
         return (
@@ -681,6 +824,37 @@ export default function LeadForm({ service: ctrl, onServiceChange, defaultServic
               />
               {errors.email && <p className="text-xs text-red-400 mt-1">{errors.email}</p>}
             </div>
+            {data.service === 'rengjoring' && (
+              <>
+                <div className="grid grid-cols-3 gap-2">
+                  <div className="col-span-2">
+                    <label className="label">Adresse</label>
+                    <input
+                      value={data.fromStreet}
+                      onChange={e => set('fromStreet', e.target.value)}
+                      placeholder="Gateveien"
+                      className={cn('input-field', errors.fromStreet && 'border-red-300')}
+                    />
+                    {errors.fromStreet && <p className="text-xs text-red-400 mt-1">{errors.fromStreet}</p>}
+                  </div>
+                  <div>
+                    <label className="label">Nr.</label>
+                    <input value={data.fromNo} onChange={e => set('fromNo', e.target.value)} placeholder="1A" className="input-field" />
+                  </div>
+                </div>
+                <div>
+                  <label className="label">Postnummer</label>
+                  <input
+                    value={data.fromPostal}
+                    onChange={e => set('fromPostal', e.target.value)}
+                    placeholder="7010"
+                    maxLength={4}
+                    className={cn('input-field', errors.fromPostal && 'border-red-300')}
+                  />
+                  {errors.fromPostal && <p className="text-xs text-red-400 mt-1">{errors.fromPostal}</p>}
+                </div>
+              </>
+            )}
             <p className="text-xs text-greige leading-relaxed">
               Gratis og uforpliktende — du velger selv om du vil akseptere tilbudet.
             </p>
@@ -692,7 +866,6 @@ export default function LeadForm({ service: ctrl, onServiceChange, defaultServic
   return (
     <div className={cn('flex flex-col gap-4', className)}>
 
-      {/* Progress bar */}
       <div className="flex items-center gap-3">
         <div className="flex-1 h-1 bg-sand/30 rounded-full overflow-hidden">
           <div
@@ -705,13 +878,10 @@ export default function LeadForm({ service: ctrl, onServiceChange, defaultServic
         </span>
       </div>
 
-      {/* Step title */}
       <p className="text-sm font-semibold text-navy -mb-1">{STEP_LABELS[currentStep]}</p>
 
-      {/* Step content */}
       {renderStep()}
 
-      {/* Navigation */}
       <div className="flex gap-2 mt-1">
         {stepIdx > 0 && (
           <button
