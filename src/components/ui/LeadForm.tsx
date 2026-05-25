@@ -624,17 +624,17 @@ export default function LeadForm({ service: ctrl, onServiceChange, defaultServic
 
       case 'propertyType':
         return (
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-3">
             <div>
               <label className="label">Type bolig</label>
-              <div className="grid grid-cols-2 gap-2">
+              <div className="flex flex-wrap gap-1.5">
                 {PROPERTY_TYPES.map(t => (
                   <button
                     key={t}
                     type="button"
                     onClick={() => set('propType', t)}
                     className={cn(
-                      'py-2.5 rounded-xl border text-sm font-semibold transition-all',
+                      'py-1.5 px-3 rounded-lg border text-xs font-semibold transition-all',
                       data.propType === t
                         ? `${activeBg} text-white border-transparent`
                         : 'bg-white text-navy border-sand/50 hover:border-navy/30'
@@ -649,14 +649,14 @@ export default function LeadForm({ service: ctrl, onServiceChange, defaultServic
 
             <div>
               <label className="label">Antall etasjer</label>
-              <div className="grid grid-cols-4 gap-2">
+              <div className="grid grid-cols-4 gap-1.5">
                 {['1', '2', '3', '4+'].map(f => (
                   <button
                     key={f}
                     type="button"
                     onClick={() => set('floors', f)}
                     className={cn(
-                      'py-2.5 rounded-xl border text-sm font-semibold transition-all',
+                      'py-1.5 rounded-lg border text-xs font-semibold transition-all',
                       data.floors === f
                         ? `${activeBg} text-white border-transparent`
                         : 'bg-white text-navy border-sand/50 hover:border-navy/30'
@@ -669,38 +669,39 @@ export default function LeadForm({ service: ctrl, onServiceChange, defaultServic
               {errors.floors && <p className="text-xs text-red-400 mt-1">{errors.floors}</p>}
             </div>
 
-            <div>
-              <label className="label">Skal hele boligen vaskes?</label>
-              <div className="flex gap-2">
-                {([true, false] as const).map(v => (
-                  <button
-                    key={String(v)}
-                    type="button"
-                    onClick={() => set('wholeProperty', v)}
-                    className={cn(
-                      'flex-1 py-2.5 text-xs font-semibold rounded-xl border transition-all',
-                      data.wholeProperty === v
-                        ? `${activeBg} text-white border-transparent`
-                        : 'bg-white text-greige border-sand/50 hover:border-navy/30 hover:text-navy'
-                    )}
-                  >
-                    {v ? 'Ja' : 'Nei'}
-                  </button>
-                ))}
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <label className="label">Hele boligen?</label>
+                <div className="flex gap-1.5">
+                  {([true, false] as const).map(v => (
+                    <button
+                      key={String(v)}
+                      type="button"
+                      onClick={() => set('wholeProperty', v)}
+                      className={cn(
+                        'flex-1 py-1.5 text-xs font-semibold rounded-lg border transition-all',
+                        data.wholeProperty === v
+                          ? `${activeBg} text-white border-transparent`
+                          : 'bg-white text-greige border-sand/50 hover:border-navy/30 hover:text-navy'
+                      )}
+                    >
+                      {v ? 'Ja' : 'Nei'}
+                    </button>
+                  ))}
+                </div>
               </div>
-            </div>
-
-            <div>
-              <label className="label">Omtrent hvor stort areal (kvm)</label>
-              <input
-                type="number"
-                min="1"
-                value={data.area}
-                onChange={e => set('area', e.target.value)}
-                placeholder="70"
-                className={cn('input-field', errors.area && 'border-red-300')}
-              />
-              {errors.area && <p className="text-xs text-red-400 mt-1">{errors.area}</p>}
+              <div>
+                <label className="label">Areal (kvm)</label>
+                <input
+                  type="number"
+                  min="1"
+                  value={data.area}
+                  onChange={e => set('area', e.target.value)}
+                  placeholder="70"
+                  className={cn('input-field py-1.5 text-sm', errors.area && 'border-red-300')}
+                />
+                {errors.area && <p className="text-xs text-red-400 mt-1">{errors.area}</p>}
+              </div>
             </div>
           </div>
         )
@@ -713,24 +714,24 @@ export default function LeadForm({ service: ctrl, onServiceChange, defaultServic
           { key: 'stue',    label: 'Stue'     },
         ]
         return (
-          <div className="flex flex-col gap-5">
+          <div className="flex flex-col gap-3">
             <div>
               <label className="label">Antall rom som skal vaskes</label>
-              <div className="flex flex-col gap-2 mt-1">
+              <div className="grid grid-cols-2 gap-2 mt-1">
                 {roomTypes.map(({ key, label }) => (
-                  <div key={key} className="flex items-center justify-between bg-white rounded-xl border border-sand/50 px-4 py-2.5">
-                    <span className="text-sm text-navy font-medium">{label}</span>
-                    <div className="flex items-center gap-3">
+                  <div key={key} className="flex items-center justify-between bg-white rounded-xl border border-sand/50 px-3 py-2">
+                    <span className="text-xs text-navy font-medium">{label}</span>
+                    <div className="flex items-center gap-2">
                       <button
                         type="button"
                         onClick={() => set(key, Math.max(0, data[key] - 1))}
-                        className="w-8 h-8 rounded-lg border border-sand/50 flex items-center justify-center text-navy font-bold hover:border-navy/40 transition"
+                        className="w-6 h-6 rounded-md border border-sand/50 flex items-center justify-center text-navy font-bold text-sm hover:border-navy/40 transition"
                       >−</button>
-                      <span className="w-6 text-center font-semibold text-navy text-sm">{data[key]}</span>
+                      <span className="w-4 text-center font-semibold text-navy text-xs">{data[key]}</span>
                       <button
                         type="button"
                         onClick={() => set(key, data[key] + 1)}
-                        className={cn('w-8 h-8 rounded-lg flex items-center justify-center font-bold transition text-white', activeBg)}
+                        className={cn('w-6 h-6 rounded-md flex items-center justify-center font-bold text-sm transition text-white', activeBg)}
                       >+</button>
                     </div>
                   </div>
@@ -741,7 +742,7 @@ export default function LeadForm({ service: ctrl, onServiceChange, defaultServic
 
             <div>
               <label className="label">Ekstra områder (valgfritt)</label>
-              <div className="flex flex-col gap-2 mt-1">
+              <div className="flex flex-wrap gap-1.5 mt-1">
                 {AREA_EXTRAS.map(({ v, l }) => {
                   const checked = data.areaExtras.includes(v)
                   return (
@@ -752,22 +753,12 @@ export default function LeadForm({ service: ctrl, onServiceChange, defaultServic
                         set('areaExtras', checked ? data.areaExtras.filter(e => e !== v) : [...data.areaExtras, v])
                       }
                       className={cn(
-                        'w-full py-2.5 px-4 rounded-xl border text-sm font-medium text-left transition-all flex items-center gap-3',
+                        'py-1.5 px-3 rounded-lg border text-xs font-semibold transition-all',
                         checked
-                          ? 'bg-navy/5 border-navy text-navy'
+                          ? `${activeBg} text-white border-transparent`
                           : 'bg-white border-sand/50 text-greige hover:border-navy/30 hover:text-navy'
                       )}
                     >
-                      <span className={cn(
-                        'w-4 h-4 rounded border-2 flex-shrink-0 flex items-center justify-center transition-all',
-                        checked ? 'bg-navy border-navy' : 'border-sand/60'
-                      )}>
-                        {checked && (
-                          <svg className="w-2.5 h-2.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
-                          </svg>
-                        )}
-                      </span>
                       {l}
                     </button>
                   )
@@ -781,7 +772,7 @@ export default function LeadForm({ service: ctrl, onServiceChange, defaultServic
                 value={data.comments}
                 onChange={e => set('comments', e.target.value)}
                 placeholder="F.eks. vask av doble vinduer og håndvask stukkatur"
-                rows={3}
+                rows={2}
                 className="input-field resize-none"
               />
             </div>
