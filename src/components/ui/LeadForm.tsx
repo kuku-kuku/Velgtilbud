@@ -230,8 +230,7 @@ export default function LeadForm({ service: ctrl, onServiceChange, defaultServic
       setSubmitted(true)
     } catch (err) {
       console.error('Lead submission failed:', err)
-      // Still show success to user — lead will be retried manually via admin
-      setSubmitted(true)
+      setSubmitted(true) // still show success — admin can follow up manually
     } finally {
       setLoading(false)
     }

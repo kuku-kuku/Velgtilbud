@@ -66,7 +66,7 @@ serve(async (req) => {
       .select()
       .single()
 
-    if (leadErr) throw leadErr
+    if (leadErr) { console.error('leadErr:', JSON.stringify(leadErr)); throw leadErr }
 
     // ── 2. Determine which service types to match ─────────
     const match =
@@ -142,8 +142,11 @@ serve(async (req) => {
     )
   } catch (err) {
     console.error(err)
+    const msg = err instanceof Error
+      ? err.message
+      : JSON.stringify(err)
     return new Response(
-      JSON.stringify({ success: false, error: String(err) }),
+      JSON.stringify({ success: false, error: msg }),
       { status: 500, headers: { 'Content-Type': 'application/json', ...CORS } }
     )
   }

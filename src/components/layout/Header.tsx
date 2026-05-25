@@ -19,9 +19,13 @@ export default function Header({ onOpenModal }: Props) {
   const [scrolled, setScrolled] = useState(false)
   const { pathname } = useLocation()
 
+  const isHome = pathname === '/'
+  const transparent = isHome && !scrolled && !open
+
   useEffect(() => {
-    const handler = () => setScrolled(window.scrollY > 10)
-    window.addEventListener('scroll', handler)
+    const handler = () => setScrolled(window.scrollY > 40)
+    handler()
+    window.addEventListener('scroll', handler, { passive: true })
     return () => window.removeEventListener('scroll', handler)
   }, [])
 
@@ -29,9 +33,10 @@ export default function Header({ onOpenModal }: Props) {
 
   return (
     <header className={cn(
-      'sticky top-0 w-full transition-all duration-300',
-      open ? 'z-50 bg-white shadow-sm border-b border-sand/20' : 'z-50',
-      !open && scrolled ? 'bg-white/95 backdrop-blur-sm shadow-sm border-b border-sand/20' : 'bg-white'
+      'fixed top-0 left-0 right-0 w-full z-50 transition-all duration-300',
+      transparent
+        ? 'bg-transparent border-transparent'
+        : 'bg-white/95 backdrop-blur-sm shadow-sm border-b border-sand/20'
     )}>
       <div className="container-wide">
         <div className="flex items-center justify-between h-16">
@@ -41,7 +46,10 @@ export default function Header({ onOpenModal }: Props) {
             <div className="w-8 h-8 rounded-lg bg-navy flex items-center justify-center">
               <span className="text-offwhite font-bold text-sm tracking-tight">VT</span>
             </div>
-            <span className="font-bold text-lg text-navy tracking-tight hidden sm:block">
+            <span className={cn(
+              'font-bold text-lg tracking-tight hidden sm:block transition-colors duration-300',
+              transparent ? 'text-white' : 'text-navy'
+            )}>
               Velgtilbud
             </span>
           </Link>
@@ -53,8 +61,11 @@ export default function Header({ onOpenModal }: Props) {
                 key={item.href}
                 to={item.href}
                 className={({ isActive }) => cn(
-                  'nav-link px-4 py-2 text-sm font-medium transition-colors rounded-lg',
-                  isActive ? 'text-navy active' : 'text-greige hover:text-navy'
+                  'nav-link px-4 py-2 text-sm font-medium rounded-lg transition-colors duration-300',
+                  transparent ? 'nav-link-white' : '',
+                  transparent
+                    ? isActive ? 'text-white' : 'text-white/70 hover:text-white'
+                    : isActive ? 'text-navy active' : 'text-greige hover:text-navy'
                 )}
               >
                 {item.label}
@@ -64,11 +75,19 @@ export default function Header({ onOpenModal }: Props) {
 
           {/* CTA */}
           <div className="hidden md:flex items-center gap-4">
-            <a href="tel:+4712345678" className="flex items-center gap-1.5 text-sm text-greige hover:text-navy transition-colors">
+            <a href="tel:+4712345678" className={cn(
+              'flex items-center gap-1.5 text-sm transition-colors duration-300',
+              transparent ? 'text-white/70 hover:text-white' : 'text-greige hover:text-navy'
+            )}>
               <Phone className="w-3.5 h-3.5" />
               +47 123 45 678
             </a>
-            <button onClick={onOpenModal} className="btn-primary text-sm px-5 py-2.5">
+            <button onClick={onOpenModal} className={cn(
+              'text-sm px-5 py-2.5 rounded-xl font-semibold transition-all duration-300',
+              transparent
+                ? 'bg-white text-navy hover:bg-white/90'
+                : 'btn-primary'
+            )}>
               Få gratis tilbud
             </button>
           </div>
@@ -76,7 +95,10 @@ export default function Header({ onOpenModal }: Props) {
           {/* Mobile toggle */}
           <button
             onClick={() => setOpen(!open)}
-            className="md:hidden p-2 rounded-lg text-greige hover:text-navy hover:bg-sand/10 transition-colors"
+            className={cn(
+              'md:hidden p-2 rounded-lg transition-colors duration-300',
+              transparent ? 'text-white/80 hover:text-white' : 'text-greige hover:text-navy hover:bg-sand/10'
+            )}
             aria-label="Toggle menu"
           >
             {open ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
