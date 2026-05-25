@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { supabase } from '@/lib/supabase'
 import type { Partner, Lead, Distribution } from '@/lib/supabase'
 import type { Session } from '@supabase/supabase-js'
-import { LogOut, Plus, Pencil, ToggleLeft, ToggleRight, X, Check, AlertCircle } from 'lucide-react'
+import { LogOut, Plus, Pencil, X, Check, AlertCircle, ChevronRight, Phone, Mail, MapPin, Home, Trash2, Search, Users, TrendingUp, Activity } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 // ── Auth ──────────────────────────────────────────────────────────────────────
@@ -192,47 +192,217 @@ function PartnerModal({ initial, onSave, onClose }: {
 
 // ── Tabs ──────────────────────────────────────────────────────────────────────
 
-function LeadsTab() {
-  const [leads, setLeads]     = useState<Lead[]>([])
-  const [loading, setLoading] = useState(true)
+function LeadModal({ lead, onClose, onDelete }: { lead: Lead; onClose: () => void; onDelete: (id: string) => void }) {
+  const cleaning = lead.service_type !== 'flyttehjelp'
+  const moving   = lead.service_type !== 'rengjoring'
 
-  useEffect(() => {
+  function row(label: string, value: string | number | boolean | null | undefined) {
+    if (value === null || value === undefined || value === '') return null
+    const display = typeof value === 'boolean' ? (value ? 'Ja' : 'Nei') : String(value)
+    return (
+      <div key={label} className="flex items-start gap-2 py-2 border-b border-sand/20 last:border-0">
+        <span className="text-greige text-xs w-32 flex-shrink-0 pt-0.5">{label}</span>
+        <span className="text-navy text-sm font-medium">{display}</span>
+      </div>
+    )
+  }
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40" onClick={onClose}>
+      <div className="bg-white rounded-2xl shadow-xl w-full max-w-lg max-h-[90vh] overflow-y-auto" onClick={e => e.stopPropagation()}>
+        {/* Header */}
+        <div className="flex items-center justify-between p-5 border-b border-sand/30">
+          <div>
+            <div className="flex items-center gap-2 mb-1">
+              <Badge svc={lead.service_type} />
+              {lead.customer_type && <span className="text-xs text-greige capitalize">{lead.customer_type}</span>}
+            </div>
+            <h2 className="text-lg font-bold text-navy">{lead.name}</h2>
+            <p className="text-xs text-greige">{fmt(lead.created_at)}</p>
+          </div>
+          <button onClick={onClose} className="text-greige hover:text-navy p-1"><X className="w-5 h-5" /></button>
+        </div>
+
+        <div className="p-5 flex flex-col gap-5">
+          {/* Contact */}
+          <div>
+            <p className="text-xs font-bold text-greige uppercase tracking-wider mb-3 flex items-center gap-1.5"><Phone className="w-3.5 h-3.5" /> Kontakt</p>
+            <div className="bg-offwhite rounded-xl px-4">
+              {row('Telefon', lead.phone)}
+              {row('E-post', lead.email)}
+              {row('Ønsket dato', lead.desired_date)}
+              {lead.flex && row('Fleksibel', lead.flex_range ?? 'Ja')}
+            </div>
+          </div>
+
+          {/* Cleaning */}
+          {cleaning && (
+            <div>
+              <p className="text-xs font-bold text-greige uppercase tracking-wider mb-3 flex items-center gap-1.5"><Home className="w-3.5 h-3.5" /> Rengjøringsdetaljer</p>
+              <div className="bg-offwhite rounded-xl px-4">
+                {lead.street && row('Adresse', `${lead.street} ${lead.street_no ?? ''}, ${lead.postal}`)}
+                {row('Boligtype', lead.prop_type)}
+                {row('Etasjer', lead.floors)}
+                {row('Areal', lead.area ? `${lead.area} kvm` : null)}
+                {row('Hele boligen', lead.whole_property)}
+                {row('Soverom', lead.soverom)}
+                {row('Bad/WC', lead.badwc)}
+                {row('Kjøkken', lead.kjokken)}
+                {row('Stue', lead.stue)}
+                {lead.area_extras?.length > 0 && row('Ekstra', lead.area_extras.join(', '))}
+                {row('Kommentarer', lead.comments)}
+              </div>
+            </div>
+          )}
+
+          {/* Moving */}
+          {moving && (
+            <div>
+              <p className="text-xs font-bold text-greige uppercase tracking-wider mb-3 flex items-center gap-1.5"><MapPin className="w-3.5 h-3.5" /> Flyttedetaljer</p>
+              <div className="bg-offwhite rounded-xl px-4">
+                {lead.from_street && row('Fra', `${lead.from_street} ${lead.from_no ?? ''}, ${lead.from_postal} ${lead.from_city ?? ''}`)}
+                {row('Fra etasje', lead.from_floor)}
+                {row('Heis (fra)', lead.from_elevator)}
+                {lead.to_street && row('Til', `${lead.to_street} ${lead.to_no ?? ''}, ${lead.to_postal} ${lead.to_city ?? ''}`)}
+                {row('Til etasje', lead.to_floor)}
+                {row('Heis (til)', lead.to_elevator)}
+                {row('Størrelse', lead.size ? `${lead.size} m²` : null)}
+                {row('Parkering fra', lead.park_a ? `ca. ${lead.park_a} m` : null)}
+                {row('Parkering til', lead.park_b ? `ca. ${lead.park_b} m` : null)}
+              </div>
+            </div>
+          )}
+
+          {/* Quick actions */}
+          <div className="flex gap-3 pt-1">
+            <a href={`tel:${lead.phone}`}
+              className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl border border-sand/50 text-sm font-semibold text-navy hover:bg-offwhite transition">
+              <Phone className="w-4 h-4" /> Ring
+            </a>
+            <a href={`mailto:${lead.email}`}
+              className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl border border-sand/50 text-sm font-semibold text-navy hover:bg-offwhite transition">
+              <Mail className="w-4 h-4" /> E-post
+            </a>
+            <button
+              onClick={() => {
+                if (!confirm(`Slett lead fra ${lead.name}? Dette kan ikke angres.`)) return
+                onDelete(lead.id)
+              }}
+              className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border border-red-200 text-sm font-semibold text-red-500 hover:bg-red-50 transition">
+              <Trash2 className="w-4 h-4" />
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+const SVC_FILTERS = [
+  { value: 'all',         label: 'Alle'      },
+  { value: 'rengjoring',  label: 'Rengjøring' },
+  { value: 'flyttehjelp', label: 'Flytting'   },
+  { value: 'begge',       label: 'Begge'      },
+]
+
+function LeadsTab() {
+  const [leads, setLeads]       = useState<Lead[]>([])
+  const [loading, setLoading]   = useState(true)
+  const [selected, setSelected] = useState<Lead | null>(null)
+  const [search, setSearch]     = useState('')
+  const [svcFilter, setSvcFilter] = useState('all')
+
+  function load() {
     supabase.from('leads').select('*').order('created_at', { ascending: false })
       .then(({ data }) => { setLeads(data ?? []); setLoading(false) })
-  }, [])
+  }
+
+  useEffect(() => { load() }, [])
+
+  async function deleteLead(id: string) {
+    await supabase.from('leads').delete().eq('id', id)
+    setSelected(null)
+    load()
+  }
+
+  const filtered = leads.filter(l => {
+    const matchSvc = svcFilter === 'all' || l.service_type === svcFilter
+    const q = search.toLowerCase()
+    const matchSearch = !q || l.name.toLowerCase().includes(q) || l.email.toLowerCase().includes(q) || l.phone.includes(q)
+    return matchSvc && matchSearch
+  })
 
   if (loading) return <Spinner />
 
   return (
-    <div className="overflow-x-auto">
-      <table className="w-full text-sm">
-        <thead>
-          <tr className="border-b border-sand/50 text-xs text-greige uppercase tracking-wide">
-            <th className="text-left py-3 px-4 font-semibold">Dato</th>
-            <th className="text-left py-3 px-4 font-semibold">Tjeneste</th>
-            <th className="text-left py-3 px-4 font-semibold">Navn</th>
-            <th className="text-left py-3 px-4 font-semibold">Telefon</th>
-            <th className="text-left py-3 px-4 font-semibold">E-post</th>
-            <th className="text-left py-3 px-4 font-semibold">Dato ønsket</th>
-          </tr>
-        </thead>
-        <tbody>
-          {leads.length === 0 && (
-            <tr><td colSpan={6} className="py-12 text-center text-greige text-sm">Ingen leads ennå</td></tr>
-          )}
-          {leads.map(l => (
-            <tr key={l.id} className="border-b border-sand/30 hover:bg-offwhite transition-colors">
-              <td className="py-3 px-4 text-xs text-greige whitespace-nowrap">{fmt(l.created_at)}</td>
-              <td className="py-3 px-4"><Badge svc={l.service_type} /></td>
-              <td className="py-3 px-4 font-medium text-navy">{l.name}</td>
-              <td className="py-3 px-4 text-greige">{l.phone}</td>
-              <td className="py-3 px-4 text-greige">{l.email}</td>
-              <td className="py-3 px-4 text-greige">{l.desired_date ?? '—'}</td>
-            </tr>
+    <>
+      {/* Toolbar */}
+      <div className="p-4 border-b border-sand/30 flex flex-col sm:flex-row gap-3 items-start sm:items-center justify-between">
+        <div className="flex gap-1">
+          {SVC_FILTERS.map(f => (
+            <button key={f.value} onClick={() => setSvcFilter(f.value)}
+              className={cn('px-3 py-1.5 rounded-lg text-xs font-semibold transition',
+                svcFilter === f.value ? 'bg-navy text-white' : 'text-greige hover:text-navy hover:bg-sand/20')}>
+              {f.label}
+            </button>
           ))}
-        </tbody>
-      </table>
-    </div>
+        </div>
+        <div className="relative w-full sm:w-56">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-greige" />
+          <input
+            value={search} onChange={e => setSearch(e.target.value)}
+            placeholder="Søk navn, e-post, tlf…"
+            className="w-full pl-8 pr-3 py-1.5 rounded-lg border border-sand/50 text-sm text-navy placeholder-greige/60 focus:outline-none focus:border-navy/40 bg-white"
+          />
+        </div>
+      </div>
+
+      {/* Count */}
+      <div className="px-4 py-2 border-b border-sand/20">
+        <p className="text-xs text-greige">{filtered.length} {filtered.length === 1 ? 'lead' : 'leads'}</p>
+      </div>
+
+      <div className="overflow-x-auto">
+        <table className="w-full text-sm">
+          <thead>
+            <tr className="border-b border-sand/50 text-xs text-greige uppercase tracking-wide">
+              <th className="text-left py-3 px-4 font-semibold">Dato</th>
+              <th className="text-left py-3 px-4 font-semibold">Tjeneste</th>
+              <th className="text-left py-3 px-4 font-semibold">Navn</th>
+              <th className="text-left py-3 px-4 font-semibold">Telefon</th>
+              <th className="text-left py-3 px-4 font-semibold">Dato ønsket</th>
+              <th className="py-3 px-4" />
+            </tr>
+          </thead>
+          <tbody>
+            {filtered.length === 0 && (
+              <tr><td colSpan={6} className="py-12 text-center text-greige text-sm">
+                {leads.length === 0 ? 'Ingen leads ennå' : 'Ingen leads matcher søket'}
+              </td></tr>
+            )}
+            {filtered.map(l => (
+              <tr key={l.id}
+                onClick={() => setSelected(l)}
+                className="border-b border-sand/30 hover:bg-offwhite transition-colors cursor-pointer group">
+                <td className="py-3 px-4 text-xs text-greige whitespace-nowrap">{fmt(l.created_at)}</td>
+                <td className="py-3 px-4"><Badge svc={l.service_type} /></td>
+                <td className="py-3 px-4">
+                  <p className="font-medium text-navy">{l.name}</p>
+                  <p className="text-xs text-greige">{l.email}</p>
+                </td>
+                <td className="py-3 px-4 text-greige">{l.phone}</td>
+                <td className="py-3 px-4 text-greige">{l.desired_date ?? '—'}</td>
+                <td className="py-3 px-4 text-greige group-hover:text-navy transition-colors">
+                  <ChevronRight className="w-4 h-4 ml-auto" />
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      {selected && <LeadModal lead={selected} onClose={() => setSelected(null)} onDelete={deleteLead} />}
+    </>
   )
 }
 
@@ -333,10 +503,18 @@ function PartnersTab() {
                     ) : '—'}
                   </td>
                   <td className="py-3 px-4">
-                    <button onClick={() => toggleActive(p)} title={p.active ? 'Deaktiver' : 'Aktiver'}>
-                      {p.active
-                        ? <ToggleRight className="w-6 h-6 text-sage" />
-                        : <ToggleLeft  className="w-6 h-6 text-greige" />}
+                    <button
+                      onClick={() => toggleActive(p)}
+                      title={p.active ? 'Deaktiver' : 'Aktiver'}
+                      className={cn(
+                        'relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-300 focus:outline-none',
+                        p.active ? 'bg-sage' : 'bg-sand/60'
+                      )}
+                    >
+                      <span className={cn(
+                        'inline-block h-4 w-4 transform rounded-full bg-white shadow-sm transition-transform duration-300',
+                        p.active ? 'translate-x-6' : 'translate-x-1'
+                      )} />
                     </button>
                   </td>
                   <td className="py-3 px-4">
@@ -422,6 +600,46 @@ function DistributionsTab() {
   )
 }
 
+function StatsBar() {
+  const [stats, setStats] = useState({ leads: 0, partners: 0, thisMonth: 0, sent: 0 })
+
+  useEffect(() => {
+    const now       = new Date()
+    const monthStart = new Date(now.getFullYear(), now.getMonth(), 1).toISOString()
+    Promise.all([
+      supabase.from('leads').select('*', { count: 'exact', head: true }),
+      supabase.from('partners').select('*', { count: 'exact', head: true }).eq('active', true),
+      supabase.from('leads').select('*', { count: 'exact', head: true }).gte('created_at', monthStart),
+      supabase.from('lead_distributions').select('*', { count: 'exact', head: true }).eq('email_status', 'sent'),
+    ]).then(([l, p, m, s]) => {
+      setStats({ leads: l.count ?? 0, partners: p.count ?? 0, thisMonth: m.count ?? 0, sent: s.count ?? 0 })
+    })
+  }, [])
+
+  const cards = [
+    { label: 'Totale leads',     value: stats.leads,     icon: TrendingUp },
+    { label: 'Aktive partnere',  value: stats.partners,  icon: Users       },
+    { label: 'Leads denne mnd',  value: stats.thisMonth, icon: Activity    },
+    { label: 'E-poster sendt',   value: stats.sent,      icon: Check       },
+  ]
+
+  return (
+    <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+      {cards.map(c => (
+        <div key={c.label} className="bg-white rounded-2xl border border-sand/50 p-4 flex items-center gap-3">
+          <div className="w-9 h-9 rounded-xl bg-navy/5 flex items-center justify-center flex-shrink-0">
+            <c.icon className="w-4 h-4 text-navy" />
+          </div>
+          <div>
+            <p className="text-2xl font-bold text-navy leading-none">{c.value}</p>
+            <p className="text-xs text-greige mt-0.5">{c.label}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  )
+}
+
 function Spinner() {
   return <div className="flex justify-center py-16"><div className="w-6 h-6 border-2 border-navy/20 border-t-navy rounded-full animate-spin" /></div>
 }
@@ -485,6 +703,7 @@ export default function AdminPage() {
 
       {/* Content */}
       <div className="max-w-6xl mx-auto p-6">
+        <StatsBar />
         <div className="bg-white rounded-2xl border border-sand/50 overflow-hidden">
           {tab === 'leads'         && <LeadsTab />}
           {tab === 'partners'      && <PartnersTab />}

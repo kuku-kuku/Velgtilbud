@@ -1,13 +1,14 @@
 // Velgtilbud — submit-lead Edge Function
-// Inserts a lead, finds eligible partners, sends emails via Resend
 
 import { serve } from 'https://deno.land/std@0.168.0/http/server.ts'
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
 
-const RESEND_API_KEY      = Deno.env.get('RESEND_API_KEY')!
-const SUPABASE_URL        = Deno.env.get('SUPABASE_URL')!
+const RESEND_API_KEY       = Deno.env.get('RESEND_API_KEY')!
+const SUPABASE_URL         = Deno.env.get('SUPABASE_URL')!
 const SUPABASE_SERVICE_KEY = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
-const FROM_EMAIL          = 'onboarding@resend.dev'
+const FROM_EMAIL           = 'onboarding@resend.dev'
+const SITE_URL             = Deno.env.get('SITE_URL') ?? 'https://velgtilbud.vercel.app'
+const MAX_PARTNERS         = 5
 
 const CORS = {
   'Access-Control-Allow-Origin':  '*',
@@ -21,7 +22,9 @@ serve(async (req) => {
     const body = await req.json()
     const sb   = createClient(SUPABASE_URL, SUPABASE_SERVICE_KEY)
 
-    // ── 1. Insert lead ────────────────────────────────────
+    // ── 1. Insert lead with customer token ────────────────
+    const customerToken = crypto.randomUUID().replace(/-/g, '')
+
     const { data: lead, error: leadErr } = await sb
       .from('leads')
       .insert({
@@ -62,26 +65,27 @@ serve(async (req) => {
         desired_date:   body.date           || null,
         flex:           body.flex           ?? false,
         flex_range:     body.flexRange      || null,
+        customer_token: customerToken,
       })
       .select()
       .single()
 
     if (leadErr) { console.error('leadErr:', JSON.stringify(leadErr)); throw leadErr }
 
-    // ── 2. Determine which service types to match ─────────
+    // ── 2. Determine matching service types ───────────────
     const match =
       lead.service_type === 'begge'      ? ['cleaning', 'moving', 'both'] :
       lead.service_type === 'rengjoring' ? ['cleaning', 'both'] :
-                                           ['moving', 'both']
+                                           ['moving',   'both']
 
-    // ── 3. Get all active Trondheim partners ──────────────
+    // ── 3. Get eligible partners, pick fairest 5 ─────────
     const { data: allPartners } = await sb
       .from('partners')
       .select('*')
       .eq('active', true)
       .eq('city', 'Trondheim')
 
-    const eligible = []
+    const eligible: Record<string, unknown>[] = []
 
     if (allPartners?.length) {
       const now        = new Date()
@@ -89,62 +93,82 @@ serve(async (req) => {
       const monthStart = new Date(now.getFullYear(), now.getMonth(), 1).toISOString()
 
       for (const p of allPartners) {
-        // Service type match
         if (!p.service_types.some((t: string) => match.includes(t))) continue
 
-        // Daily limit
         const { count: today } = await sb
           .from('lead_distributions')
           .select('*', { count: 'exact', head: true })
           .eq('partner_id', p.id)
           .gte('created_at', todayStart)
-
         if ((today ?? 0) >= p.daily_limit) continue
 
-        // Monthly limit
         const { count: month } = await sb
           .from('lead_distributions')
           .select('*', { count: 'exact', head: true })
           .eq('partner_id', p.id)
           .gte('created_at', monthStart)
-
         if ((month ?? 0) >= p.monthly_limit) continue
 
-        eligible.push(p)
+        eligible.push({ ...p, _month_count: month ?? 0 })
       }
     }
 
-    // ── 4. Send emails + record distributions ─────────────
+    // Sort by fewest leads this month → fairest rotation, then cap at 5
+    const selected = eligible
+      .sort((a, b) => (a._month_count as number) - (b._month_count as number))
+      .slice(0, MAX_PARTNERS)
+
+    // ── 4. Send partner emails + record distributions ─────
     await Promise.allSettled(
-      eligible.map(async (p) => {
+      selected.map(async (p) => {
+        const partnerToken = crypto.randomUUID().replace(/-/g, '')
+        const quoteLink    = `${SITE_URL}/tilbud/${partnerToken}`
+
         const res = await fetch('https://api.resend.com/emails', {
           method:  'POST',
           headers: { Authorization: `Bearer ${RESEND_API_KEY}`, 'Content-Type': 'application/json' },
           body:    JSON.stringify({
             from:    FROM_EMAIL,
             to:      p.email,
-            subject: `Ny lead: ${svcLabel(lead.service_type)} — ${lead.name}`,
-            html:    buildEmail(lead, p),
+            subject: `Ny forespørsel: ${svcLabel(lead.service_type)} — ${lead.name}`,
+            html:    buildPartnerEmail(lead, p, quoteLink),
           }),
         })
 
+        if (!res.ok) {
+          const errBody = await res.text()
+          console.error(`Resend error for ${p.email}: ${res.status} ${errBody}`)
+        }
+
         await sb.from('lead_distributions').insert({
-          lead_id:      lead.id,
-          partner_id:   p.id,
-          email_status: res.ok ? 'sent' : 'failed',
+          lead_id:       lead.id,
+          partner_id:    p.id,
+          email_status:  res.ok ? 'sent' : 'failed',
+          partner_token: partnerToken,
         })
       })
     )
 
+    // ── 5. Send customer confirmation email ───────────────
+    const customerLink = `${SITE_URL}/mine-tilbud/${customerToken}`
+    await fetch('https://api.resend.com/emails', {
+      method:  'POST',
+      headers: { Authorization: `Bearer ${RESEND_API_KEY}`, 'Content-Type': 'application/json' },
+      body:    JSON.stringify({
+        from:    FROM_EMAIL,
+        to:      lead.email,
+        subject: `Vi samler inn tilbud for deg — ${svcLabel(lead.service_type)}`,
+        html:    buildCustomerEmail(lead, customerLink, selected.length),
+      }),
+    })
+
     return new Response(
-      JSON.stringify({ success: true, lead_id: lead.id, sent_to: eligible.length }),
+      JSON.stringify({ success: true, lead_id: lead.id, sent_to: selected.length }),
       { headers: { 'Content-Type': 'application/json', ...CORS } }
     )
   } catch (err) {
     console.error(err)
-    const msg = err instanceof Error
-      ? err.message
-      : JSON.stringify(err)
+    const msg = err instanceof Error ? err.message : JSON.stringify(err)
     return new Response(
       JSON.stringify({ success: false, error: msg }),
       { status: 500, headers: { 'Content-Type': 'application/json', ...CORS } }
@@ -177,51 +201,78 @@ function section(title: string, rows: string) {
   </table>`
 }
 
-function buildEmail(lead: Record<string, unknown>, partner: Record<string, unknown>): string {
+function buildPartnerEmail(lead: Record<string, unknown>, partner: Record<string, unknown>, quoteLink: string): string {
   const cleaning = lead.service_type !== 'flyttehjelp'
   const moving   = lead.service_type !== 'rengjoring'
 
   return `<!DOCTYPE html><html><body style="font-family:sans-serif;max-width:580px;margin:0 auto;padding:28px 20px;color:#333">
-  <h2 style="color:#0E1D2D;margin:0 0 4px">Ny lead fra Velgtilbud</h2>
-  <p style="color:#888;margin:0 0 20px;font-size:14px">Hei ${partner.name}, du har mottatt en ny forespørsel. Ta kontakt raskt for best sjanse!</p>
+  <h2 style="color:#0E1D2D;margin:0 0 4px">Ny forespørsel fra Velgtilbud</h2>
+  <p style="color:#888;margin:0 0 20px;font-size:14px">Hei ${partner.name}, du har mottatt en ny forespørsel. Gi ditt tilbud raskt for best sjanse!</p>
 
   ${section('Kontakt', [
     row('Tjeneste',    svcLabel(lead.service_type as string)),
     row('Kundegruppe', lead.customer_type),
     row('Navn',        lead.name),
-    row('Telefon',     lead.phone),
-    row('E-post',      lead.email),
     row('Ønsket dato', lead.desired_date),
   ].join(''))}
 
   ${cleaning ? section('Rengjøringsdetaljer', [
-    row('Adresse',     lead.street ? `${lead.street} ${lead.street_no ?? ''}, ${lead.postal}` : null),
-    row('Boligtype',   lead.prop_type),
-    row('Etasjer',     lead.floors),
-    row('Areal',       lead.area ? `${lead.area} kvm` : null),
-    row('Hele boligen',lead.whole_property ? 'Ja' : 'Nei'),
-    row('Soverom',     lead.soverom),
-    row('Bad/WC',      lead.badwc),
-    row('Kjøkken',     lead.kjokken),
-    row('Stue',        lead.stue),
-    row('Ekstra',      (lead.area_extras as string[])?.join(', ')),
-    row('Kommentarer', lead.comments),
+    row('Adresse',      lead.street ? `${lead.street} ${lead.street_no ?? ''}, ${lead.postal}` : null),
+    row('Boligtype',    lead.prop_type),
+    row('Etasjer',      lead.floors),
+    row('Areal',        lead.area ? `${lead.area} kvm` : null),
+    row('Hele boligen', lead.whole_property ? 'Ja' : 'Nei'),
+    row('Soverom',      lead.soverom),
+    row('Bad/WC',       lead.badwc),
+    row('Kjøkken',      lead.kjokken),
+    row('Stue',         lead.stue),
+    row('Ekstra',       (lead.area_extras as string[])?.join(', ')),
+    row('Kommentarer',  lead.comments),
   ].join('')) : ''}
 
   ${moving ? section('Flyttedetaljer', [
-    row('Fra',         lead.from_street ? `${lead.from_street} ${lead.from_no ?? ''}, ${lead.from_postal} ${lead.from_city ?? ''}` : null),
-    row('Fra etasje',  lead.from_floor),
-    row('Heis (fra)',  lead.from_elevator != null ? (lead.from_elevator ? 'Ja' : 'Nei') : null),
-    row('Til',         lead.to_street ? `${lead.to_street} ${lead.to_no ?? ''}, ${lead.to_postal} ${lead.to_city ?? ''}` : null),
-    row('Til etasje',  lead.to_floor),
-    row('Heis (til)',  lead.to_elevator != null ? (lead.to_elevator ? 'Ja' : 'Nei') : null),
-    row('Størrelse',   lead.size ? `${lead.size} m²` : null),
+    row('Fra',           lead.from_street ? `${lead.from_street} ${lead.from_no ?? ''}, ${lead.from_postal} ${lead.from_city ?? ''}` : null),
+    row('Fra etasje',    lead.from_floor),
+    row('Heis (fra)',    lead.from_elevator != null ? (lead.from_elevator ? 'Ja' : 'Nei') : null),
+    row('Til',           lead.to_street ? `${lead.to_street} ${lead.to_no ?? ''}, ${lead.to_postal} ${lead.to_city ?? ''}` : null),
+    row('Til etasje',    lead.to_floor),
+    row('Heis (til)',    lead.to_elevator != null ? (lead.to_elevator ? 'Ja' : 'Nei') : null),
+    row('Størrelse',     lead.size ? `${lead.size} m²` : null),
     row('Parkering fra', lead.park_a ? `ca. ${lead.park_a} m` : null),
     row('Parkering til', lead.park_b ? `ca. ${lead.park_b} m` : null),
   ].join('')) : ''}
 
+  <div style="margin:28px 0;text-align:center">
+    <a href="${quoteLink}" style="display:inline-block;background:#0E1D2D;color:#fff;font-weight:700;font-size:15px;padding:14px 32px;border-radius:12px;text-decoration:none">
+      Gi ditt tilbud →
+    </a>
+    <p style="font-size:11px;color:#bbb;margin-top:10px">Eller kopier lenken: ${quoteLink}</p>
+  </div>
+
   <p style="font-size:11px;color:#bbb;margin-top:28px;border-top:1px solid #eee;padding-top:12px">
-    Denne leaden er sendt til opptil 5 partnere i samme kategori. Velgtilbud.no
+    Denne forespørselen er sendt til opptil ${MAX_PARTNERS} partnere. Velgtilbud.no
   </p>
+</body></html>`
+}
+
+function buildCustomerEmail(lead: Record<string, unknown>, customerLink: string, partnerCount: number): string {
+  return `<!DOCTYPE html><html><body style="font-family:sans-serif;max-width:580px;margin:0 auto;padding:28px 20px;color:#333">
+  <h2 style="color:#0E1D2D;margin:0 0 4px">Vi samler inn tilbud for deg!</h2>
+  <p style="color:#555;margin:0 0 20px;font-size:14px">
+    Hei ${lead.name}, vi har mottatt din forespørsel om <strong>${svcLabel(lead.service_type as string)}</strong> og sendt den til <strong>${partnerCount} godkjente selskaper</strong> i Trondheim.
+  </p>
+
+  <p style="color:#555;font-size:14px">Selskapene vil nå gi deg sine beste tilbud. Du kan se og sammenligne alle tilbud på én plass:</p>
+
+  <div style="margin:28px 0;text-align:center">
+    <a href="${customerLink}" style="display:inline-block;background:#0E1D2D;color:#fff;font-weight:700;font-size:15px;padding:14px 32px;border-radius:12px;text-decoration:none">
+      Se mine tilbud →
+    </a>
+    <p style="font-size:11px;color:#bbb;margin-top:10px">Eller kopier lenken: ${customerLink}</p>
+  </div>
+
+  <p style="font-size:13px;color:#888">Du velger selv om du vil akseptere et tilbud — helt gratis og uforpliktende.</p>
+
+  <p style="font-size:11px;color:#bbb;margin-top:28px;border-top:1px solid #eee;padding-top:12px">Velgtilbud.no — Trondheims ledende markedsplass</p>
 </body></html>`
 }

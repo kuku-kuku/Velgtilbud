@@ -10,6 +10,8 @@ import BedrifterPage from '@/pages/BedrifterPage'
 import PartnerPage from '@/pages/PartnerPage'
 import OmOssPage from '@/pages/OmOssPage'
 import AdminPage from '@/pages/AdminPage'
+import PartnerQuotePage from '@/pages/PartnerQuotePage'
+import CustomerQuotesPage from '@/pages/CustomerQuotesPage'
 import type { ServiceType } from '@/lib/types'
 import { ArrowRight } from 'lucide-react'
 
@@ -38,39 +40,51 @@ function MobileButton({ onOpen }: { onOpen: () => void }) {
   )
 }
 
-export default function App() {
+function AppShell() {
+  const { pathname } = useLocation()
   const [modalOpen,    setModalOpen]    = useState(false)
   const [modalService, setModalService] = useState<ServiceType>('flytting')
 
+  const isAdmin = pathname === '/admin' || pathname.startsWith('/tilbud/') || pathname.startsWith('/mine-tilbud/')
+
+  return (
+    <div className="flex flex-col min-h-screen">
+      {!isAdmin && <Header onOpenModal={() => setModalOpen(true)} />}
+      <main className={isAdmin ? 'flex-1' : 'flex-1 pt-16'}>
+        <Routes>
+          <Route path="/"               element={<HomePage />} />
+          <Route path="/privatpersoner" element={<PrivatePage />} />
+          <Route path="/bedrifter"      element={<BedrifterPage />} />
+          <Route path="/bli-partner"    element={<PartnerPage />} />
+          <Route path="/om-oss"         element={<OmOssPage />} />
+          <Route path="/admin"               element={<AdminPage />} />
+          <Route path="/tilbud/:token"       element={<PartnerQuotePage />} />
+          <Route path="/mine-tilbud/:token"  element={<CustomerQuotesPage />} />
+        </Routes>
+      </main>
+      {!isAdmin && <Footer />}
+
+      {!isAdmin && (
+        <>
+          <FloatingForm />
+          <MobileButton onOpen={() => setModalOpen(true)} />
+          <FormModal
+            open={modalOpen}
+            service={modalService}
+            onClose={() => setModalOpen(false)}
+            onServiceChange={setModalService}
+          />
+        </>
+      )}
+    </div>
+  )
+}
+
+export default function App() {
   return (
     <BrowserRouter>
       <ScrollToTop />
-      <div className="flex flex-col min-h-screen">
-        <Header onOpenModal={() => setModalOpen(true)} />
-        <main className="flex-1 pt-16">
-          <Routes>
-            <Route path="/"               element={<HomePage />} />
-            <Route path="/privatpersoner" element={<PrivatePage />} />
-            <Route path="/bedrifter"      element={<BedrifterPage />} />
-            <Route path="/bli-partner"    element={<PartnerPage />} />
-            <Route path="/om-oss"         element={<OmOssPage />} />
-            <Route path="/admin"          element={<AdminPage />} />
-          </Routes>
-        </main>
-        <Footer />
-      </div>
-
-      {/* Desktop: always-visible floating form */}
-      <FloatingForm />
-
-      {/* Mobile: floating button → modal */}
-      <MobileButton onOpen={() => setModalOpen(true)} />
-      <FormModal
-        open={modalOpen}
-        service={modalService}
-        onClose={() => setModalOpen(false)}
-        onServiceChange={setModalService}
-      />
+      <AppShell />
     </BrowserRouter>
   )
 }
