@@ -55,9 +55,9 @@ function getSteps(svc: ServiceChoice): StepId[] {
     return ['service', 'customerType', 'budget', 'date', 'propertyType', 'rooms', 'contact', 'address']
   }
   if (svc === 'begge') {
-    return ['service', 'customerType', 'budget', 'date', 'fromAddress', 'size', 'toAddress', 'parking', 'propertyType', 'rooms', 'contact', 'address']
+    return ['service', 'customerType', 'budget', 'date', 'fromAddress', 'toAddress', 'parking', 'propertyType', 'rooms', 'contact', 'address']
   }
-  return ['service', 'budget', 'date', 'fromAddress', 'size', 'toAddress', 'parking', 'contact']
+  return ['service', 'budget', 'date', 'fromAddress', 'toAddress', 'parking', 'contact']
 }
 
 function toServiceType(c: ServiceChoice): ServiceType {
@@ -256,8 +256,10 @@ export default function LeadForm({ service: ctrl, onServiceChange, defaultServic
         <div>
           <h3 className="text-base font-bold text-navy mb-1">Takk for henvendelsen!</h3>
           <p className="text-sm text-greige max-w-xs mx-auto">
-            Du mottar tilbud fra godkjente selskaper i Trondheim innen{' '}
-            <strong className="text-navy">2 timer</strong>.
+            Vi har mottatt forespørselen din og sender den videre til relevante flyttebyråer og rengjøringsfirma i Trondheim.
+          </p>
+          <p className="text-sm text-greige max-w-xs mx-auto mt-2">
+            Du vil bli kontaktet innen kort tid. Vi anbefaler at du svarer på ukjente telefonnumre, da bedriftene ofte tar kontakt direkte.
           </p>
         </div>
       </div>
@@ -343,7 +345,7 @@ export default function LeadForm({ service: ctrl, onServiceChange, defaultServic
         return (
           <div className="flex flex-col gap-2">
             {([
-              { v: 'budget',  l: 'Lavest mulig pris',               sub: 'Jeg vil finne det beste tilbudet' },
+              { v: 'budget',  l: 'Lavest mulig pris',               sub: 'Jeg vil finne det billigste tilbudet' },
               { v: 'mid',     l: 'Balanse mellom pris og kvalitet',  sub: 'God jobb til en fornuftig pris'  },
               { v: 'premium', l: 'Kvalitet er viktigst',             sub: 'Jeg betaler for det beste'       },
             ] as { v: BudgetTier; l: string; sub: string }[]).map(({ v, l, sub }) => (
@@ -551,6 +553,17 @@ export default function LeadForm({ service: ctrl, onServiceChange, defaultServic
                 <label className="label">Heis?</label>
                 <ElevatorToggle val={data.fromElevator} onChange={v => set('fromElevator', v)} />
               </div>
+            </div>
+            <div>
+              <label className="label">Størrelse på boligen (kvm)</label>
+              <input
+                type="number"
+                min="1"
+                value={data.size}
+                onChange={e => set('size', e.target.value)}
+                placeholder="75"
+                className="input-field"
+              />
             </div>
           </div>
         )
