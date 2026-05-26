@@ -37,6 +37,7 @@ serve(async (req) => {
         street_no:      body.fromNo         || null,
         postal:         body.fromPostal     || null,
         city:           'Trondheim',
+        budget_tier:    body.budgetTier     || null,
         from_street:    body.fromStreet     || null,
         from_no:        body.fromNo         || null,
         from_postal:    body.fromPostal     || null,
@@ -113,9 +114,21 @@ serve(async (req) => {
       }
     }
 
-    // Sort by fewest leads this month → fairest rotation, then cap at 5
+    // Sort: tier match first, then fewest leads this month (fairest rotation)
+    const TIERS = ['budget', 'mid', 'premium']
+    const customerTier = lead.budget_tier as string | null
+
+    function tierDistance(partnerTier: string): number {
+      if (!customerTier) return 0
+      return Math.abs(TIERS.indexOf(partnerTier) - TIERS.indexOf(customerTier))
+    }
+
     const selected = eligible
-      .sort((a, b) => (a._month_count as number) - (b._month_count as number))
+      .sort((a, b) => {
+        const tierDiff = tierDistance(a.tier as string) - tierDistance(b.tier as string)
+        if (tierDiff !== 0) return tierDiff
+        return (a._month_count as number) - (b._month_count as number)
+      })
       .slice(0, MAX_PARTNERS)
 
     // ── 4. Send partner emails + record distributions ─────

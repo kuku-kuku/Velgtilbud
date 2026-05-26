@@ -86,9 +86,16 @@ function Spinner() {
 
 // ── Partner modal ─────────────────────────────────────────────────────────────
 
+const TIER_LABELS: Record<string, string> = { budget: 'Budget', mid: 'Mid', premium: 'Premium' }
+const TIER_COLORS: Record<string, string> = {
+  budget:  'bg-sand/40 text-greige',
+  mid:     'bg-navy/10 text-navy',
+  premium: 'bg-sage/10 text-sage',
+}
+
 const EMPTY_PARTNER: Omit<Partner, 'id' | 'created_at'> = {
   name: '', email: '', phone: '', service_types: [], city: 'Trondheim',
-  daily_limit: 10, monthly_limit: 100, active: true,
+  daily_limit: 10, monthly_limit: 100, active: true, tier: 'mid',
 }
 
 function PartnerModal({ initial, onSave, onClose }: {
@@ -97,7 +104,7 @@ function PartnerModal({ initial, onSave, onClose }: {
   onClose: () => void
 }) {
   const [form, setForm] = useState<Omit<Partner, 'id' | 'created_at'>>(
-    initial ? { name: initial.name, email: initial.email, phone: initial.phone ?? '', service_types: initial.service_types, city: initial.city, daily_limit: initial.daily_limit, monthly_limit: initial.monthly_limit, active: initial.active }
+    initial ? { name: initial.name, email: initial.email, phone: initial.phone ?? '', service_types: initial.service_types, city: initial.city, daily_limit: initial.daily_limit, monthly_limit: initial.monthly_limit, active: initial.active, tier: initial.tier ?? 'mid' }
             : { ...EMPTY_PARTNER }
   )
   const [saving, setSaving] = useState(false)
@@ -158,6 +165,20 @@ function PartnerModal({ initial, onSave, onClose }: {
                     form.service_types.includes(v) ? 'bg-navy text-white border-transparent' : 'bg-white text-navy border-sand/50 hover:border-navy/30'
                   )}>
                   {SVC_LABELS[v]}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div>
+            <label className="text-xs font-semibold text-greige uppercase tracking-wide block mb-1">Price tier</label>
+            <div className="flex gap-2">
+              {(['budget', 'mid', 'premium'] as const).map(t => (
+                <button key={t} type="button" onClick={() => setForm(f => ({ ...f, tier: t }))}
+                  className={cn('flex-1 py-2 rounded-xl border text-xs font-semibold transition-all capitalize',
+                    form.tier === t ? 'bg-navy text-white border-transparent' : 'bg-white text-navy border-sand/50 hover:border-navy/30'
+                  )}>
+                  {TIER_LABELS[t]}
                 </button>
               ))}
             </div>
@@ -641,6 +662,7 @@ function PartnersTab() {
             <tr className="border-b border-sand/50 text-xs text-greige uppercase tracking-wide">
               <th className="text-left py-3 px-4 font-semibold">Name</th>
               <th className="text-left py-3 px-4 font-semibold">Services</th>
+              <th className="text-left py-3 px-4 font-semibold">Tier</th>
               <th className="text-left py-3 px-4 font-semibold">Limits</th>
               <th className="text-left py-3 px-4 font-semibold">Usage today / month</th>
               <th className="text-left py-3 px-4 font-semibold">Status</th>
@@ -664,6 +686,11 @@ function PartnersTab() {
                     <div className="flex flex-wrap gap-1">
                       {p.service_types.map(s => <Badge key={s} svc={s} />)}
                     </div>
+                  </td>
+                  <td className="py-3 px-4">
+                    <span className={cn('text-xs font-semibold px-2 py-0.5 rounded-full', TIER_COLORS[p.tier ?? 'mid'])}>
+                      {TIER_LABELS[p.tier ?? 'mid']}
+                    </span>
                   </td>
                   <td className="py-3 px-4 text-greige text-xs whitespace-nowrap">
                     {p.daily_limit}/day · {p.monthly_limit}/month

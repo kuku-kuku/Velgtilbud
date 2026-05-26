@@ -20,6 +20,7 @@ export interface Partner {
   daily_limit:   number
   monthly_limit: number
   active:        boolean
+  tier:          'budget' | 'mid' | 'premium'
 }
 
 export interface Lead {
@@ -62,6 +63,7 @@ export interface Lead {
   desired_date:   string | null
   flex:           boolean
   flex_range:     string | null
+  budget_tier:    'budget' | 'mid' | 'premium' | null
 }
 
 export interface Distribution {

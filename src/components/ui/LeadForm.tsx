@@ -10,10 +10,12 @@ import type { ServiceType } from '@/lib/types'
 type ServiceChoice  = 'begge' | 'flyttehjelp' | 'rengjoring'
 type CustomerType   = 'privat' | 'borettslag' | 'bedrift'
 type StepId =
-  | 'service' | 'customerType' | 'date'
+  | 'service' | 'customerType' | 'budget' | 'date'
   | 'fromAddress' | 'size' | 'toAddress' | 'parking'
   | 'propertyType' | 'rooms'
   | 'contact' | 'address'
+
+type BudgetTier = 'budget' | 'mid' | 'premium'
 
 const SIZE_OPTIONS = ['0–50', '51–100', '101–150', '151–200', '200+']
 
@@ -36,6 +38,7 @@ const AREA_EXTRAS = [
 const STEP_LABELS: Record<StepId, string> = {
   service:      'Hva trenger du?',
   customerType: 'Hvem bestiller?',
+  budget:       'Hva er viktigst for deg?',
   date:         'Ønsket dato',
   fromAddress:  'Nåværende adresse',
   size:         'Størrelse på boligen',
@@ -49,12 +52,12 @@ const STEP_LABELS: Record<StepId, string> = {
 
 function getSteps(svc: ServiceChoice): StepId[] {
   if (svc === 'rengjoring') {
-    return ['service', 'customerType', 'date', 'propertyType', 'rooms', 'contact', 'address']
+    return ['service', 'customerType', 'budget', 'date', 'propertyType', 'rooms', 'contact', 'address']
   }
   if (svc === 'begge') {
-    return ['service', 'customerType', 'date', 'fromAddress', 'size', 'toAddress', 'parking', 'propertyType', 'rooms', 'contact', 'address']
+    return ['service', 'customerType', 'budget', 'date', 'fromAddress', 'size', 'toAddress', 'parking', 'propertyType', 'rooms', 'contact', 'address']
   }
-  return ['service', 'date', 'fromAddress', 'size', 'toAddress', 'parking', 'contact']
+  return ['service', 'budget', 'date', 'fromAddress', 'size', 'toAddress', 'parking', 'contact']
 }
 
 function toServiceType(c: ServiceChoice): ServiceType {
@@ -77,10 +80,12 @@ interface FS {
   soverom: number; badwc: number; kjokken: number; stue: number
   areaExtras: string[]; comments: string
   name: string; phone: string; email: string
+  budgetTier: BudgetTier
 }
 
 const INIT: Omit<FS, 'service'> = {
   customerType: 'privat',
+  budgetTier: 'mid',
   date: '', flex: false, flexRange: '',
   fromStreet: '', fromNo: '', fromPostal: '', fromCity: '', fromFloor: '', fromElevator: false,
   size: '',
@@ -329,6 +334,32 @@ export default function LeadForm({ service: ctrl, onServiceChange, defaultServic
                 )}
               >
                 {l}
+              </button>
+            ))}
+          </div>
+        )
+
+      case 'budget':
+        return (
+          <div className="flex flex-col gap-2">
+            {([
+              { v: 'budget',  l: 'Lavest mulig pris',               sub: 'Jeg vil finne det beste tilbudet' },
+              { v: 'mid',     l: 'Balanse mellom pris og kvalitet',  sub: 'God jobb til en fornuftig pris'  },
+              { v: 'premium', l: 'Kvalitet er viktigst',             sub: 'Jeg betaler for det beste'       },
+            ] as { v: BudgetTier; l: string; sub: string }[]).map(({ v, l, sub }) => (
+              <button
+                key={v}
+                type="button"
+                onClick={() => set('budgetTier', v)}
+                className={cn(
+                  'w-full py-3 px-4 rounded-xl border text-left transition-all',
+                  data.budgetTier === v
+                    ? `${activeBg} text-white border-transparent`
+                    : 'bg-white text-navy border-sand/50 hover:border-navy/30'
+                )}
+              >
+                <p className="text-sm font-semibold">{l}</p>
+                <p className={cn('text-xs mt-0.5', data.budgetTier === v ? 'text-white/70' : 'text-greige')}>{sub}</p>
               </button>
             ))}
           </div>
