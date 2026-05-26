@@ -5,10 +5,10 @@ const cards = [
   {
     tag: 'Privatpersoner',
     href: '/privatpersoner',
-    title: 'Trygg og effektiv boligflytting i Trondheim.',
-    body: 'Finn de beste flyttebyråene i Trondheim til din pris. Vi sender deg gratis tilbud fra godkjente selskaper.',
-    items: ['Boligflytting', 'Pakking & emballasje', 'Flyttevask / utvask', 'Rengjøring'],
-    cta: 'Tilbud for privatpersoner',
+    title: 'Trygg flytting og rengjøring for private i Trondheim',
+    body: 'Få tilbud fra kvalitetssikrede flyttebyråer og rengjøringsfirma tilpasset dine behov. Vi gjør det enkelt å sammenligne priser og tjenester på ett sted.',
+    items: ['Boligflytting', 'Flyttevask og rengjøring', 'Pakking og emballasje', 'Bæring og transport'],
+    cta: 'Få tilbud som privatkunde',
     bg: 'bg-navy',
     accent: 'text-sand',
     check: 'text-sand',
@@ -17,10 +17,10 @@ const cards = [
   {
     tag: 'Bedrifter',
     href: '/bedrifter',
-    title: 'Kontorflytting i Trondheim med minimal nedetid.',
-    body: 'Vi kobler deg med erfarne byråer som spesialiserer seg på næringsflytting og kontorrengjøring.',
-    items: ['Kontorflytting', 'Næringsflytting', 'Kontorrengjøring', 'Mellomlagring'],
-    cta: 'Tilbud for bedrifter',
+    title: 'Effektiv kontorflytting for bedrifter i Trondheim',
+    body: 'Vi hjelper bedrifter med å finne erfarne aktører innen næringsflytting, kontorrengjøring og mellomlagring — med minst mulig nedetid.',
+    items: ['Kontorflytting', 'Næringsflytting', 'Kontorrengjøring', 'Lager og mellomlagring'],
+    cta: 'Få tilbud til bedriften',
     bg: 'bg-taupe',
     accent: 'text-offwhite/70',
     check: 'text-offwhite/60',
@@ -33,8 +33,8 @@ export default function Services() {
     <section className="section-padding bg-white">
       <div className="container-wide">
         <div className="mb-14">
-          <h2 className="section-title">Alt du trenger, på ett sted</h2>
-          <p className="section-subtitle">Fra boligflytting til næringsflytting — vi hjelper deg å finne riktig selskap i Trondheim.</p>
+          <h2 className="section-title">Alt du trenger på ett sted</h2>
+          <p className="section-subtitle">Sammenlign flyttebyrå og rengjøringsfirma i Trondheim — raskt, gratis og uforpliktende.</p>
         </div>
 
         <div className="grid md:grid-cols-2 gap-5 items-stretch">

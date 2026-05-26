@@ -1,13 +1,14 @@
 import { useState } from 'react'
+import { Check } from 'lucide-react'
 import { useForm } from 'react-hook-form'
 import { CheckCircle, Loader2, ArrowRight } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 const benefits = [
-  { num: '01', title: 'Kvalifiserte leads',     text: 'Du mottar forespørsler fra kunder som aktivt søker etter dine tjenester i Trondheim.' },
-  { num: '02', title: 'Betal kun per lead',     text: 'Ingen månedlige avgifter. Du betaler kun for de leads du mottar og ønsker å følge opp.' },
-  { num: '03', title: 'Du setter dine priser',  text: 'Send tilbud basert på dine egne satser. Ingen prispress fra vår side.' },
-  { num: '04', title: 'Enkel administrasjon',   text: 'Alt styres via ett enkelt dashboard. Aksepter eller avslå leads med ett klikk.' },
+  { num: '01', title: 'Kvalifiserte kundehenvendelser', text: 'Motta forespørsler fra privatpersoner og bedrifter i Trondheim som aktivt søker tilbud på flytting og rengjøring.' },
+  { num: '02', title: 'Betal kun for mottatte leads',   text: 'Ingen faste månedskostnader eller bindingstid. Du betaler kun for kundehenvendelser som sendes til din bedrift.' },
+  { num: '03', title: 'Full kontroll over egne priser', text: 'Send tilbud basert på egne priser, tjenester og kapasitet. Dere bestemmer selv hvordan tilbudene utformes.' },
+  { num: '04', title: 'Enkel håndtering av forespørsler', text: 'Motta og administrer forespørsler på en enkel og oversiktlig måte, slik at dere raskt kan følge opp potensielle kunder.' },
 ]
 
 interface PartnerForm {
@@ -41,16 +42,32 @@ export default function PartnerPage() {
           <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-start">
             <div className="pt-6 pb-14 lg:pb-20">
               <p className="text-sand text-xs font-semibold uppercase tracking-[0.2em] mb-6">
-                For selskaper · Trondheim
+                For bedrifter · Trondheim
               </p>
               <h1 className="text-4xl md:text-5xl font-bold text-white leading-tight mb-5">
                 Bli partner og motta{' '}
                 <span className="text-sand">kvalifiserte leads</span>
                 {' '}fra Trondheim
               </h1>
-              <p className="text-white/50 text-sm leading-relaxed max-w-md">
-                Vi kobler deg med kunder i Trondheim som søker etter dine tjenester akkurat nå. Du betaler kun for leads du ønsker — ingen binding, ingen abonnementsavgift.
+              <p className="text-white/50 text-sm leading-relaxed mb-2 max-w-md">
+                Få flere kunder innen flytting, rengjøring og næringstjenester i Trondheim gjennom Velgtilbud. Vi kobler din bedrift med personer og selskaper som aktivt søker etter tjenestene dere tilbyr.
               </p>
+              <p className="text-white/50 text-sm leading-relaxed mb-6 max-w-md">
+                Motta relevante forespørsler fra kunder i Trondheim — uten bindingstid eller faste abonnementskostnader. Du velger selv hvilke leads du ønsker å kontakte.
+              </p>
+              <div className="flex flex-col gap-2">
+                {[
+                  'Kvalifiserte leads fra privatpersoner og bedrifter',
+                  'Ingen binding eller faste månedskostnader',
+                  'Velg selv hvilke forespørsler du vil motta',
+                  'Flere muligheter for oppdrag og vekst i Trondheim',
+                  'Enkel og effektiv måte å få nye kunder på',
+                ].map((t) => (
+                  <div key={t} className="flex items-center gap-2.5 text-sm text-white/50">
+                    <Check className="w-3.5 h-3.5 text-sand flex-shrink-0" /> {t}
+                  </div>
+                ))}
+              </div>
             </div>
             <div className="lg:self-center">
               <div className="bg-white rounded-2xl shadow-2xl shadow-black/20 px-7 py-8">
@@ -113,8 +130,8 @@ export default function PartnerPage() {
       {/* Benefits */}
       <section className="section-padding bg-white">
         <div className="container-wide">
-          <h2 className="section-title mb-2">Fordeler med partnerprogrammet</h2>
-          <p className="section-subtitle mb-10">Vi hjelper deg å vokse virksomheten din i Trondheim-markedet.</p>
+          <h2 className="section-title mb-2">Fordeler med å bli partner hos Velgtilbud</h2>
+          <p className="section-subtitle mb-10">Få flere relevante kundehenvendelser i Trondheim innen flytting, rengjøring og næringstjenester.</p>
           <div className="grid sm:grid-cols-2 gap-4">
             {benefits.map((b) => (
               <div key={b.num} className="bg-offwhite rounded-2xl p-6 border border-sand/20">

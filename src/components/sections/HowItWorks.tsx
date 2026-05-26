@@ -2,17 +2,17 @@ const steps = [
   {
     number: '01',
     title: 'Fyll ut skjemaet',
-    description: 'Fortell oss hva du trenger hjelp med — tar under 2 minutter. Ingen binding, ingen kostnad.',
+    description: 'Beskriv hva du trenger hjelp med innen flytting eller rengjøring i Trondheim. Det tar kun 2 minutter å sende inn forespørselen — helt gratis og uforpliktende.',
   },
   {
     number: '02',
-    title: 'Motta tilbud',
-    description: 'Opptil 5 godkjente flyttebyråer i Trondheim sender deg sine beste priser innen 2 timer.',
+    title: 'Motta tilbud fra flere bedrifter',
+    description: 'Vi matcher deg med opptil 5 kvalitetssikrede flyttebyråer og rengjøringsfirma i Trondheim, som sender deg sine beste tilbud.',
   },
   {
     number: '03',
-    title: 'Velg det beste',
-    description: 'Sammenlign tilbud og anmeldelser. Du bestemmer selv hvem du vil bruke — vi forplikter deg ikke.',
+    title: 'Sammenlign og velg',
+    description: 'Sammenlign priser, tjenester og kundeanmeldelser på ett sted. Velg firmaet som passer dine behov og budsjett best — uten binding.',
   },
 ]
 
@@ -22,7 +22,7 @@ export default function HowItWorks() {
       <div className="container-wide">
         <div className="mb-14">
           <h2 className="section-title">Slik fungerer det</h2>
-          <p className="section-subtitle">Én forespørsel. Opptil fem tilbud. Du velger.</p>
+          <p className="section-subtitle">Én forespørsel. Flere tilbud. Du velger det som passer best.</p>
         </div>
 
         <div className="grid md:grid-cols-3 gap-5">

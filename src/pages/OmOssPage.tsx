@@ -1,4 +1,4 @@
-import { CheckCircle2, Quote } from 'lucide-react'
+import { CheckCircle2, Check, Quote } from 'lucide-react'
 import LeadForm from '@/components/ui/LeadForm'
 
 const values = [
@@ -12,10 +12,10 @@ const values = [
 ]
 
 const milestones = [
-  { year: 'For 20+ år siden', text: 'Alt som fantes av eiendeler fikk plass i baksetet på en Toyota Celica fra 1992.' },
-  { year: 'Første tanke', text: 'Etter at sjefen betalte 18 000 kr for en lokal flyttejobb tenkte vi: dette kan vi gjøre bedre.' },
-  { year: '14 år i bransjen', text: 'Oppstart av eget flyttebyrå — og etter hvert rengjøringsbyrå og flyttevask.' },
-  { year: 'I dag', text: 'Velgtilbud ble til. Én enkel tjeneste der kunden sender én forespørsel og mottar tilbud fra relevante aktører.' },
+  { year: 'For over 20 år siden', text: 'Flyttelasset vårt fikk plass i baksetet på en Toyota Celica da vi flyttet til Trondheim. Det ble starten på en lang reise i flyttebransjen.' },
+  { year: 'Den første tanken', text: 'Da vi så at en lokal flyttejobb kostet 18 000 kroner, tenkte vi: «Dette må kunne gjøres enklere, tryggere og til en mer riktig pris.»' },
+  { year: 'Mange år i bransjen', text: 'Gjennom årene bygget vi erfaring fra både flyttebyrå, flyttevask og rengjøring. Vi lærte hvordan bransjen fungerer — både for kundene og selskapene.' },
+  { year: 'I dag', text: 'Velgtilbud ble startet for å gjøre det enklere å finne seriøse flyttebyråer og rengjøringsfirma i Trondheim. Kunden sender én forespørsel og mottar flere relevante tilbud på ett sted.' },
 ]
 
 export default function OmOssPage() {
@@ -29,12 +29,27 @@ export default function OmOssPage() {
             <div className="pt-6 pb-14 lg:pb-20">
               <p className="text-sand text-xs font-semibold uppercase tracking-[0.2em] mb-6">Om oss</p>
               <h1 className="text-4xl md:text-5xl font-bold text-white leading-tight mb-5">
-                Bygget på ekte{' '}
-                <span className="text-sand">bransjeerfaring</span>
+                Bygget på erfaring fra flytte- og{' '}
+                <span className="text-sand">rengjøringsbransjen</span>
               </h1>
-              <p className="text-white/50 text-sm leading-relaxed max-w-md">
-                Velgtilbud ble startet av folk med erfaring fra både flyttebyrå og rengjøringsbyrå — fordi vi visste at det var mulig å gjøre dette bedre.
+              <p className="text-white/50 text-sm leading-relaxed mb-2 max-w-md">
+                Velgtilbud ble startet for å gjøre det enklere å finne seriøse flyttebyråer og rengjøringsfirma i Trondheim. Plattformen er utviklet av personer med erfaring fra både flytting og rengjøring — med fokus på kvalitet, trygghet og en enklere prosess for kunden.
               </p>
+              <p className="text-white/50 text-sm leading-relaxed mb-6 max-w-md">
+                Vi vet hvor vanskelig det kan være å finne pålitelige firma, sammenligne priser og få raske svar. Derfor samler vi kvalitetssikrede bedrifter på ett sted, slik at privatpersoner og bedrifter enkelt kan innhente og sammenligne tilbud.
+              </p>
+              <div className="flex flex-col gap-2">
+                {[
+                  'Erfaring fra flytte- og rengjøringsbransjen',
+                  'Fokus på kvalitetssikrede bedrifter',
+                  'Gratis og uforpliktende å bruke',
+                  'Enklere måte å sammenligne tilbud i Trondheim',
+                ].map((t) => (
+                  <div key={t} className="flex items-center gap-2.5 text-sm text-white/50">
+                    <Check className="w-3.5 h-3.5 text-sand flex-shrink-0" /> {t}
+                  </div>
+                ))}
+              </div>
             </div>
             <div className="lg:self-center">
               <div id="hero-form" className="bg-white rounded-2xl shadow-2xl shadow-black/20 px-7 py-8">
@@ -50,17 +65,29 @@ export default function OmOssPage() {
       {/* Intro */}
       <section className="section-padding bg-white">
         <div className="container-wide max-w-3xl mx-auto">
-          <h2 className="section-title mb-4">Hvem er vi?</h2>
-          <div className="space-y-4 text-greige leading-relaxed">
+          <h2 className="section-title mb-4">Hvem er Velgtilbud?</h2>
+          <div className="space-y-4 text-greige leading-relaxed mb-6">
             <p>
-              Mange som skal flytte, trenger flyttevask, privat rengjøring eller annen hjelp, vet ikke alltid hva de bør se etter. Prisene varierer mye, kvaliteten varierer mye, og det kan være vanskelig å vite hvilke aktører som faktisk er seriøse.
+              Velgtilbud er en tjeneste som gjør det enklere å finne seriøse flyttebyråer og rengjøringsfirma i Trondheim. Mange opplever at det er vanskelig å vite hvilke aktører som tilbyr god kvalitet, riktige priser og pålitelig service — spesielt når markedet er fullt av ulike alternativer.
             </p>
             <p>
-              Derfor laget vi Velgtilbud — en enkel tjeneste hvor kunder kan innhente tilbud fra relevante aktører, sammenligne alternativer og velge det tilbudet som passer best.
+              Vi startet Velgtilbud for å gjøre prosessen tryggere, enklere og mer oversiktlig. På plattformen kan privatpersoner og bedrifter sende inn én forespørsel og motta tilbud fra relevante og kvalitetssikrede firma innen flytting, flyttevask og rengjøring.
             </p>
             <p className="font-semibold text-navy">
-              Målet vårt er ikke bare at kunden skal finne lavest mulig pris. Målet er at kunden skal finne riktig aktør til riktig pris.
+              Målet vårt er ikke bare å hjelpe kunder med å finne en lav pris — men å finne riktig firma til riktig pris.
             </p>
+          </div>
+          <div className="flex flex-col gap-2">
+            {[
+              'Sammenlign tilbud fra flere firma på ett sted',
+              'Fokus på kvalitet, trygghet og seriøse aktører',
+              'Gratis og uforpliktende å bruke',
+              'Enklere måte å finne flytte- og rengjøringstjenester i Trondheim',
+            ].map((t) => (
+              <div key={t} className="flex items-center gap-2.5 text-sm text-greige">
+                <Check className="w-4 h-4 text-sand flex-shrink-0" /> {t}
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -71,9 +98,11 @@ export default function OmOssPage() {
           <div className="bg-navy rounded-2xl px-8 py-10 flex gap-6 items-start">
             <Quote className="w-8 h-8 text-sand flex-shrink-0 mt-1" />
             <div>
-              <p className="text-white text-lg md:text-xl font-medium leading-relaxed mb-4">
-                Svaret var 18 000 kroner. For meg hørtes det voldsomt ut. Min første tanke var at dette kunne jeg gjort for 6 000 kroner.
-              </p>
+              <div className="text-white text-lg md:text-xl font-medium leading-relaxed mb-4 flex flex-col gap-2">
+                <span>18 000 kroner for en lokal flyttejobb.</span>
+                <span>Min første tanke var: Dette kunne jeg gjort for 6 000 kroner.</span>
+                <span>Det var da vi innså hvor vanskelig det er å vite hvem som tilbyr riktig pris — og riktig kvalitet.</span>
+              </div>
               <p className="text-sand text-sm font-semibold uppercase tracking-widest">Gründerens første møte med bransjen</p>
             </div>
           </div>
@@ -85,7 +114,7 @@ export default function OmOssPage() {
         <div className="container-wide max-w-3xl mx-auto">
           <h2 className="section-title mb-3">Historien bak</h2>
           <p className="section-subtitle mb-12">
-            Fra en Toyota Celica med alt på baksetet til 14 år i bransjen — og til slutt Velgtilbud.
+            Fra en Toyota Celica fra 1992 med alt vi eide i baksetet — til mange år i flytte- og rengjøringsbransjen, og til slutt Velgtilbud.
           </p>
           <div className="relative">
             <div className="absolute left-4 top-2 bottom-2 w-px bg-sand/40" />
@@ -110,16 +139,16 @@ export default function OmOssPage() {
           <h2 className="section-title mb-4">Erfaring med flytting, rengjøring og flyttevask</h2>
           <div className="space-y-4 text-greige leading-relaxed">
             <p>
-              Etter hvert ble rengjøring og flyttevask en naturlig del av virksomheten. Når folk flytter, trenger mange ikke bare hjelp til selve flyttejobben — de trenger også flyttevask, nedvask eller annen rengjøring i forbindelse med overtakelse.
+              Gjennom mange år i flyttebransjen har vi sett hvor viktig det er at hele prosessen fungerer — ikke bare selve flyttingen. Når folk flytter, trenger de ofte hjelp med både flyttevask, rengjøring og overtakelse av boligen.
             </p>
             <p>
-              Vi lærte hvor viktig det er at flyttevasken blir godkjent. Vi lærte hva som kreves for at boligen skal være klar til overtakelse. Vi lærte også hvor frustrerende det kan være for kunden dersom rengjøringen ikke holder mål.
+              Vi har erfart hvor stor forskjell det er mellom ulike flyttebyråer og rengjøringsfirma. Noen leverer høy kvalitet, møter opp til avtalt tid og gjør jobben skikkelig. Andre lover mer enn de klarer å holde.
             </p>
             <p>
-              Gjennom mange år i bransjen har vi sett hvor stor forskjell det er mellom ulike aktører. Noen er punktlige, ryddige og profesjonelle. Andre lover mer enn de klarer å levere.
+              Gjennom erfaring fra både flytting og flyttevask lærte vi hva som faktisk betyr noe for kundene: tydelige priser, god kommunikasjon, pålitelig oppfølging og tjenester som holder det de lover.
             </p>
             <p>
-              Vi vet hvor viktig god kommunikasjon er. Vi vet hvor viktig det er å møte opp til avtalt tid. Vi vet hvor viktig det er at prisene er tydelige, at kunden forstår hva som er inkludert, og at jobben faktisk blir gjort skikkelig.
+              Vi vet også hvor viktig det er at flyttevasken blir godkjent ved overtakelse. Derfor ønsket vi å gjøre det enklere å finne seriøse aktører innen flytting, rengjøring og flyttevask i Trondheim. Velgtilbud ble laget for å hjelpe kunder med å sammenligne kvalitetssikrede firma på ett sted — enkelt, trygt og uforpliktende.
             </p>
           </div>
         </div>

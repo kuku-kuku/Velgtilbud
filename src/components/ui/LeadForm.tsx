@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { createPortal } from 'react-dom'
-import { CheckCircle, Loader2, ArrowRight, ChevronLeft, ChevronDown, CalendarDays } from 'lucide-react'
+import { CheckCircle, Loader2, ArrowRight, ChevronLeft, ChevronDown, CalendarDays, Home, Building2, Info } from 'lucide-react'
 import { DayPicker } from 'react-day-picker'
 import { nb } from 'date-fns/locale'
 import 'react-day-picker/src/style.css'
@@ -10,7 +10,7 @@ import type { ServiceType } from '@/lib/types'
 type ServiceChoice  = 'begge' | 'flyttehjelp' | 'rengjoring'
 type CustomerType   = 'privat' | 'borettslag' | 'bedrift'
 type StepId =
-  | 'service' | 'customerType' | 'budget' | 'date'
+  | 'service' | 'customerType' | 'cleaningType' | 'budget' | 'date'
   | 'fromAddress' | 'size' | 'toAddress' | 'parking'
   | 'propertyType' | 'rooms'
   | 'contact' | 'address'
@@ -35,15 +35,29 @@ const AREA_EXTRAS = [
   { v: 'bod',     l: 'Bod'              },
 ]
 
+const CLEANING_TYPES = [
+  'Fast renhold',
+  'Byggrengjøring',
+  'Dødsbovask',
+  'Fasadevask',
+  'Flyttevask',
+  'Gulvbehandling',
+  'Storrengjøring',
+  'Vindusvask',
+  'Visningsvask',
+  'Annen vask',
+]
+
 const STEP_LABELS: Record<StepId, string> = {
-  service:      'Hva trenger du?',
+  service:      'Hva trenger du hjelp med?',
   customerType: 'Hvem bestiller?',
+  cleaningType: 'Hva slags type rengjøring ønsker du?',
   budget:       'Hva er viktigst for deg?',
   date:         'Ønsket dato',
   fromAddress:  'Nåværende adresse',
   size:         'Størrelse på boligen',
   toAddress:    'Ny adresse',
-  parking:      'Parkering',
+  parking:      'Hvor nær kan flyttebilen parkere?',
   propertyType: 'Om boligen',
   rooms:        'Rom og detaljer',
   contact:      'Kontaktinfo',
@@ -52,7 +66,7 @@ const STEP_LABELS: Record<StepId, string> = {
 
 function getSteps(svc: ServiceChoice): StepId[] {
   if (svc === 'rengjoring') {
-    return ['service', 'customerType', 'budget', 'date', 'propertyType', 'rooms', 'contact', 'address']
+    return ['service', 'customerType', 'cleaningType', 'budget', 'date', 'propertyType', 'rooms', 'contact', 'address']
   }
   if (svc === 'begge') {
     return ['service', 'customerType', 'budget', 'date', 'fromAddress', 'toAddress', 'parking', 'propertyType', 'rooms', 'contact', 'address']
@@ -71,6 +85,7 @@ function toServiceChoice(s: ServiceType): ServiceChoice {
 interface FS {
   service:      ServiceChoice
   customerType: CustomerType
+  cleaningType: string
   date: string; flex: boolean; flexRange: string
   fromStreet: string; fromNo: string; fromPostal: string; fromCity: string; fromFloor: string; fromElevator: boolean
   size: string
@@ -85,6 +100,7 @@ interface FS {
 
 const INIT: Omit<FS, 'service'> = {
   customerType: 'privat',
+  cleaningType: '',
   budgetTier: 'mid',
   date: '', flex: false, flexRange: '',
   fromStreet: '', fromNo: '', fromPostal: '', fromCity: '', fromFloor: '', fromElevator: false,
@@ -179,7 +195,9 @@ export default function LeadForm({ service: ctrl, onServiceChange, defaultServic
 
   function validate(): boolean {
     const errs: Record<string, string> = {}
-    if (currentStep === 'date') {
+    if (currentStep === 'cleaningType') {
+      if (!data.cleaningType) errs.cleaningType = 'Velg type rengjøring'
+    } else if (currentStep === 'date') {
       if (!data.date) errs.date = 'Velg en dato'
     } else if (currentStep === 'fromAddress') {
       if (!data.fromStreet.trim()) errs.fromStreet = 'Påkrevd'
@@ -295,9 +313,9 @@ export default function LeadForm({ service: ctrl, onServiceChange, defaultServic
         return (
           <div className="flex flex-col gap-2">
             {([
-              { v: 'begge',       l: 'Flyttehjelp + rengjøring' },
+              { v: 'begge',       l: 'Flyttehjelp og flyttevask' },
               { v: 'flyttehjelp', l: 'Kun flyttehjelp'           },
-              { v: 'rengjoring',  l: 'Kun rengjøring / vask'     },
+              { v: 'rengjoring',  l: 'Kun rengjøring'            },
             ] as { v: ServiceChoice; l: string }[]).map(({ v, l }) => (
               <button
                 key={v}
@@ -338,6 +356,28 @@ export default function LeadForm({ service: ctrl, onServiceChange, defaultServic
                 {l}
               </button>
             ))}
+          </div>
+        )
+
+      case 'cleaningType':
+        return (
+          <div className="flex flex-col gap-2">
+            {CLEANING_TYPES.map(t => (
+              <button
+                key={t}
+                type="button"
+                onClick={() => set('cleaningType', t)}
+                className={cn(
+                  'w-full py-3 px-4 rounded-xl border text-sm font-semibold text-left transition-all',
+                  data.cleaningType === t
+                    ? `${activeBg} text-white border-transparent`
+                    : 'bg-white text-navy border-sand/50 hover:border-navy/30'
+                )}
+              >
+                {t}
+              </button>
+            ))}
+            {errors.cleaningType && <p className="text-xs text-red-400 mt-1">{errors.cleaningType}</p>}
           </div>
         )
 
@@ -650,30 +690,37 @@ export default function LeadForm({ service: ctrl, onServiceChange, defaultServic
 
       case 'parking':
         return (
-          <div className="flex flex-col gap-4">
-            <div>
-              <label className="label">Fra adresse — parkering (ca. meter)</label>
-              <input
-                type="number"
-                min="0"
-                value={data.parkA}
-                onChange={e => set('parkA', e.target.value)}
-                placeholder="5"
-                className="input-field"
-              />
+          <div className="flex flex-col gap-3">
+            <p className="text-xs text-greige -mt-2">Oppgi omtrentlig avstand fra inngangsdøren til der bilen kan stå parkert.</p>
+            {([
+              { icon: Home,      label: 'Adresse du flytter fra', val: data.parkA, key: 'parkA' as const, ph: 'F.eks. 5' },
+              { icon: Building2, label: 'Adresse du flytter til',  val: data.parkB, key: 'parkB' as const, ph: 'F.eks. 10' },
+            ]).map(({ icon: Icon, label, val, key, ph }) => (
+              <div key={key} className="bg-white rounded-2xl border border-sand/30 p-4 flex gap-4 items-start">
+                <div className="w-10 h-10 rounded-xl bg-offwhite border border-sand/30 flex items-center justify-center flex-shrink-0">
+                  <Icon className="w-5 h-5 text-greige" />
+                </div>
+                <div className="flex-1">
+                  <div className="flex items-center justify-between mb-0.5">
+                    <p className="text-sm font-semibold text-navy">{label}</p>
+                    <span className="text-xs text-greige">Meter</span>
+                  </div>
+                  <p className="text-xs text-greige mb-2">Ca. avstand fra inngang til parkering</p>
+                  <input
+                    type="number"
+                    min="0"
+                    value={val}
+                    onChange={e => set(key, e.target.value)}
+                    placeholder={ph}
+                    className="input-field py-2 text-sm"
+                  />
+                </div>
+              </div>
+            ))}
+            <div className="flex items-start gap-2.5 bg-offwhite rounded-xl px-4 py-3 border border-sand/20">
+              <Info className="w-4 h-4 text-greige flex-shrink-0 mt-0.5" />
+              <p className="text-xs text-greige leading-relaxed">Dette hjelper flyttebyrået med å beregne tidsbruk og gi deg et mer nøyaktig tilbud.</p>
             </div>
-            <div>
-              <label className="label">Til adresse — parkering (ca. meter)</label>
-              <input
-                type="number"
-                min="0"
-                value={data.parkB}
-                onChange={e => set('parkB', e.target.value)}
-                placeholder="10"
-                className="input-field"
-              />
-            </div>
-            <p className="text-xs text-greige">Omtrent hvor langt fra inngangsdøren kan bilen parkere?</p>
           </div>
         )
 

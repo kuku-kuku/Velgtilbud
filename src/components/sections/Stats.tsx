@@ -1,8 +1,10 @@
+import { Users, ShieldCheck, Tag, ClipboardCheck } from 'lucide-react'
+
 const stats = [
-  { value: '12 000+', label: 'Fornøyde kunder' },
-  { value: '350+',    label: 'Godkjente selskaper' },
-  { value: '4.8 / 5', label: 'Gjennomsnittsvurdering' },
-  { value: '< 2 t',   label: 'Responstid' },
+  { icon: Users,           value: '3 000+',   label: 'Fornøyde kunder' },
+  { icon: ShieldCheck,     value: '40+',       label: 'Kvalitetssikrede firma' },
+  { icon: Tag,             value: 'Gratis',    label: 'Å sammenligne' },
+  { icon: ClipboardCheck,  value: '1 skjema',  label: 'Flere tilbud' },
 ]
 
 export default function Stats() {
@@ -10,13 +12,16 @@ export default function Stats() {
     <section className="bg-sand/30 py-16">
       <div className="container-wide">
         <div className="grid grid-cols-2 lg:grid-cols-4 divide-x divide-sand/40">
-          {stats.map((stat) => (
-            <div key={stat.label} className="px-8 text-center">
-              <div className="text-4xl font-bold text-navy mb-2">
-                {stat.value}
-              </div>
-              <div className="text-sm text-greige uppercase tracking-wide">
-                {stat.label}
+          {stats.map(({ icon: Icon, value, label }) => (
+            <div key={label} className="flex flex-col items-center text-center px-8 py-6 gap-3">
+              <Icon className="w-14 h-14 text-greige/60 stroke-[1]" />
+              <div>
+                <div className="text-5xl font-bold text-navy leading-none mb-1.5">
+                  {value}
+                </div>
+                <div className="text-xs text-greige uppercase tracking-widest font-semibold">
+                  {label}
+                </div>
               </div>
             </div>
           ))}

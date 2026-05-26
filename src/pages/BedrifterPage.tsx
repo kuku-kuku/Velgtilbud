@@ -1,21 +1,21 @@
-import { Check } from 'lucide-react'
+import { Check, CheckCircle2 } from 'lucide-react'
 import LeadForm from '@/components/ui/LeadForm'
 import FAQ from '@/components/sections/FAQ'
 
 const services = [
-  { title: 'Kontorflytting Trondheim',   desc: 'Effektiv kontorflytting med minimal nedetid. Vi koordinerer med deg slik at virksomheten er raskt i gang igjen.' },
-  { title: 'Næringsflytting',            desc: 'Stor eller liten — vi finner selskaper som håndterer næringsflytting i hele Trondheims-regionen.' },
-  { title: 'Kontorrengjøring',           desc: 'Fast eller engangsvask av kontor og næringsbygg. Gjerne utenfor åpningstid.' },
-  { title: 'Mellomlagring',              desc: 'Trygg lagring av inventar mellom inn- og utflytting — fleksible løsninger.' },
+  { title: 'Kontorflytting i Trondheim', desc: 'Effektiv og planlagt kontorflytting med minimal nedetid. Vi hjelper bedrifter med trygg flytting av arbeidsplasser, inventar og IT-utstyr.' },
+  { title: 'Næringsflytting',            desc: 'Finn flyttefirma som håndterer små og store næringsflyttinger i Trondheim og omegn — tilpasset bedriftens størrelse og behov.' },
+  { title: 'Kontorrengjøring',           desc: 'Sammenlign tilbud på fast renhold og engangsvask for kontor, butikk og næringslokaler — utført av profesjonelle rengjøringsfirma.' },
+  { title: 'Mellomlagring',              desc: 'Få tilgang til sikre og fleksible lagerløsninger ved flytting, oppussing eller midlertidig behov for oppbevaring av inventar og utstyr.' },
 ]
 
 const benefits = [
-  'Tilbud fra spesialiserte næringsbyråer',
-  'Koordinert flytteprosess med prosjektleder',
-  'Minimal nedetid for din bedrift',
-  'Fleksible datoer og tidspunkter',
-  'Inkl. IT-utstyr og spesielle gjenstander',
-  'Gratis og uforpliktende',
+  'Tilbud fra erfarne flyttefirma for bedrifter',
+  'Effektiv prosjektstyring og koordinert flytteprosess',
+  'Flytting av kontor, lager, IT-utstyr og inventar',
+  'Minimal nedetid for ansatte og drift',
+  'Fleksible tidspunkt tilpasset bedriftens behov',
+  'Gratis å motta og sammenligne tilbud',
 ]
 
 export default function BedrifterPage() {
@@ -29,10 +29,10 @@ export default function BedrifterPage() {
               <p className="text-sand text-xs font-semibold uppercase tracking-[0.2em] mb-6">Bedrifter · Trondheim</p>
               <h1 className="text-4xl md:text-5xl font-bold text-white leading-tight mb-5">
                 <span className="text-sand">Kontorflytting</span>
-                {' '}i Trondheim — profesjonelt og effektivt
+                {' '}i Trondheim for bedrifter
               </h1>
               <p className="text-white/50 text-sm leading-relaxed mb-8 max-w-md">
-                Vi kobler bedriften din med erfarne selskaper som spesialiserer seg på <strong className="text-white/80">næringsflytting i Trondheim</strong>. Gratis tilbud, ingen binding.
+                Finn erfarne selskaper innen <strong className="text-white/80">kontorflytting og næringsflytting i Trondheim</strong>. Vi kobler din bedrift med kvalitetssikrede aktører som sørger for en effektiv flytteprosess med minimal nedetid.
               </p>
               <div className="grid grid-cols-2 gap-2">
                 {benefits.map((b) => (
@@ -54,13 +54,13 @@ export default function BedrifterPage() {
       </section>
 
       {/* Services */}
-      <section className="section-padding bg-white">
+      <section className="section-padding bg-offwhite">
         <div className="container-wide">
           <h2 className="section-title mb-2">Tjenester for bedrifter i Trondheim</h2>
-          <p className="section-subtitle mb-10">Fra liten kontorflytting til stor næringsflytting — vi finner rett partner for deg.</p>
+          <p className="section-subtitle mb-10">Finn profesjonelle tjenester innen kontorflytting, næringsflytting og kontorrengjøring i Trondheim. Vi hjelper bedrifter med å sammenligne tilbud fra erfarne og kvalitetssikrede leverandører.</p>
           <div className="grid sm:grid-cols-2 gap-4">
             {services.map((s) => (
-              <div key={s.title} className="bg-offwhite rounded-2xl p-6 border border-sand/20">
+              <div key={s.title} className="bg-white rounded-2xl p-6 border border-sand/20">
                 <h3 className="font-bold text-navy mb-2">{s.title}</h3>
                 <p className="text-sm text-greige leading-relaxed">{s.desc}</p>
               </div>
@@ -70,12 +70,28 @@ export default function BedrifterPage() {
       </section>
 
       {/* Why us */}
-      <section className="section-padding bg-offwhite">
-        <div className="container-wide max-w-3xl mx-auto text-center">
-          <h2 className="section-title mb-4">Hvorfor bruke Velgtilbud for bedriftsflytting?</h2>
-          <p className="text-greige leading-relaxed mb-0">
-            Vi forstår at en bedriftsflytting i Trondheim krever mer enn en vanlig boligflytting. Derfor matcher vi deg med selskaper som har erfaring med næringsflytting, IT-utstyr, og koordinert logistikk — alt uten ekstra kostnad for deg.
-          </p>
+      <section className="section-padding bg-white">
+        <div className="container-wide">
+          <div className="mb-10">
+            <h2 className="section-title mb-2">Hvorfor velge Velgtilbud for bedriftsflytting?</h2>
+            <p className="section-subtitle">Bedriftsflytting krever planlegging, presisjon og erfarne fagfolk. Vi matcher deg med kvalitetssikrede selskaper i Trondheim — raskt og enkelt.</p>
+          </div>
+          <div className="grid sm:grid-cols-2 gap-4">
+            {[
+              { title: 'Erfarne næringsaktører',  text: 'Vi matcher deg med selskaper som spesialiserer seg på bedrifts- og næringsflytting i Trondheim.' },
+              { title: 'Minimal nedetid',          text: 'Effektiv koordinering sørger for at virksomheten er raskt i gang igjen etter flyttingen.' },
+              { title: 'Alt på ett sted',          text: 'Flytting av kontor, lager, inventar og IT-utstyr — vi finner firma som dekker hele behovet.' },
+              { title: 'Gratis og uforpliktende',  text: 'Det koster ingenting å innhente og sammenligne tilbud. Ingen binding, ingen skjulte kostnader.' },
+            ].map((b) => (
+              <div key={b.title} className="bg-offwhite rounded-2xl p-6 border border-sand/20 flex gap-4">
+                <CheckCircle2 className="w-5 h-5 text-sand flex-shrink-0 mt-0.5" />
+                <div>
+                  <h3 className="font-bold text-navy mb-2">{b.title}</h3>
+                  <p className="text-sm text-greige leading-relaxed">{b.text}</p>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 

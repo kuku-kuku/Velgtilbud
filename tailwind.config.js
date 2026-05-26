@@ -13,7 +13,7 @@ export default {
         taupe:   '#8A7563',
       },
       fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif'],
+        sans: ['Plus Jakarta Sans', 'system-ui', 'sans-serif'],
       },
       animation: {
         'fade-in':   'fadeIn 0.4s ease-out',

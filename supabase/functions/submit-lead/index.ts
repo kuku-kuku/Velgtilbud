@@ -38,6 +38,7 @@ serve(async (req) => {
         postal:         body.fromPostal     || null,
         city:           'Trondheim',
         budget_tier:    body.budgetTier     || null,
+        cleaning_type:  body.cleaningType   || null,
         from_street:    body.fromStreet     || null,
         from_no:        body.fromNo         || null,
         from_postal:    body.fromPostal     || null,
@@ -232,6 +233,7 @@ function buildPartnerEmail(lead: Record<string, unknown>, partner: Record<string
   ].join(''))}
 
   ${cleaning ? section('Rengjøringsdetaljer', [
+    row('Type rengjøring', lead.cleaning_type),
     row('Adresse',      lead.street ? `${lead.street} ${lead.street_no ?? ''}, ${lead.postal}` : null),
     row('Boligtype',    lead.prop_type),
     row('Etasjer',      lead.floors),

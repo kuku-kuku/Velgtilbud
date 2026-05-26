@@ -64,6 +64,7 @@ export interface Lead {
   flex:           boolean
   flex_range:     string | null
   budget_tier:    'budget' | 'mid' | 'premium' | null
+  cleaning_type:  string | null
 }
 
 export interface Distribution {

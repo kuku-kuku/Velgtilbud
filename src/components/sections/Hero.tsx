@@ -25,8 +25,8 @@ export default function Hero() {
             </p>
 
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-extrabold text-white leading-[1.05] mb-6">
-              Finn beste flyttebyrå
-              <br />i Trondheim
+              Finn flyttebyrå og
+              <br />rengjøringsbyrå i Trondheim
             </h1>
 
             <div className="min-h-[1.6rem] mb-4">
@@ -34,14 +34,21 @@ export default function Hero() {
             </div>
 
             <p className="text-white/80 text-base leading-relaxed mb-10 max-w-md">
-              Vi sender deg tilbud på flytting i Trondheim fra opptil 5 godkjente byråer. Sammenlign og velg.
+              Send én forespørsel – motta tilbud fra flere kvalitetssikrede bedrifter. Sammenlign priser, tjenester og velg det som passer deg best.
             </p>
 
-            <div className="flex flex-col gap-3 text-sm text-white/80">
-              {['100% gratis å bruke', 'Ingen binding — avslå fritt', 'Opptil 5 tilbud fra godkjente selskaper'].map((t) => (
-                <div key={t} className="flex items-center gap-2.5">
-                  <span className="w-1.5 h-1.5 rounded-full bg-white flex-shrink-0" />
-                  {t}
+            <div className="flex flex-col gap-4">
+              {[
+                { title: 'Raskt svar',                      desc: 'Alle henvendelser besvares raskt' },
+                { title: 'Kun godkjente bedrifter',         desc: 'Vi samarbeider med seriøse og pålitelige aktører' },
+                { title: 'Enkelt, gratis og uforpliktende', desc: 'Helt gratis å sende forespørsel – uten forpliktelser' },
+              ].map(({ title, desc }) => (
+                <div key={title} className="flex items-start gap-3">
+                  <span className="w-1.5 h-1.5 rounded-full bg-sand flex-shrink-0 mt-1.5" />
+                  <div>
+                    <p className="text-sm font-bold text-white uppercase tracking-wide leading-none mb-0.5">{title}</p>
+                    <p className="text-sm text-white/50">{desc}</p>
+                  </div>
                 </div>
               ))}
             </div>
@@ -51,7 +58,7 @@ export default function Hero() {
           <div>
             <div id="hero-form" className="bg-white/85 backdrop-blur-md rounded-2xl shadow-2xl shadow-black/30 px-7 py-8">
               <p className="text-xs font-semibold text-greige uppercase tracking-widest mb-1">Gratis tilbud</p>
-              <h2 className="text-xl font-bold text-navy mb-6">Få tilbud på flytting nå</h2>
+              <h2 className="text-xl font-bold text-navy mb-6">Få gratis tilbud på flytting og rengjøring</h2>
               <LeadForm defaultService="flytting" />
             </div>
           </div>
