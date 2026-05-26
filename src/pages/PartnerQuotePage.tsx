@@ -117,7 +117,7 @@ export default function PartnerQuotePage() {
     </div>
   )
 
-  if (error && !data) return (
+  if (error) return (
     <div className="min-h-screen bg-offwhite flex items-center justify-center p-4">
       <div className="bg-white rounded-2xl border border-sand/50 p-8 max-w-sm text-center">
         <p className="text-navy font-semibold mb-2">Lenken er ugyldig</p>
@@ -126,7 +126,14 @@ export default function PartnerQuotePage() {
     </div>
   )
 
-  if (!data) return null
+  if (!data) return (
+    <div className="min-h-screen bg-offwhite flex items-center justify-center p-4">
+      <div className="bg-white rounded-2xl border border-sand/50 p-8 max-w-sm text-center">
+        <p className="text-navy font-semibold mb-2">Noe gikk galt</p>
+        <p className="text-greige text-sm">Prøv å åpne lenken fra e-posten igjen.</p>
+      </div>
+    </div>
+  )
 
   const { lead, partner } = data
   const cleaning = lead.service_type !== 'flyttehjelp'
@@ -136,19 +143,53 @@ export default function PartnerQuotePage() {
 
   if (data.already_submitted || submitted) {
     const q = data.already_submitted
+    const sentAt = q?.created_at ? new Date(q.created_at).toLocaleDateString('nb-NO', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' }) : null
     return (
-      <div className="min-h-screen bg-offwhite flex items-center justify-center p-4">
-        <div className="bg-white rounded-2xl border border-sand/50 p-8 max-w-sm text-center">
-          <div className="w-14 h-14 rounded-full bg-sage/10 flex items-center justify-center mx-auto mb-4">
-            <CheckCircle className="w-7 h-7 text-sage" />
+      <div className="min-h-screen bg-offwhite py-8 px-4">
+        <div className="max-w-xl mx-auto">
+          <div className="bg-navy rounded-2xl p-6 mb-5 text-white">
+            <p className="text-white/50 text-xs font-semibold uppercase tracking-wider mb-1">Velgtilbud</p>
+            <h1 className="text-xl font-bold mb-0.5">Tilbud allerede sendt</h1>
+            <p className="text-white/60 text-sm">Hei {partner.name}, du har allerede svart på denne forespørselen</p>
           </div>
-          <h2 className="text-lg font-bold text-navy mb-2">Tilbud sendt!</h2>
-          {q && (
-            <p className="text-greige text-sm mb-4">
-              Du sendte et tilbud på <strong className="text-navy">{q.price.toLocaleString('nb-NO')} kr</strong>
-            </p>
-          )}
-          <p className="text-greige text-sm">Kunden vil se tilbudet ditt og kontakte deg hvis de er interessert.</p>
+
+          <div className="bg-white rounded-2xl border border-sand/50 p-5 mb-5">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-10 h-10 rounded-full bg-sage/10 flex items-center justify-center flex-shrink-0">
+                <CheckCircle className="w-5 h-5 text-sage" />
+              </div>
+              <div>
+                <p className="font-bold text-navy text-sm">Tilbudet ditt er registrert</p>
+                {sentAt && <p className="text-xs text-greige">Sendt {sentAt}</p>}
+              </div>
+            </div>
+
+            {q && (
+              <div className="bg-offwhite rounded-xl p-4 flex flex-col gap-2">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs text-greige">Pris</span>
+                  <span className="font-extrabold text-navy text-lg">{q.price.toLocaleString('nb-NO')} kr</span>
+                </div>
+                {q.available_date && (
+                  <div className="flex items-center justify-between border-t border-sand/30 pt-2">
+                    <span className="text-xs text-greige">Tilgjengelig dato</span>
+                    <span className="text-sm font-semibold text-navy">{q.available_date}</span>
+                  </div>
+                )}
+                {q.message && (
+                  <div className="border-t border-sand/30 pt-2">
+                    <span className="text-xs text-greige block mb-1">Melding</span>
+                    <p className="text-sm text-navy leading-relaxed">{q.message}</p>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+
+          <p className="text-center text-xs text-greige">
+            Kunden vil kontakte deg direkte hvis de velger ditt tilbud.
+          </p>
+          <p className="text-center text-xs text-greige mt-1">Velgtilbud.no</p>
         </div>
       </div>
     )
