@@ -50,6 +50,9 @@ serve(async (req) => {
           distribution_id: dist.id,
           partner:         { id: dist.partners.id, name: dist.partners.name },
           lead: {
+            name:          dist.leads.name,
+            phone:         dist.leads.phone,
+            email:         dist.leads.email,
             service_type:  dist.leads.service_type,
             customer_type: dist.leads.customer_type,
             desired_date:  dist.leads.desired_date,

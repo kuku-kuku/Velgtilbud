@@ -213,6 +213,8 @@ function buildPartnerEmail(lead: Record<string, unknown>, partner: Record<string
     row('Tjeneste',    svcLabel(lead.service_type as string)),
     row('Kundegruppe', lead.customer_type),
     row('Navn',        lead.name),
+    row('Telefon',     lead.phone),
+    row('E-post',      lead.email),
     row('Ønsket dato', lead.desired_date),
   ].join(''))}
 
