@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { supabase } from '@/lib/supabase'
 import type { Partner, Lead, Distribution } from '@/lib/supabase'
 import type { Session } from '@supabase/supabase-js'
-import { LogOut, Plus, Pencil, X, Check, AlertCircle, ChevronRight, Phone, Mail, MapPin, Home, Trash2, Search, Users, TrendingUp, Activity, FileText, LayoutDashboard } from 'lucide-react'
+import { LogOut, Plus, Pencil, X, Check, AlertCircle, ChevronRight, Phone, Mail, MapPin, Home, Trash2, Search, Users, TrendingUp, Activity, FileText, LayoutDashboard, Menu } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 // ── Auth ──────────────────────────────────────────────────────────────────────
@@ -862,9 +862,10 @@ const NAV_ITEMS: { id: Tab; label: string; icon: React.ElementType }[] = [
 ]
 
 export default function AdminPage() {
-  const [session, setSession] = useState<Session | null | undefined>(undefined)
-  const [tab, setTab]         = useState<Tab>('leads')
-  const [statsKey, setStatsKey] = useState(0)
+  const [session, setSession]     = useState<Session | null | undefined>(undefined)
+  const [tab, setTab]             = useState<Tab>('leads')
+  const [statsKey, setStatsKey]   = useState(0)
+  const [sidebarOpen, setSidebarOpen] = useState(false)
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => setSession(data.session))
@@ -877,18 +878,38 @@ export default function AdminPage() {
 
   return (
     <div className="flex h-screen bg-offwhite overflow-hidden">
+      {/* Mobile backdrop */}
+      {sidebarOpen && (
+        <div
+          className="fixed inset-0 bg-black/40 z-40 lg:hidden"
+          onClick={() => setSidebarOpen(false)}
+        />
+      )}
+
       {/* Sidebar */}
-      <aside className="w-56 bg-white border-r border-sand/50 flex flex-col flex-shrink-0">
-        <div className="px-5 py-5 border-b border-sand/40">
-          <p className="text-sm font-bold text-navy">Velgtilbud</p>
-          <p className="text-xs text-greige truncate">{session.user.email}</p>
+      <aside className={cn(
+        'fixed inset-y-0 left-0 z-50 w-56 bg-white border-r border-sand/50 flex flex-col flex-shrink-0 transition-transform duration-300',
+        'lg:relative lg:translate-x-0',
+        sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
+      )}>
+        <div className="px-5 py-5 border-b border-sand/40 flex items-center justify-between">
+          <div className="min-w-0">
+            <p className="text-sm font-bold text-navy">Velgtilbud</p>
+            <p className="text-xs text-greige truncate">{session.user.email}</p>
+          </div>
+          <button
+            onClick={() => setSidebarOpen(false)}
+            className="lg:hidden text-greige hover:text-navy p-1 flex-shrink-0"
+          >
+            <X className="w-4 h-4" />
+          </button>
         </div>
 
         <nav className="flex-1 py-3 px-3 flex flex-col gap-0.5">
           {NAV_ITEMS.map(item => (
             <button
               key={item.id}
-              onClick={() => setTab(item.id)}
+              onClick={() => { setTab(item.id); setSidebarOpen(false) }}
               className={cn(
                 'flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-sm font-semibold transition-colors w-full text-left',
                 tab === item.id
@@ -913,8 +934,20 @@ export default function AdminPage() {
       </aside>
 
       {/* Main content */}
-      <main className="flex-1 overflow-auto">
-        <div className="p-6">
+      <main className="flex-1 overflow-auto min-w-0">
+        {/* Mobile top bar */}
+        <div className="lg:hidden flex items-center gap-3 px-4 py-3 bg-white border-b border-sand/30 sticky top-0 z-30">
+          <button
+            onClick={() => setSidebarOpen(true)}
+            className="text-greige hover:text-navy transition-colors"
+            aria-label="Open menu"
+          >
+            <Menu className="w-5 h-5" />
+          </button>
+          <p className="text-sm font-bold text-navy capitalize">{tab}</p>
+        </div>
+
+        <div className="p-4 lg:p-6">
           <StatsBar key={statsKey} />
           <div className="bg-white rounded-2xl border border-sand/50 overflow-hidden">
             {tab === 'leads'         && <LeadsTab onLeadDeleted={() => setStatsKey(k => k + 1)} />}

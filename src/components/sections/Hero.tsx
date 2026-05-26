@@ -24,9 +24,9 @@ export default function Hero() {
               Trondheims ledende markedsplass
             </p>
 
-            <h1 className="text-5xl md:text-6xl lg:text-7xl font-extrabold text-white leading-[1.05] mb-6">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-white leading-[1.05] mb-6">
               Finn flyttebyrå og
-              <br />rengjøringsbyrå i Trondheim
+              <br className="hidden md:block" />rengjøringsbyrå i Trondheim
             </h1>
 
             <div className="min-h-[1.6rem] mb-4">
