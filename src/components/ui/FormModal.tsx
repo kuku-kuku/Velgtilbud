@@ -41,7 +41,7 @@ export default function FormModal({ open, service, onClose, onServiceChange }: P
       />
 
       {/* Card */}
-      <div className="relative bg-white w-full max-w-md rounded-2xl shadow-2xl animate-slide-up max-h-[92vh] overflow-y-auto">
+      <div className="relative bg-white w-full max-w-md rounded-2xl shadow-2xl animate-slide-up max-h-[92vh] overflow-y-auto overflow-x-hidden">
         {/* Header */}
         <div className="flex items-center justify-between px-6 pt-6 pb-4 border-b border-sand/20 sticky top-0 bg-white z-10">
           <div>
