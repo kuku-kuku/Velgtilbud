@@ -10,12 +10,8 @@ export default function Footer() {
 
           {/* Brand */}
           <div className="md:col-span-2">
-            <Link to="/" className="flex items-center gap-2 mb-4">
-              <Logo variant="light" className="h-9 w-auto" />
-              <span className="font-bold text-lg tracking-tight">
-                <span className="text-white">Velg</span>
-                <span className="text-sand">tilbud</span>
-              </span>
+            <Link to="/" className="inline-block mb-4">
+              <Logo variant="light" full className="h-16 w-auto" />
             </Link>
             <p className="text-sm leading-relaxed text-white/50 max-w-xs mb-6">
               Trondheims ledende markedsplass for flyttebyrå og rengjøring. Vi kobler deg med godkjente selskaper — gratis og uforpliktende.

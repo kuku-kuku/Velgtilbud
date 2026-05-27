@@ -1,10 +1,13 @@
 interface Props {
   variant?: 'dark' | 'light'
+  full?: boolean
   className?: string
 }
 
-export default function Logo({ variant = 'dark', className }: Props) {
-  const src = variant === 'dark' ? '/logo-mark.svg' : '/logo-mark-white.svg'
+export default function Logo({ variant = 'dark', full = false, className }: Props) {
+  const src = full
+    ? variant === 'light' ? '/logo-white.svg' : '/logo.svg'
+    : variant === 'light' ? '/logo-mark-white.svg' : '/logo-mark.svg'
   return (
     <img
       src={src}

@@ -43,12 +43,8 @@ export default function Header({ onOpenModal }: Props) {
         <div className="flex items-center justify-between h-16">
 
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-2 flex-shrink-0">
-            <Logo variant={transparent ? 'light' : 'dark'} className="h-9 w-auto" />
-            <span className="font-bold text-lg tracking-tight hidden sm:block">
-              <span className={cn('transition-colors duration-300', transparent ? 'text-white' : 'text-navy')}>Velg</span>
-              <span className={cn('transition-colors duration-300', transparent ? 'text-white/70' : 'text-taupe')}>tilbud</span>
-            </span>
+          <Link to="/" className="flex items-center flex-shrink-0">
+            <Logo variant={transparent ? 'light' : 'dark'} full className="h-11 w-auto transition-opacity duration-300" />
           </Link>
 
           {/* Desktop nav */}
