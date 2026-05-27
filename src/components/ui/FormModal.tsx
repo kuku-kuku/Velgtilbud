@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useRef, useCallback } from 'react'
 import { X } from 'lucide-react'
 import LeadForm from './LeadForm'
 import type { ServiceType } from '@/lib/types'
@@ -17,6 +17,11 @@ const tabs: { value: ServiceType; label: string }[] = [
 ]
 
 export default function FormModal({ open, service, onClose, onServiceChange }: Props) {
+  const cardRef = useRef<HTMLDivElement>(null)
+  const scrollToTop = useCallback(() => {
+    cardRef.current?.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior })
+  }, [])
+
   // Lock scroll when open
   useEffect(() => {
     document.body.style.overflow = open ? 'hidden' : ''
@@ -41,7 +46,7 @@ export default function FormModal({ open, service, onClose, onServiceChange }: P
       />
 
       {/* Card */}
-      <div className="relative bg-white w-full max-w-md rounded-2xl shadow-2xl animate-slide-up max-h-[92vh] overflow-y-auto overflow-x-hidden">
+      <div ref={cardRef} className="relative bg-white w-full max-w-md rounded-2xl shadow-2xl animate-slide-up max-h-[92vh] overflow-y-auto overflow-x-hidden">
         {/* Header */}
         <div className="flex items-center justify-between px-6 pt-6 pb-4 border-b border-sand/20 sticky top-0 bg-white z-10">
           <div>
@@ -82,7 +87,7 @@ export default function FormModal({ open, service, onClose, onServiceChange }: P
 
         {/* Form */}
         <div className="px-6 pb-8 pt-4">
-          <LeadForm service={service} onServiceChange={onServiceChange} />
+          <LeadForm service={service} onServiceChange={onServiceChange} onStepChange={scrollToTop} />
         </div>
       </div>
     </div>

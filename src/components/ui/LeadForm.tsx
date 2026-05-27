@@ -113,10 +113,11 @@ interface Props {
   service?: ServiceType
   onServiceChange?: (s: ServiceType) => void
   defaultService?: ServiceType
+  onStepChange?: () => void
   className?: string
 }
 
-export default function LeadForm({ service: ctrl, onServiceChange, defaultService = 'flytting', className }: Props) {
+export default function LeadForm({ service: ctrl, onServiceChange, defaultService = 'flytting', onStepChange, className }: Props) {
   const initSvc = toServiceChoice(ctrl ?? defaultService)
   const [data, setData] = useState<FS>({ ...INIT, service: initSvc })
   const [stepIdx, setStepIdx] = useState(0)
@@ -127,22 +128,6 @@ export default function LeadForm({ service: ctrl, onServiceChange, defaultServic
   const [flexOpen,      setFlexOpen]      = useState(false)
   const [calPopupStyle, setCalPopupStyle] = useState<React.CSSProperties>({})
   const dateButtonRef = useRef<HTMLButtonElement>(null)
-  const formRef       = useRef<HTMLDivElement>(null)
-
-  // On step change: scroll the nearest scrollable ancestor (modal card or page) back to top
-  useEffect(() => {
-    const el = formRef.current
-    if (!el) return
-    let node: HTMLElement | null = el.parentElement
-    while (node && node !== document.documentElement) {
-      const { overflow, overflowY } = getComputedStyle(node)
-      if (/auto|scroll/.test(overflow) || /auto|scroll/.test(overflowY)) {
-        node.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior })
-        return
-      }
-      node = node.parentElement
-    }
-  }, [stepIdx])
 
   const localISO = (d: Date) =>
     `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
@@ -244,11 +229,13 @@ export default function LeadForm({ service: ctrl, onServiceChange, defaultServic
   function next() {
     if (!validate()) return
     setStepIdx(i => i + 1)
+    onStepChange?.()
   }
 
   function back() {
     setErrors({})
     setStepIdx(i => i - 1)
+    onStepChange?.()
   }
 
   async function submit() {
@@ -948,7 +935,7 @@ export default function LeadForm({ service: ctrl, onServiceChange, defaultServic
   }
 
   return (
-    <div ref={formRef} className={cn('flex flex-col gap-4', className)}>
+    <div className={cn('flex flex-col gap-4', className)}>
 
       <div className="flex items-center gap-3">
         <div className="flex-1 h-1 bg-sand/30 rounded-full overflow-hidden">
