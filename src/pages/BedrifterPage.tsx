@@ -73,7 +73,7 @@ export default function BedrifterPage() {
       <section className="section-padding bg-white">
         <div className="container-wide">
           <div className="mb-10">
-            <h2 className="section-title mb-2">Hvorfor velge Velgtilbud for bedriftsflytting?</h2>
+            <h2 className="section-title mb-2">Derfor bruker bedrifter Velgtilbud!</h2>
             <p className="section-subtitle">Bedriftsflytting krever planlegging, presisjon og erfarne fagfolk. Vi matcher deg med kvalitetssikrede selskaper i Trondheim — raskt og enkelt.</p>
           </div>
           <div className="grid sm:grid-cols-2 gap-4">
