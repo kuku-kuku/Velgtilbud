@@ -127,6 +127,22 @@ export default function LeadForm({ service: ctrl, onServiceChange, defaultServic
   const [flexOpen,      setFlexOpen]      = useState(false)
   const [calPopupStyle, setCalPopupStyle] = useState<React.CSSProperties>({})
   const dateButtonRef = useRef<HTMLButtonElement>(null)
+  const formRef       = useRef<HTMLDivElement>(null)
+
+  // On step change: scroll the nearest scrollable ancestor (modal card or page) back to top
+  useEffect(() => {
+    const el = formRef.current
+    if (!el) return
+    let node: HTMLElement | null = el.parentElement
+    while (node && node !== document.documentElement) {
+      const { overflow, overflowY } = getComputedStyle(node)
+      if (/auto|scroll/.test(overflow) || /auto|scroll/.test(overflowY)) {
+        node.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior })
+        return
+      }
+      node = node.parentElement
+    }
+  }, [stepIdx])
 
   const localISO = (d: Date) =>
     `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
@@ -682,7 +698,7 @@ export default function LeadForm({ service: ctrl, onServiceChange, defaultServic
                     value={val}
                     onChange={e => set(key, e.target.value)}
                     placeholder={ph}
-                    className="input-field py-2 text-sm"
+                    className="input-field py-2 md:text-sm"
                   />
                 </div>
               </div>
@@ -770,7 +786,7 @@ export default function LeadForm({ service: ctrl, onServiceChange, defaultServic
                   value={data.area}
                   onChange={e => set('area', e.target.value)}
                   placeholder="70"
-                  className={cn('input-field py-1.5 text-sm', errors.area && 'border-red-300')}
+                  className={cn('input-field py-1.5 md:text-sm', errors.area && 'border-red-300')}
                 />
                 {errors.area && <p className="text-xs text-red-400 mt-1">{errors.area}</p>}
               </div>
@@ -932,7 +948,7 @@ export default function LeadForm({ service: ctrl, onServiceChange, defaultServic
   }
 
   return (
-    <div className={cn('flex flex-col gap-4', className)}>
+    <div ref={formRef} className={cn('flex flex-col gap-4', className)}>
 
       <div className="flex items-center gap-3">
         <div className="flex-1 h-1 bg-sand/30 rounded-full overflow-hidden">
