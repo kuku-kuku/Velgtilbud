@@ -128,6 +128,14 @@ export default function LeadForm({ service: ctrl, onServiceChange, defaultServic
   const [flexOpen,      setFlexOpen]      = useState(false)
   const [calPopupStyle, setCalPopupStyle] = useState<React.CSSProperties>({})
   const dateButtonRef = useRef<HTMLButtonElement>(null)
+  const formRef       = useRef<HTMLDivElement>(null)
+
+  // After each step change, scroll the form top into view if it has drifted off-screen
+  // (e.g. user scrolled down to see all cleaning options, then clicked one).
+  // block:'nearest' = scroll only if needed, minimum amount — safe in both modal + page contexts.
+  useEffect(() => {
+    formRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
+  }, [stepIdx])
 
   const localISO = (d: Date) =>
     `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
@@ -935,7 +943,7 @@ export default function LeadForm({ service: ctrl, onServiceChange, defaultServic
   }
 
   return (
-    <div className={cn('flex flex-col gap-4', className)}>
+    <div ref={formRef} className={cn('flex flex-col gap-4', className)}>
 
       <div className="flex items-center gap-3">
         <div className="flex-1 h-1 bg-sand/30 rounded-full overflow-hidden">
