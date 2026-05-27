@@ -6,7 +6,7 @@ export default function Hero() {
     <section className="bg-navy relative overflow-hidden min-h-screen flex flex-col justify-center -mt-16">
       {/* Background photo with zoom animation */}
       <div
-        className="absolute inset-0 animate-hero-zoom bg-cover bg-no-repeat [background-position:72%_center] sm:[background-position:center_center]"
+        className="absolute inset-0 animate-hero-zoom bg-cover bg-no-repeat [background-position:28%_center] sm:[background-position:center_center]"
         style={{
           backgroundImage: `
             linear-gradient(to bottom, rgba(14,29,45,0.82) 0%, rgba(14,29,45,0.72) 100%),
