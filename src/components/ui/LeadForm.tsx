@@ -6,16 +6,15 @@ import { nb } from 'date-fns/locale'
 import 'react-day-picker/src/style.css'
 import { cn } from '@/lib/utils'
 import type { ServiceType } from '@/lib/types'
+import { supabase } from '@/lib/supabase'
 
 type ServiceChoice  = 'begge' | 'flyttehjelp' | 'rengjoring'
 type CustomerType   = 'privat' | 'borettslag' | 'bedrift'
 type StepId =
-  | 'service' | 'customerType' | 'cleaningType' | 'budget' | 'date'
+  | 'service' | 'customerType' | 'cleaningType' | 'date'
   | 'fromAddress' | 'size' | 'toAddress' | 'parking'
   | 'propertyType' | 'rooms'
   | 'contact' | 'address'
-
-type BudgetTier = 'budget' | 'mid' | 'premium'
 
 const SIZE_OPTIONS = ['0–50', '51–100', '101–150', '151–200', '200+']
 
@@ -52,7 +51,6 @@ const STEP_LABELS: Record<StepId, string> = {
   service:      'Hva trenger du hjelp med?',
   customerType: 'Hvem bestiller?',
   cleaningType: 'Hva slags type rengjøring ønsker du?',
-  budget:       'Hva er viktigst for deg?',
   date:         'Ønsket dato',
   fromAddress:  'Nåværende adresse',
   size:         'Størrelse på boligen',
@@ -66,12 +64,12 @@ const STEP_LABELS: Record<StepId, string> = {
 
 function getSteps(svc: ServiceChoice): StepId[] {
   if (svc === 'rengjoring') {
-    return ['service', 'customerType', 'cleaningType', 'budget', 'date', 'propertyType', 'rooms', 'contact', 'address']
+    return ['service', 'customerType', 'cleaningType', 'date', 'propertyType', 'rooms', 'contact', 'address']
   }
   if (svc === 'begge') {
-    return ['service', 'customerType', 'budget', 'date', 'fromAddress', 'toAddress', 'parking', 'propertyType', 'rooms', 'contact', 'address']
+    return ['service', 'customerType', 'date', 'fromAddress', 'toAddress', 'parking', 'propertyType', 'rooms', 'contact', 'address']
   }
-  return ['service', 'budget', 'date', 'fromAddress', 'toAddress', 'parking', 'contact']
+  return ['service', 'date', 'fromAddress', 'toAddress', 'parking', 'contact']
 }
 
 function toServiceType(c: ServiceChoice): ServiceType {
@@ -95,13 +93,11 @@ interface FS {
   soverom: number; badwc: number; kjokken: number; stue: number
   areaExtras: string[]; comments: string
   name: string; phone: string; email: string
-  budgetTier: BudgetTier
 }
 
 const INIT: Omit<FS, 'service'> = {
   customerType: 'privat',
   cleaningType: '',
-  budgetTier: 'mid',
   date: '', flex: false, flexRange: '',
   fromStreet: '', fromNo: '', fromPostal: '', fromCity: '', fromFloor: '', fromElevator: false,
   size: '',
@@ -243,11 +239,25 @@ export default function LeadForm({ service: ctrl, onServiceChange, defaultServic
     if (!validate()) return
     setLoading(true)
     try {
+      // Round-robin tier: even total count → budget, odd → premium
+      let budgetTier: 'budget' | 'premium' = 'budget'
+      try {
+        const { count } = await supabase
+          .from('leads')
+          .select('*', { count: 'exact', head: true })
+        budgetTier = (count ?? 0) % 2 === 0 ? 'budget' : 'premium'
+      } catch {
+        // fallback: alternate via localStorage if DB query fails
+        const n = Number(localStorage.getItem('vt_lead_n') || '0')
+        budgetTier = n % 2 === 0 ? 'budget' : 'premium'
+        localStorage.setItem('vt_lead_n', String(n + 1))
+      }
+
       const url = import.meta.env.VITE_SUBMIT_LEAD_URL as string
       const res = await fetch(url, {
         method:  'POST',
         headers: { 'Content-Type': 'application/json' },
-        body:    JSON.stringify(data),
+        body:    JSON.stringify({ ...data, budgetTier }),
       })
       if (!res.ok) throw new Error(`HTTP ${res.status}`)
       setSubmitted(true)
@@ -378,32 +388,6 @@ export default function LeadForm({ service: ctrl, onServiceChange, defaultServic
               </button>
             ))}
             {errors.cleaningType && <p className="text-xs text-red-400 mt-1">{errors.cleaningType}</p>}
-          </div>
-        )
-
-      case 'budget':
-        return (
-          <div className="flex flex-col gap-2">
-            {([
-              { v: 'budget',  l: 'Lavest mulig pris',               sub: 'Jeg vil finne det billigste tilbudet' },
-              { v: 'mid',     l: 'Balanse mellom pris og kvalitet',  sub: 'God jobb til en fornuftig pris'  },
-              { v: 'premium', l: 'Kvalitet er viktigst',             sub: 'Jeg betaler for det beste'       },
-            ] as { v: BudgetTier; l: string; sub: string }[]).map(({ v, l, sub }) => (
-              <button
-                key={v}
-                type="button"
-                onClick={() => set('budgetTier', v)}
-                className={cn(
-                  'w-full py-3 px-4 rounded-xl border text-left transition-all',
-                  data.budgetTier === v
-                    ? `${activeBg} text-white border-transparent`
-                    : 'bg-white text-navy border-sand/50 hover:border-navy/30'
-                )}
-              >
-                <p className="text-sm font-semibold">{l}</p>
-                <p className={cn('text-xs mt-0.5', data.budgetTier === v ? 'text-white/70' : 'text-greige')}>{sub}</p>
-              </button>
-            ))}
           </div>
         )
 

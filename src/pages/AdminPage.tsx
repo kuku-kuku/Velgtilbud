@@ -86,16 +86,15 @@ function Spinner() {
 
 // ── Partner modal ─────────────────────────────────────────────────────────────
 
-const TIER_LABELS: Record<string, string> = { budget: 'Budget', mid: 'Mid', premium: 'Premium' }
+const TIER_LABELS: Record<string, string> = { budget: 'Budget', premium: 'Premium' }
 const TIER_COLORS: Record<string, string> = {
   budget:  'bg-sand/40 text-greige',
-  mid:     'bg-navy/10 text-navy',
   premium: 'bg-sage/10 text-sage',
 }
 
 const EMPTY_PARTNER: Omit<Partner, 'id' | 'created_at'> = {
   name: '', email: '', phone: '', service_types: [], city: 'Trondheim',
-  daily_limit: 10, monthly_limit: 100, active: true, tier: 'mid',
+  daily_limit: 10, monthly_limit: 100, active: true, tier: 'budget',
 }
 
 function PartnerModal({ initial, onSave, onClose }: {
@@ -104,7 +103,7 @@ function PartnerModal({ initial, onSave, onClose }: {
   onClose: () => void
 }) {
   const [form, setForm] = useState<Omit<Partner, 'id' | 'created_at'>>(
-    initial ? { name: initial.name, email: initial.email, phone: initial.phone ?? '', service_types: initial.service_types, city: initial.city, daily_limit: initial.daily_limit, monthly_limit: initial.monthly_limit, active: initial.active, tier: initial.tier ?? 'mid' }
+    initial ? { name: initial.name, email: initial.email, phone: initial.phone ?? '', service_types: initial.service_types, city: initial.city, daily_limit: initial.daily_limit, monthly_limit: initial.monthly_limit, active: initial.active, tier: initial.tier ?? 'budget' }
             : { ...EMPTY_PARTNER }
   )
   const [saving, setSaving] = useState(false)
@@ -173,7 +172,7 @@ function PartnerModal({ initial, onSave, onClose }: {
           <div>
             <label className="text-xs font-semibold text-greige uppercase tracking-wide block mb-1">Price tier</label>
             <div className="flex gap-2">
-              {(['budget', 'mid', 'premium'] as const).map(t => (
+              {(['budget', 'premium'] as const).map(t => (
                 <button key={t} type="button" onClick={() => setForm(f => ({ ...f, tier: t }))}
                   className={cn('flex-1 py-2 rounded-xl border text-xs font-semibold transition-all capitalize',
                     form.tier === t ? 'bg-navy text-white border-transparent' : 'bg-white text-navy border-sand/50 hover:border-navy/30'
@@ -688,8 +687,8 @@ function PartnersTab() {
                     </div>
                   </td>
                   <td className="py-3 px-4">
-                    <span className={cn('text-xs font-semibold px-2 py-0.5 rounded-full', TIER_COLORS[p.tier ?? 'mid'])}>
-                      {TIER_LABELS[p.tier ?? 'mid']}
+                    <span className={cn('text-xs font-semibold px-2 py-0.5 rounded-full', TIER_COLORS[p.tier ?? 'budget'])}>
+                      {TIER_LABELS[p.tier ?? 'budget']}
                     </span>
                   </td>
                   <td className="py-3 px-4 text-greige text-xs whitespace-nowrap">

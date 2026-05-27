@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { Link, NavLink, useLocation } from 'react-router-dom'
 import { Menu, X, Phone } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import Logo from '@/components/ui/Logo'
 
 const nav = [
   { label: 'Privatpersoner', href: '/privatpersoner' },
@@ -42,15 +43,11 @@ export default function Header({ onOpenModal }: Props) {
         <div className="flex items-center justify-between h-16">
 
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-2.5 flex-shrink-0">
-            <div className="w-8 h-8 rounded-lg bg-navy flex items-center justify-center">
-              <span className="text-offwhite font-bold text-sm tracking-tight">VT</span>
-            </div>
-            <span className={cn(
-              'font-bold text-lg tracking-tight hidden sm:block transition-colors duration-300',
-              transparent ? 'text-white' : 'text-navy'
-            )}>
-              Velgtilbud
+          <Link to="/" className="flex items-center gap-2 flex-shrink-0">
+            <Logo variant={transparent ? 'light' : 'dark'} className="h-9 w-auto" />
+            <span className="font-bold text-lg tracking-tight hidden sm:block">
+              <span className={cn('transition-colors duration-300', transparent ? 'text-white' : 'text-navy')}>Velg</span>
+              <span className={cn('transition-colors duration-300', transparent ? 'text-white/70' : 'text-taupe')}>tilbud</span>
             </span>
           </Link>
 

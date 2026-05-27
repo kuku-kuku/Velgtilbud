@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { Phone, Mail, MapPin } from 'lucide-react'
+import Logo from '@/components/ui/Logo'
 
 export default function Footer() {
   return (
@@ -9,12 +10,11 @@ export default function Footer() {
 
           {/* Brand */}
           <div className="md:col-span-2">
-            <Link to="/" className="flex items-center gap-2.5 mb-4">
-              <div className="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center">
-                <span className="text-white font-bold text-sm tracking-tight">VT</span>
-              </div>
-              <span className="font-bold text-lg text-white tracking-tight">
-                Velgtilbud
+            <Link to="/" className="flex items-center gap-2 mb-4">
+              <Logo variant="light" className="h-9 w-auto" />
+              <span className="font-bold text-lg tracking-tight">
+                <span className="text-white">Velg</span>
+                <span className="text-sand">tilbud</span>
               </span>
             </Link>
             <p className="text-sm leading-relaxed text-white/50 max-w-xs mb-6">
