@@ -127,13 +127,13 @@ export default function LeadForm({ service: ctrl, onServiceChange, defaultServic
   const [calOpen,       setCalOpen]       = useState(false)
   const [flexOpen,      setFlexOpen]      = useState(false)
   const [calPopupStyle, setCalPopupStyle] = useState<React.CSSProperties>({})
-  const dateButtonRef = useRef<HTMLButtonElement>(null)
-  const formRef       = useRef<HTMLDivElement>(null)
+  const dateButtonRef  = useRef<HTMLButtonElement>(null)
+  const formRef        = useRef<HTMLDivElement>(null)
+  const mountedRef     = useRef(false)
 
-  // After each step change, scroll the form top into view if it has drifted off-screen
-  // (e.g. user scrolled down to see all cleaning options, then clicked one).
-  // block:'nearest' = scroll only if needed, minimum amount — safe in both modal + page contexts.
+  // Scroll form into view when the step changes — but NOT on initial mount.
   useEffect(() => {
+    if (!mountedRef.current) { mountedRef.current = true; return }
     formRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
   }, [stepIdx])
 
