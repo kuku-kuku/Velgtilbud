@@ -6,7 +6,7 @@ import { nb } from 'date-fns/locale'
 import 'react-day-picker/src/style.css'
 import { cn } from '@/lib/utils'
 import type { ServiceType } from '@/lib/types'
-import { supabase } from '@/lib/supabase'
+
 
 type ServiceChoice  = 'begge' | 'flyttehjelp' | 'rengjoring'
 type CustomerType   = 'privat' | 'borettslag' | 'bedrift'
@@ -239,25 +239,11 @@ export default function LeadForm({ service: ctrl, onServiceChange, defaultServic
     if (!validate()) return
     setLoading(true)
     try {
-      // Round-robin tier: even total count → budget, odd → premium
-      let budgetTier: 'budget' | 'premium' = 'budget'
-      try {
-        const { count } = await supabase
-          .from('leads')
-          .select('*', { count: 'exact', head: true })
-        budgetTier = (count ?? 0) % 2 === 0 ? 'budget' : 'premium'
-      } catch {
-        // fallback: alternate via localStorage if DB query fails
-        const n = Number(localStorage.getItem('vt_lead_n') || '0')
-        budgetTier = n % 2 === 0 ? 'budget' : 'premium'
-        localStorage.setItem('vt_lead_n', String(n + 1))
-      }
-
       const url = import.meta.env.VITE_SUBMIT_LEAD_URL as string
       const res = await fetch(url, {
         method:  'POST',
         headers: { 'Content-Type': 'application/json' },
-        body:    JSON.stringify({ ...data, budgetTier }),
+        body:    JSON.stringify(data),
       })
       if (!res.ok) throw new Error(`HTTP ${res.status}`)
       setSubmitted(true)

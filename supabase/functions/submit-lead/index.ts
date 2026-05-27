@@ -8,7 +8,6 @@ const SUPABASE_URL         = Deno.env.get('SUPABASE_URL')!
 const SUPABASE_SERVICE_KEY = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
 const FROM_EMAIL           = 'onboarding@resend.dev'
 const SITE_URL             = Deno.env.get('SITE_URL') ?? 'https://velgtilbud.vercel.app'
-const MAX_PARTNERS         = 5
 
 const CORS = {
   'Access-Control-Allow-Origin':  '*',
@@ -22,7 +21,7 @@ serve(async (req) => {
     const body = await req.json()
     const sb   = createClient(SUPABASE_URL, SUPABASE_SERVICE_KEY)
 
-    // ── 1. Insert lead with customer token ────────────────
+    // ── 1. Insert lead ────────────────────────────────────────
     const customerToken = crypto.randomUUID().replace(/-/g, '')
 
     const { data: lead, error: leadErr } = await sb
@@ -37,7 +36,6 @@ serve(async (req) => {
         street_no:      body.fromNo         || null,
         postal:         body.fromPostal     || null,
         city:           'Trondheim',
-        budget_tier:    body.budgetTier     || null,
         cleaning_type:  body.cleaningType   || null,
         from_street:    body.fromStreet     || null,
         from_no:        body.fromNo         || null,
@@ -74,18 +72,32 @@ serve(async (req) => {
 
     if (leadErr) { console.error('leadErr:', JSON.stringify(leadErr)); throw leadErr }
 
-    // ── 2. Determine matching service types ───────────────
+    // ── 2. Round-robin tier assignment ────────────────────────
+    // Count all leads including this one; odd = budget, even = premium.
+    // Lead #1 → budget, #2 → premium, #3 → budget, #4 → premium …
+    const { count: totalLeads } = await sb
+      .from('leads')
+      .select('*', { count: 'exact', head: true })
+
+    const assignedTier: 'budget' | 'premium' =
+      (totalLeads ?? 1) % 2 === 1 ? 'budget' : 'premium'
+
+    // Persist the tier on the lead record for admin visibility
+    await sb.from('leads').update({ budget_tier: assignedTier }).eq('id', lead.id)
+
+    // ── 3. Determine matching service types ───────────────────
     const match =
       lead.service_type === 'begge'      ? ['cleaning', 'moving', 'both'] :
       lead.service_type === 'rengjoring' ? ['cleaning', 'both'] :
                                            ['moving',   'both']
 
-    // ── 3. Get eligible partners, pick fairest 5 ─────────
+    // ── 4. Fetch ALL active partners of the assigned tier ─────
     const { data: allPartners } = await sb
       .from('partners')
       .select('*')
       .eq('active', true)
       .eq('city', 'Trondheim')
+      .eq('tier', assignedTier)
 
     const eligible: Record<string, unknown>[] = []
 
@@ -95,8 +107,10 @@ serve(async (req) => {
       const monthStart = new Date(now.getFullYear(), now.getMonth(), 1).toISOString()
 
       for (const p of allPartners) {
+        // Must handle at least one of the requested service types
         if (!p.service_types.some((t: string) => match.includes(t))) continue
 
+        // Must be within daily limit
         const { count: today } = await sb
           .from('lead_distributions')
           .select('*', { count: 'exact', head: true })
@@ -104,6 +118,7 @@ serve(async (req) => {
           .gte('created_at', todayStart)
         if ((today ?? 0) >= p.daily_limit) continue
 
+        // Must be within monthly limit
         const { count: month } = await sb
           .from('lead_distributions')
           .select('*', { count: 'exact', head: true })
@@ -111,28 +126,14 @@ serve(async (req) => {
           .gte('created_at', monthStart)
         if ((month ?? 0) >= p.monthly_limit) continue
 
-        eligible.push({ ...p, _month_count: month ?? 0 })
+        eligible.push(p)
       }
     }
 
-    // Sort: tier match first, then fewest leads this month (fairest rotation)
-    const TIERS = ['budget', 'mid', 'premium']
-    const customerTier = lead.budget_tier as string | null
-
-    function tierDistance(partnerTier: string): number {
-      if (!customerTier) return 0
-      return Math.abs(TIERS.indexOf(partnerTier) - TIERS.indexOf(customerTier))
-    }
-
+    // Every eligible partner of the assigned tier receives this lead
     const selected = eligible
-      .sort((a, b) => {
-        const tierDiff = tierDistance(a.tier as string) - tierDistance(b.tier as string)
-        if (tierDiff !== 0) return tierDiff
-        return (a._month_count as number) - (b._month_count as number)
-      })
-      .slice(0, MAX_PARTNERS)
 
-    // ── 4. Send partner emails + record distributions ─────
+    // ── 5. Send partner emails + record distributions ─────────
     await Promise.allSettled(
       selected.map(async (p) => {
         const partnerToken = crypto.randomUUID().replace(/-/g, '')
@@ -163,7 +164,7 @@ serve(async (req) => {
       })
     )
 
-    // ── 5. Send customer confirmation email ───────────────
+    // ── 6. Send customer confirmation email ───────────────────
     const customerLink = `${SITE_URL}/mine-tilbud/${customerToken}`
     await fetch('https://api.resend.com/emails', {
       method:  'POST',
@@ -177,7 +178,7 @@ serve(async (req) => {
     })
 
     return new Response(
-      JSON.stringify({ success: true, lead_id: lead.id, sent_to: selected.length }),
+      JSON.stringify({ success: true, lead_id: lead.id, sent_to: selected.length, tier: assignedTier }),
       { headers: { 'Content-Type': 'application/json', ...CORS } }
     )
   } catch (err) {
@@ -267,7 +268,7 @@ function buildPartnerEmail(lead: Record<string, unknown>, partner: Record<string
   </div>
 
   <p style="font-size:11px;color:#bbb;margin-top:28px;border-top:1px solid #eee;padding-top:12px">
-    Denne forespørselen er sendt til opptil ${MAX_PARTNERS} partnere. Velgtilbud.no
+    Velgtilbud.no
   </p>
 </body></html>`
 }
@@ -279,7 +280,8 @@ function buildCustomerEmail(lead: Record<string, unknown>, _customerLink: string
     Hei ${lead.name}, takk for din forespørsel om <strong>${svcLabel(lead.service_type as string)}</strong>.
   </p>
   <p style="color:#555;font-size:14px;margin:0 0 16px">
-    Vi har videresendt forespørselen din til <strong>${partnerCount} godkjente selskaper</strong> i Trondheim. En av våre rådgivere vil kontakte deg med de beste tilbudene.
+    Din forespørsel er nå sendt til <strong>${partnerCount} godkjente selskaper</strong> i Trondheim.
+    Du vil snart motta tilbud direkte fra dem — sammenlign og velg det beste for deg.
   </p>
   <p style="color:#888;font-size:13px;">Har du spørsmål? Svar på denne e-posten eller ring oss.</p>
   <p style="font-size:11px;color:#bbb;margin-top:28px;border-top:1px solid #eee;padding-top:12px">Velgtilbud.no — Trondheims ledende markedsplass</p>
