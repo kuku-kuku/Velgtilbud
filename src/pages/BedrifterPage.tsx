@@ -22,8 +22,9 @@ export default function BedrifterPage() {
   return (
     <div className="page-enter">
       {/* Hero */}
-      <section className="bg-navy">
-        <div className="container-wide pt-14 pb-14 lg:pb-20">
+      <section className="bg-navy relative overflow-hidden">
+        <div className="absolute inset-0" style={{ background: `linear-gradient(to right, rgba(14,29,45,0.97) 0%, rgba(14,29,45,0.88) 50%, rgba(14,29,45,0.70) 100%), url('/hero.webp') 65% center / cover no-repeat` }} />
+        <div className="container-wide pt-14 pb-14 lg:pb-20 relative z-10">
           <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-start">
             <div className="pt-6 pb-14 lg:pb-20">
               <p className="text-sand text-xs font-semibold uppercase tracking-[0.2em] mb-6">Bedrifter · Trondheim</p>
