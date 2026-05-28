@@ -14,6 +14,7 @@ export default function HomePage() {
         <title>Velgtilbud – Finn Beste Flyttebyrå og Rengjøringsfirma i Trondheim</title>
         <meta name="description" content="Sammenlign gratis tilbud fra de beste flyttebyråene og rengjøringsfirmaene i Trondheim. Send én forespørsel og motta tilbud fra opptil 5 godkjente selskaper. Gratis og uforpliktende." />
         <link rel="canonical" href="https://velgtilbud.no/" />
+        <meta name="google-site-verification" content="_QfH5f_duK2p6rMPApBcV8blMxk1kGMpAdfcP3d9mSg" />
         <meta property="og:title" content="Velgtilbud – Finn Beste Flyttebyrå og Rengjøringsfirma i Trondheim" />
         <meta property="og:description" content="Sammenlign gratis tilbud fra de beste flyttebyråene og rengjøringsfirmaene i Trondheim. Gratis og uforpliktende." />
         <meta property="og:url" content="https://velgtilbud.no/" />
