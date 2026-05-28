@@ -299,6 +299,9 @@ export default function LeadForm({ service: ctrl, onServiceChange, defaultServic
             <p className="text-sm text-greige max-w-xs mx-auto mt-2">
               Du vil bli kontaktet innen kort tid. Vi anbefaler at du svarer på ukjente telefonnumre, da bedriftene ofte tar kontakt direkte.
             </p>
+            <p className="text-sm text-greige max-w-xs mx-auto mt-2">
+              Husk å sjekke søppelpost/spam-mappen din — bekreftelsesmailen kan havne der, spesielt i Outlook.
+            </p>
           </div>
         )}
       </div>
