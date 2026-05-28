@@ -35,14 +35,19 @@ export default function CustomerQuotesPage() {
   const [data, setData]       = useState<CustomerData | null>(null)
   const [error, setError]     = useState('')
   const [loading, setLoading] = useState(true)
-  const [chosen, setChosen]   = useState<string | null>(null)
+  const [chosen, setChosen]     = useState<string | null>(null)
+  const [accepting, setAccepting] = useState<string | null>(null)
 
   useEffect(() => {
     fetch(`${API}?type=customer&token=${token}`)
       .then(r => r.json())
       .then(d => {
         if (d.error) setError(d.error)
-        else setData(d)
+        else {
+          setData(d)
+          const accepted = d.quotes?.find((q: Quote) => q.status === 'accepted')
+          if (accepted) setChosen(accepted.id)
+        }
       })
       .catch(() => setError('Noe gikk galt. Prøv igjen.'))
       .finally(() => setLoading(false))
@@ -153,10 +158,24 @@ export default function CustomerQuotesPage() {
                 {!isChosen ? (
                   <div className="px-5 pb-5">
                     <button
-                      onClick={() => setChosen(q.id)}
-                      className="w-full bg-navy text-white font-bold py-3 rounded-xl hover:bg-navy/90 transition text-sm"
+                      disabled={!!chosen || accepting === q.id}
+                      onClick={async () => {
+                        if (chosen) return
+                        setAccepting(q.id)
+                        try {
+                          const res = await fetch(`${API}?type=accept&token=${token}`, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ quote_id: q.id }),
+                          })
+                          if (res.ok || res.status === 409) setChosen(q.id)
+                        } finally {
+                          setAccepting(null)
+                        }
+                      }}
+                      className="w-full bg-navy text-white font-bold py-3 rounded-xl hover:bg-navy/90 transition text-sm disabled:opacity-40 disabled:cursor-not-allowed"
                     >
-                      Velg dette tilbudet
+                      {accepting === q.id ? 'Sender...' : 'Velg dette tilbudet'}
                     </button>
                   </div>
                 ) : (

@@ -6,6 +6,9 @@ import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
 
 const SUPABASE_URL         = Deno.env.get('SUPABASE_URL')!
 const SUPABASE_SERVICE_KEY = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
+const RESEND_API_KEY       = Deno.env.get('RESEND_API_KEY')!
+const FROM_EMAIL           = 'post@velgtilbud.no'
+const SITE_URL             = Deno.env.get('SITE_URL') ?? 'https://velgtilbud.no'
 
 const CORS = {
   'Access-Control-Allow-Origin':  '*',
@@ -165,6 +168,69 @@ serve(async (req) => {
         quotes:           quotes ?? [],
         total_contacted:  totalContacted ?? 0,
       })
+    }
+
+    // ── ACCEPT flow ───────────────────────────────────────
+    if (type === 'accept' && req.method === 'POST') {
+      const { quote_id } = await req.json()
+
+      // Verify customer token and get lead
+      const { data: lead, error: leadErr } = await sb
+        .from('leads')
+        .select('id, name, service_type')
+        .eq('customer_token', token)
+        .single()
+
+      if (leadErr || !lead) return json({ error: 'Ugyldig token' }, 403)
+
+      // Block if a quote is already accepted
+      const { data: already } = await sb
+        .from('quotes')
+        .select('id')
+        .eq('lead_id', lead.id)
+        .eq('status', 'accepted')
+        .maybeSingle()
+
+      if (already) return json({ error: 'already_accepted' }, 409)
+
+      // Accept the chosen quote
+      const { data: quote, error: acceptErr } = await sb
+        .from('quotes')
+        .update({ status: 'accepted' })
+        .eq('id', quote_id)
+        .eq('lead_id', lead.id)
+        .select('id, price, partners(name, email, phone)')
+        .single()
+
+      if (acceptErr || !quote) return json({ error: 'Ugyldig tilbud' }, 404)
+
+      const svcLabel =
+        lead.service_type === 'rengjoring' ? 'Rengjøring' :
+        lead.service_type === 'begge'      ? 'Flytting + Rengjøring' : 'Flytting'
+
+      // Notify the chosen partner
+      await fetch('https://api.resend.com/emails', {
+        method:  'POST',
+        headers: { Authorization: `Bearer ${RESEND_API_KEY}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          from:    FROM_EMAIL,
+          to:      (quote.partners as Record<string, string>).email,
+          subject: `Gratulerer — kunden har valgt ditt tilbud!`,
+          html: `<!DOCTYPE html><html><body style="font-family:sans-serif;max-width:580px;margin:0 auto;padding:28px 20px;color:#333">
+  <h2 style="color:#0E1D2D;margin:0 0 4px">Tilbudet ditt ble valgt!</h2>
+  <p style="color:#555;font-size:14px;margin:0 0 16px">
+    Hei ${(quote.partners as Record<string, string>).name}, kunden har valgt ditt tilbud på <strong>${svcLabel}</strong> (${(quote as Record<string, unknown>).price?.toLocaleString('nb-NO')} kr inkl. mva).
+  </p>
+  <p style="color:#555;font-size:14px;margin:0 0 16px">
+    Kunden heter <strong>${lead.name}</strong>. Ta kontakt for å avtale tidspunkt og detaljer.
+  </p>
+  <p style="color:#888;font-size:13px;">Lykke til!</p>
+  <p style="font-size:11px;color:#bbb;margin-top:28px;border-top:1px solid #eee;padding-top:12px">Velgtilbud.no</p>
+</body></html>`,
+        }),
+      })
+
+      return json({ success: true })
     }
 
     return json({ error: 'Invalid request' }, 400)
