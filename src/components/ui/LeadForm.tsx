@@ -253,8 +253,12 @@ export default function LeadForm({ service: ctrl, onServiceChange, defaultServic
       const url = import.meta.env.VITE_SUBMIT_LEAD_URL as string
       const res = await fetch(url, {
         method:  'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body:    JSON.stringify(data),
+        headers: {
+          'Content-Type':  'application/json',
+          'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
+          'apikey':        import.meta.env.VITE_SUPABASE_ANON_KEY as string,
+        },
+        body: JSON.stringify(data),
       })
       if (!res.ok) throw new Error(`HTTP ${res.status}`)
       setSubmitted(true)
