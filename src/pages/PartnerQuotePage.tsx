@@ -374,9 +374,9 @@ export default function PartnerQuotePage() {
                   value={price}
                   onChange={e => setPrice(e.target.value)}
                   placeholder="f.eks. 4500"
-                  className="w-full border border-sand/60 rounded-xl px-4 py-3 text-navy text-base focus:outline-none focus:border-navy/40 pr-12"
+                  className="w-full border border-sand/60 rounded-xl px-4 py-3 text-navy text-base focus:outline-none focus:border-navy/40 pr-28"
                 />
-                <span className="absolute right-4 top-1/2 -translate-y-1/2 text-greige text-sm font-medium">kr</span>
+                <span className="absolute right-4 top-1/2 -translate-y-1/2 text-greige text-sm font-medium">kr inkl. mva</span>
               </div>
             </div>
 
