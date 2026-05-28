@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+Disallow: /admin
+Disallow: /tilbud/
+Disallow: /mine-tilbud/
+
+Sitemap: https://velgtilbud.no/sitemap.xml
