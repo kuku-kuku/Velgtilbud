@@ -140,7 +140,7 @@ export default function CustomerQuotesPage() {
                     </div>
                     <div className="text-right">
                       <p className="text-2xl font-extrabold text-navy">{q.price.toLocaleString('nb-NO')}</p>
-                      <p className="text-xs text-greige">kr</p>
+                      <p className="text-xs text-greige">kr inkl. mva</p>
                     </div>
                   </div>
 

@@ -300,7 +300,7 @@ export default function LeadForm({ service: ctrl, onServiceChange, defaultServic
               Du vil bli kontaktet innen kort tid. Vi anbefaler at du svarer på ukjente telefonnumre, da bedriftene ofte tar kontakt direkte.
             </p>
             <p className="text-sm text-greige max-w-xs mx-auto mt-2">
-              Husk å sjekke søppelpost/spam-mappen din — bekreftelsesmailen kan havne der, spesielt i Outlook.
+              Vi anbefaler også at du følger med på både innboksen og spam-/søppelpostmappen den kommende tiden, slik at du ikke går glipp av viktig informasjon og tilbud.
             </p>
           </div>
         )}
