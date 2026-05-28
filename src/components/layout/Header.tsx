@@ -68,12 +68,12 @@ export default function Header({ onOpenModal }: Props) {
 
           {/* CTA */}
           <div className="hidden md:flex items-center gap-4">
-            <a href="tel:+4712345678" className={cn(
+            <a href="tel:+47 972 77 276" className={cn(
               'flex items-center gap-1.5 text-sm transition-colors duration-300',
               transparent ? 'text-white/70 hover:text-white' : 'text-greige hover:text-navy'
             )}>
               <Phone className="w-3.5 h-3.5" />
-              +47 123 45 678
+              +47 972 77 276
             </a>
             <button onClick={onOpenModal} className={cn(
               'text-sm px-5 py-2.5 rounded-xl font-semibold transition-all duration-300',
@@ -125,8 +125,8 @@ export default function Header({ onOpenModal }: Props) {
                 </NavLink>
               ))}
               <div className="pt-3 mt-2 border-t border-sand/20 flex flex-col gap-2">
-                <a href="tel:+4712345678" className="flex items-center gap-2 px-4 py-2 text-sm text-greige">
-                  <Phone className="w-4 h-4" /> +47 123 45 678
+                <a href="tel:+47 972 77 276" className="flex items-center gap-2 px-4 py-2 text-sm text-greige">
+                  <Phone className="w-4 h-4" /> +47 972 77 276
                 </a>
                 <button 
                   onClick={() => {

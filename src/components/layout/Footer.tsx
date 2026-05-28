@@ -17,8 +17,8 @@ export default function Footer() {
               Trondheims ledende markedsplass for flyttebyrå og rengjøring. Vi kobler deg med godkjente selskaper — gratis og uforpliktende.
             </p>
             <div className="flex flex-col gap-2.5 text-sm">
-              <a href="tel:+4712345678" className="flex items-center gap-2.5 hover:text-white transition-colors">
-                <Phone className="w-4 h-4 text-sand flex-shrink-0" /> +47 123 45 678
+              <a href="tel:+47 972 77 276" className="flex items-center gap-2.5 hover:text-white transition-colors">
+                <Phone className="w-4 h-4 text-sand flex-shrink-0" /> +47 972 77 276
               </a>
               <a href="mailto:post@velgtilbud.no" className="flex items-center gap-2.5 hover:text-white transition-colors">
                 <Mail className="w-4 h-4 text-sand flex-shrink-0" /> post@velgtilbud.no
