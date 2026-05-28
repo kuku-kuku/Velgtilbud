@@ -122,7 +122,7 @@ export default function LeadForm({ service: ctrl, onServiceChange, defaultServic
   const [data, setData] = useState<FS>({ ...INIT, service: initSvc })
   const [stepIdx, setStepIdx] = useState(0)
   const [errors, setErrors] = useState<Record<string, string>>({})
-  const [submitted, setSubmitted] = useState(false)
+  const [submitted, setSubmitted] = useState<'success' | 'duplicate' | false>(false)
   const [loading, setLoading] = useState(false)
   const [calOpen,       setCalOpen]       = useState(false)
   const [flexOpen,      setFlexOpen]      = useState(false)
@@ -260,11 +260,12 @@ export default function LeadForm({ service: ctrl, onServiceChange, defaultServic
         },
         body: JSON.stringify(data),
       })
+      if (res.status === 409) { setSubmitted('duplicate'); return }
       if (!res.ok) throw new Error(`HTTP ${res.status}`)
-      setSubmitted(true)
+      setSubmitted('success')
     } catch (err) {
       console.error('Lead submission failed:', err)
-      setSubmitted(true) // still show success — admin can follow up manually
+      setSubmitted('success') // still show success — admin can follow up manually
     } finally {
       setLoading(false)
     }
@@ -282,15 +283,24 @@ export default function LeadForm({ service: ctrl, onServiceChange, defaultServic
         <div className="w-12 h-12 rounded-full bg-sage/20 flex items-center justify-center">
           <CheckCircle className="w-6 h-6 text-sage" />
         </div>
-        <div>
-          <h3 className="text-base font-bold text-navy mb-1">Takk for henvendelsen!</h3>
-          <p className="text-sm text-greige max-w-xs mx-auto">
-            Vi har mottatt forespørselen din og sender den videre til relevante flyttebyråer og rengjøringsfirma i Trondheim.
-          </p>
-          <p className="text-sm text-greige max-w-xs mx-auto mt-2">
-            Du vil bli kontaktet innen kort tid. Vi anbefaler at du svarer på ukjente telefonnumre, da bedriftene ofte tar kontakt direkte.
-          </p>
-        </div>
+        {submitted === 'duplicate' ? (
+          <div>
+            <h3 className="text-base font-bold text-navy mb-1">Forespørsel allerede mottatt</h3>
+            <p className="text-sm text-greige max-w-xs mx-auto">
+              Vi har allerede registrert en forespørsel fra denne e-postadressen. Du vil bli kontaktet av bedriftene innen kort tid.
+            </p>
+          </div>
+        ) : (
+          <div>
+            <h3 className="text-base font-bold text-navy mb-1">Takk for henvendelsen!</h3>
+            <p className="text-sm text-greige max-w-xs mx-auto">
+              Vi har mottatt forespørselen din og sender den videre til relevante flyttebyråer og rengjøringsfirma i Trondheim.
+            </p>
+            <p className="text-sm text-greige max-w-xs mx-auto mt-2">
+              Du vil bli kontaktet innen kort tid. Vi anbefaler at du svarer på ukjente telefonnumre, da bedriftene ofte tar kontakt direkte.
+            </p>
+          </div>
+        )}
       </div>
     )
   }

@@ -26,7 +26,7 @@ export default function Hero() {
 
             <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-white leading-[1.05] mb-6">
               Finn flyttebyrå og
-              <br className="hidden md:block" />rengjøringsbyrå i Trondheim
+              <br className="hidden md:block" />{' '}rengjøringsbyrå i Trondheim
             </h1>
 
             <div className="min-h-[1.6rem] mb-4">

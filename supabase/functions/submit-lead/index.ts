@@ -21,6 +21,20 @@ serve(async (req) => {
     const body = await req.json()
     const sb   = createClient(SUPABASE_URL, SUPABASE_SERVICE_KEY)
 
+    // ── 0. Duplicate email check ──────────────────────────────
+    const { data: existing } = await sb
+      .from('leads')
+      .select('id')
+      .eq('email', body.email)
+      .maybeSingle()
+
+    if (existing) {
+      return new Response(
+        JSON.stringify({ success: false, error: 'duplicate_email' }),
+        { status: 409, headers: { 'Content-Type': 'application/json', ...CORS } }
+      )
+    }
+
     // ── 1. Insert lead ────────────────────────────────────────
     const customerToken = crypto.randomUUID().replace(/-/g, '')
 
