@@ -1,3 +1,4 @@
+import { Helmet } from 'react-helmet-async'
 import { CheckCircle2, Check, Quote } from 'lucide-react'
 import LeadForm from '@/components/ui/LeadForm'
 
@@ -21,6 +22,14 @@ const milestones = [
 export default function OmOssPage() {
   return (
     <div className="page-enter">
+      <Helmet>
+        <title>Om Oss – Velgtilbud Trondheim</title>
+        <meta name="description" content="Les mer om Velgtilbud og historien bak plattformen. Vi kobler privatpersoner og bedrifter med godkjente flyttebyråer og rengjøringsfirma i Trondheim — basert på mange års erfaring i bransjen." />
+        <link rel="canonical" href="https://velgtilbud.no/om-oss" />
+        <meta property="og:title" content="Om Oss – Velgtilbud Trondheim" />
+        <meta property="og:description" content="Historien bak Velgtilbud — mange års erfaring fra flytte- og rengjøringsbransjen i Trondheim." />
+        <meta property="og:url" content="https://velgtilbud.no/om-oss" />
+      </Helmet>
 
       {/* Hero */}
       <section className="bg-navy relative overflow-hidden">

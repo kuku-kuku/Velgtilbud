@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
+import { HelmetProvider } from 'react-helmet-async'
 import { useEffect, useState } from 'react'
 import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
@@ -82,9 +83,11 @@ function AppShell() {
 
 export default function App() {
   return (
-    <BrowserRouter>
-      <ScrollToTop />
-      <AppShell />
-    </BrowserRouter>
+    <HelmetProvider>
+      <BrowserRouter>
+        <ScrollToTop />
+        <AppShell />
+      </BrowserRouter>
+    </HelmetProvider>
   )
 }

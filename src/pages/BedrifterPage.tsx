@@ -1,3 +1,4 @@
+import { Helmet } from 'react-helmet-async'
 import { Check, CheckCircle2 } from 'lucide-react'
 import LeadForm from '@/components/ui/LeadForm'
 import FAQ from '@/components/sections/FAQ'
@@ -21,6 +22,14 @@ const benefits = [
 export default function BedrifterPage() {
   return (
     <div className="page-enter">
+      <Helmet>
+        <title>Bedrifter – Kontorflytting og Rengjøring i Trondheim | Velgtilbud</title>
+        <meta name="description" content="Profesjonell hjelp til kontorflytting, næringsflytting og kontorrengjøring i Trondheim. Sammenlign tilbud fra erfarne leverandører med minimal nedetid for din bedrift." />
+        <link rel="canonical" href="https://velgtilbud.no/bedrifter" />
+        <meta property="og:title" content="Bedrifter – Kontorflytting og Rengjøring i Trondheim | Velgtilbud" />
+        <meta property="og:description" content="Finn profesjonelle leverandører for kontorflytting og rengjøring i Trondheim. Sammenlign tilbud gratis." />
+        <meta property="og:url" content="https://velgtilbud.no/bedrifter" />
+      </Helmet>
       {/* Hero */}
       <section className="bg-navy relative overflow-hidden">
         <div className="absolute inset-0" style={{ background: `linear-gradient(to right, rgba(14,29,45,0.97) 0%, rgba(14,29,45,0.88) 50%, rgba(14,29,45,0.70) 100%), url('/hero.webp') 65% center / cover no-repeat` }} />

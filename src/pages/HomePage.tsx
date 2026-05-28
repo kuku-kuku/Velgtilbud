@@ -1,3 +1,4 @@
+import { Helmet } from 'react-helmet-async'
 import Hero from '@/components/sections/Hero'
 import Stats from '@/components/sections/Stats'
 import HowItWorks from '@/components/sections/HowItWorks'
@@ -9,6 +10,14 @@ import FAQ from '@/components/sections/FAQ'
 export default function HomePage() {
   return (
     <div className="animate-fade-in">
+      <Helmet>
+        <title>Velgtilbud – Finn Beste Flyttebyrå og Rengjøringsfirma i Trondheim</title>
+        <meta name="description" content="Sammenlign gratis tilbud fra de beste flyttebyråene og rengjøringsfirmaene i Trondheim. Send én forespørsel og motta tilbud fra opptil 5 godkjente selskaper. Gratis og uforpliktende." />
+        <link rel="canonical" href="https://velgtilbud.no/" />
+        <meta property="og:title" content="Velgtilbud – Finn Beste Flyttebyrå og Rengjøringsfirma i Trondheim" />
+        <meta property="og:description" content="Sammenlign gratis tilbud fra de beste flyttebyråene og rengjøringsfirmaene i Trondheim. Gratis og uforpliktende." />
+        <meta property="og:url" content="https://velgtilbud.no/" />
+      </Helmet>
       <Hero />
       <Stats />
       <HowItWorks />

@@ -1,3 +1,4 @@
+import { Helmet } from 'react-helmet-async'
 import { useState } from 'react'
 import { Check } from 'lucide-react'
 import { useForm } from 'react-hook-form'
@@ -36,6 +37,14 @@ export default function PartnerPage() {
 
   return (
     <div className="page-enter">
+      <Helmet>
+        <title>Bli Partner – Få Flere Kunder Innen Flytting og Rengjøring | Velgtilbud</title>
+        <meta name="description" content="Er du et flyttebyrå eller rengjøringsfirma i Trondheim? Bli partner hos Velgtilbud og motta kvalifiserte kundehenvendelser direkte. Betal kun for leads du mottar." />
+        <link rel="canonical" href="https://velgtilbud.no/bli-partner" />
+        <meta property="og:title" content="Bli Partner – Få Flere Kunder Innen Flytting og Rengjøring | Velgtilbud" />
+        <meta property="og:description" content="Motta kvalifiserte kundehenvendelser fra Trondheim. Betal kun for leads du mottar. Registrer deg gratis." />
+        <meta property="og:url" content="https://velgtilbud.no/bli-partner" />
+      </Helmet>
       {/* Hero */}
       <section className="bg-navy relative overflow-hidden">
         <div className="absolute inset-0" style={{ background: `linear-gradient(to right, rgba(14,29,45,0.97) 0%, rgba(14,29,45,0.88) 50%, rgba(14,29,45,0.70) 100%), url('/hero.webp') 50% 30% / cover no-repeat` }} />

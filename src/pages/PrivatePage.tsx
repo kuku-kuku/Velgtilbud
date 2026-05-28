@@ -1,3 +1,4 @@
+import { Helmet } from 'react-helmet-async'
 import { Check } from 'lucide-react'
 import LeadForm from '@/components/ui/LeadForm'
 import TrustBadges from '@/components/sections/TrustBadges'
@@ -28,6 +29,14 @@ const priceGuide = [
 export default function PrivatePage() {
   return (
     <div className="page-enter">
+      <Helmet>
+        <title>Privatpersoner – Tilbud på Flytting og Rengjøring i Trondheim | Velgtilbud</title>
+        <meta name="description" content="Finn pålitelige flyttebyråer og rengjøringsfirma i Trondheim for privatpersoner. Sammenlign gratis tilbud på boligflytting, flyttevask og rengjøring. Velg det beste for deg." />
+        <link rel="canonical" href="https://velgtilbud.no/privatpersoner" />
+        <meta property="og:title" content="Privatpersoner – Tilbud på Flytting og Rengjøring i Trondheim | Velgtilbud" />
+        <meta property="og:description" content="Finn pålitelige flyttebyråer og rengjøringsfirma i Trondheim. Sammenlign gratis tilbud og velg det beste for deg." />
+        <meta property="og:url" content="https://velgtilbud.no/privatpersoner" />
+      </Helmet>
       {/* Hero */}
       <section className="bg-navy relative overflow-hidden">
         <div className="absolute inset-0" style={{ background: `linear-gradient(to right, rgba(14,29,45,0.97) 0%, rgba(14,29,45,0.88) 50%, rgba(14,29,45,0.70) 100%), url('/hero.webp') 35% center / cover no-repeat` }} />
