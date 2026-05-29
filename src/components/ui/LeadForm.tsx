@@ -112,12 +112,13 @@ const INIT: Omit<FS, 'service'> = {
 interface Props {
   service?: ServiceType
   onServiceChange?: (s: ServiceType) => void
+  onServiceChoiceChange?: (s: ServiceChoice) => void
   defaultService?: ServiceType
   onStepChange?: () => void
   className?: string
 }
 
-export default function LeadForm({ service: ctrl, onServiceChange, defaultService = 'flytting', onStepChange, className }: Props) {
+export default function LeadForm({ service: ctrl, onServiceChange, onServiceChoiceChange, defaultService = 'flytting', onStepChange, className }: Props) {
   const initSvc = toServiceChoice(ctrl ?? defaultService)
   const [data, setData] = useState<FS>({ ...INIT, service: initSvc })
   const [stepIdx, setStepIdx] = useState(0)
@@ -195,6 +196,7 @@ export default function LeadForm({ service: ctrl, onServiceChange, defaultServic
   function handleServiceChange(svc: ServiceChoice) {
     setData(d => ({ ...d, service: svc }))
     onServiceChange?.(toServiceType(svc))
+    onServiceChoiceChange?.(svc)
     setErrors({})
   }
 

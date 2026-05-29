@@ -1,7 +1,17 @@
+import { useState } from 'react'
 import RotatingText from '@/components/ui/RotatingText'
 import LeadForm from '@/components/ui/LeadForm'
 
 export default function Hero() {
+  const [choice, setChoice] = useState<'begge' | 'flyttehjelp' | 'rengjoring'>('begge')
+
+  const heading =
+    choice === 'rengjoring'
+      ? 'Få gratis tilbud på rengjøring'
+      : choice === 'flyttehjelp'
+      ? 'Få gratis tilbud på flyttehjelp'
+      : 'Få gratis tilbud på flytting og rengjøring'
+
   return (
     <section className="bg-navy relative overflow-hidden min-h-screen flex flex-col justify-center -mt-16">
       {/* Background photo with zoom animation */}
@@ -58,8 +68,8 @@ export default function Hero() {
           <div>
             <div id="hero-form" className="bg-white/85 backdrop-blur-md rounded-2xl shadow-2xl shadow-black/30 px-7 py-8">
               <p className="text-xs font-semibold text-greige uppercase tracking-widest mb-1">Gratis tilbud</p>
-              <h2 className="text-xl font-bold text-navy mb-6">Få gratis tilbud på flytting og rengjøring</h2>
-              <LeadForm defaultService="flytting" />
+              <h2 className="text-xl font-bold text-navy mb-6">{heading}</h2>
+              <LeadForm defaultService="flytting" onServiceChoiceChange={setChoice} />
             </div>
           </div>
 

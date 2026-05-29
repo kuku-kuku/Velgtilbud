@@ -6,7 +6,7 @@ import { cn } from '@/lib/utils'
 
 interface Props {
   open: boolean
-  service: ServiceType
+  service: ServiceType | undefined
   onClose: () => void
   onServiceChange: (s: ServiceType) => void
 }
@@ -51,7 +51,11 @@ export default function FormModal({ open, service, onClose, onServiceChange }: P
         <div className="flex items-center justify-between px-6 pt-6 pb-4 border-b border-sand/20 sticky top-0 bg-white z-10">
           <div>
             <p className="text-xs font-semibold text-greige uppercase tracking-widest">Gratis · Uforpliktende</p>
-            <h2 className="text-lg font-bold text-navy mt-0.5">Få tilbud fra Trondheim</h2>
+            <h2 className="text-lg font-bold text-navy mt-0.5">
+              {service === 'flytting'   ? 'Få gratis tilbud på flytting'
+             : service === 'rengjoring' ? 'Få gratis tilbud på rengjøring'
+             :                           'Få gratis tilbud på flytting og rengjøring'}
+            </h2>
           </div>
           <button
             onClick={onClose}
@@ -66,7 +70,7 @@ export default function FormModal({ open, service, onClose, onServiceChange }: P
         <div className="px-6 pt-4 pb-2">
           <div className="flex gap-1.5 p-1 bg-offwhite rounded-xl">
             {tabs.map((t) => {
-              const isActive = service === t.value
+              const isActive = service != null && service === t.value
               return (
                 <button
                   key={t.value}
@@ -87,7 +91,7 @@ export default function FormModal({ open, service, onClose, onServiceChange }: P
 
         {/* Form */}
         <div className="px-6 pb-8 pt-4">
-          <LeadForm service={service} onServiceChange={onServiceChange} onStepChange={scrollToTop} />
+          <LeadForm service={service ?? 'flytting'} onServiceChange={onServiceChange} onStepChange={scrollToTop} />
         </div>
       </div>
     </div>
