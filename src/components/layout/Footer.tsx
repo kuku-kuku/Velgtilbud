@@ -68,7 +68,7 @@ export default function Footer() {
       <div className="border-t border-white/10">
         <div className="container-wide py-5 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-white/30">
           <p>© {new Date().getFullYear()} Velgtilbud AS. Alle rettigheter forbeholdt.</p>
-          <p>Org.nr: 123 456 789</p>
+          <p>Org.nr: 935 830 621</p>
         </div>
       </div>
     </footer>
