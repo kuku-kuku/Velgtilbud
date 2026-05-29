@@ -53,7 +53,7 @@ export default function Footer() {
               {[
                 { label: 'Om oss', href: '/om-oss' },
                 { label: 'Bli partner', href: '/bli-partner' },
-                { label: 'Personvern',   href: '/personvern'   },
+                { label: 'Personvern og informasjonskapsler', href: '/personvern' },
                 { label: 'Brukervilkår', href: '/brukervilkar' },
               ].map((c) => (
                 <li key={c.label}>
