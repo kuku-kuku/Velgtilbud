@@ -53,8 +53,8 @@ export default function Footer() {
               {[
                 { label: 'Om oss', href: '/om-oss' },
                 { label: 'Bli partner', href: '/bli-partner' },
-                { label: 'Personvern', href: '/' },
-                { label: 'Vilkår', href: '/' },
+                { label: 'Personvern',   href: '/personvern'   },
+                { label: 'Brukervilkår', href: '/brukervilkar' },
               ].map((c) => (
                 <li key={c.label}>
                   <Link to={c.href} className="hover:text-white transition-colors">{c.label}</Link>

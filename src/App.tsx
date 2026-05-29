@@ -13,6 +13,8 @@ import OmOssPage from '@/pages/OmOssPage'
 import AdminPage from '@/pages/AdminPage'
 import PartnerQuotePage from '@/pages/PartnerQuotePage'
 import CustomerQuotesPage from '@/pages/CustomerQuotesPage'
+import PersonvernPage from '@/pages/PersonvernPage'
+import BrukervilkarPage from '@/pages/BrukervilkarPage'
 import type { ServiceType } from '@/lib/types'
 import { ArrowRight } from 'lucide-react'
 
@@ -58,6 +60,8 @@ function AppShell() {
           <Route path="/bedrifter"      element={<BedrifterPage />} />
           <Route path="/bli-partner"    element={<PartnerPage />} />
           <Route path="/om-oss"         element={<OmOssPage />} />
+          <Route path="/personvern"     element={<PersonvernPage />} />
+          <Route path="/brukervilkar"   element={<BrukervilkarPage />} />
           <Route path="/admin"               element={<AdminPage />} />
           <Route path="/tilbud/:token"       element={<PartnerQuotePage />} />
           <Route path="/mine-tilbud/:token"  element={<CustomerQuotesPage />} />
