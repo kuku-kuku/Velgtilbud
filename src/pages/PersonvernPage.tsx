@@ -2,82 +2,65 @@ import { Helmet } from 'react-helmet-async'
 
 const sections = [
   {
-    title: 'Hvem er vi?',
-    content: `Velgtilbud er en norsk markedsplass som kobler privatpersoner og bedrifter i Trondheim med godkjente flyttebyråer og rengjøringsfirma. Vi drives av Velgtilbud AS og er tilgjengelige på velgtilbud.no.
+    title: 'Hvem er ansvarlig?',
+    content: `Velgtilbud.no drives av:
 
-Har du spørsmål om hvordan vi behandler dine personopplysninger, kan du kontakte oss på:
-
-E-post: post@velgtilbud.no`,
+VÆRNES MULTISERVICE AS
+Org.nr: 935 830 621
+Ranheimsvegen 199 B, 7055 Ranheim
+E-post: post@velgtilbud.no / post@vaernesmultiservice.no
+Telefon: 972 77 276`,
   },
   {
     title: 'Hvilke opplysninger samler vi inn?',
-    content: `Når du sender en forespørsel gjennom vårt skjema, samler vi inn følgende opplysninger:
+    content: `Når du sender inn en forespørsel på Velgtilbud.no, kan vi samle inn:
 
 • Navn
 • Telefonnummer
 • E-postadresse
-• Nåværende og/eller ny adresse
-• Detaljer om boligen (størrelse, etasje, type)
-• Ønsket dato og eventuell fleksibilitet
-• Type tjeneste (flytte, rengjøring eller begge)
-• Eventuelle kommentarer du selv legger til
+• Adresse
+• Opplysninger om oppdraget ditt
 
-Vi samler kun inn det som er nødvendig for at samarbeidspartnere skal kunne gi deg et relevant og riktig tilbud.`,
+Disse opplysningene er nødvendige for at relevante leverandører skal kunne gi deg et tilbud.`,
   },
   {
-    title: 'Hvorfor samler vi inn disse opplysningene?',
-    content: `Vi behandler opplysningene dine for å:
+    title: 'Hvordan bruker vi opplysningene?',
+    content: `Opplysningene dine brukes kun for å:
 
-• Sende din forespørsel til aktuelle og kvalitetssikrede samarbeidspartnere i Trondheim
-• Sikre at tilbudene du mottar er tilpasset din konkrete situasjon
-• Forbedre tjenesten vår og brukeropplevelsen på nettsiden
+• Formidle forespørselen din til aktuelle leverandører
+• Hjelpe deg med å motta tilbud
+• Administrere og forbedre tjenesten vår
 
-Det juridiske grunnlaget for behandlingen er GDPR artikkel 6 nr. 1 bokstav b (oppfyllelse av avtale) og artikkel 6 nr. 1 bokstav f (berettiget interesse i å gi deg relevante tilbud fra godkjente aktører).`,
+Ved å sende inn en forespørsel samtykker du til at du kan bli kontaktet av opptil 5 selskaper via telefon, e-post eller SMS.`,
   },
   {
-    title: 'Hvem deler vi opplysningene med?',
-    content: `Opplysningene du oppgir deles med de samarbeidspartnerne som er best egnet til å hjelpe deg. Det kan dreie seg om ett eller flere kvalitetssikrede flyttebyråer og/eller rengjøringsfirma i Trondheim-regionen.
-
-Disse firmaene bruker opplysningene utelukkende til å utarbeide og sende deg et tilbud. De har ikke lov til å bruke opplysningene til markedsføring eller videresalg uten ditt samtykke.
+    title: 'Deling av opplysninger',
+    content: `Vi deler kun opplysningene dine med relevante samarbeidspartnere som kan levere tjenestene du etterspør.
 
 Vi selger aldri personopplysninger til tredjeparter.`,
   },
   {
-    title: 'Hvor lenge lagrer vi opplysningene?',
-    content: `Vi lagrer opplysningene dine så lenge det er nødvendig for å oppfylle formålet de ble samlet inn for. Som hovedregel sletter vi opplysningene innen seks måneder etter at forespørselen ble sendt, med mindre annet følger av lovpålagte lagringsplikt.`,
+    title: 'Lagring av opplysninger',
+    content: `Personopplysningene dine lagres kun så lenge det er nødvendig for å levere tjenesten og oppfylle våre lovpålagte forpliktelser.`,
   },
   {
     title: 'Informasjonskapsler (cookies)',
-    content: `Nettsiden vår bruker informasjonskapsler for å forbedre brukeropplevelsen og analysere trafikk. Vi benytter blant annet Google Analytics for å forstå hvordan besøkende bruker siden.
+    content: `Velgtilbud.no bruker informasjonskapsler for å forbedre brukeropplevelsen, analysere trafikk og sikre at nettsiden fungerer som den skal.
 
-Du kan når som helst trekke tilbake samtykket til informasjonskapsler ved å endre innstillingene i nettleseren din. Merk at dette kan påvirke funksjonaliteten på nettsiden.`,
+Du kan når som helst endre eller trekke tilbake samtykket ditt til informasjonskapsler via nettleseren din.`,
   },
   {
     title: 'Dine rettigheter',
-    content: `I henhold til personvernforordningen (GDPR) har du følgende rettigheter:
+    content: `Du har rett til å:
 
-• Innsyn – du kan be om å få se hvilke opplysninger vi har lagret om deg
-• Retting – du kan be oss om å rette opp feilaktige opplysninger
-• Sletting – du kan be oss om å slette opplysningene dine, med mindre vi er lovpålagt å bevare dem
-• Begrensning – du kan be om at behandlingen av opplysningene dine begrenses
-• Dataportabilitet – du kan be om å motta opplysningene dine i et maskinlesbart format
-• Innsigelse – du kan protestere mot behandling som er basert på berettiget interesse
+• Be om innsyn i opplysningene vi har om deg
+• Få rettet feilaktige opplysninger
+• Be om sletting av opplysninger
+• Trekke tilbake samtykke
 
-For å benytte deg av disse rettighetene, ta kontakt med oss på post@velgtilbud.no. Vi svarer innen 30 dager.`,
-  },
-  {
-    title: 'Klage til Datatilsynet',
-    content: `Dersom du mener vi behandler personopplysningene dine i strid med regelverket, har du rett til å klage til Datatilsynet.
+For spørsmål om personvern eller sletting av opplysninger, kontakt oss på:
 
-Datatilsynet
-Postboks 458 Sentrum
-0105 Oslo
-postkasse@datatilsynet.no
-www.datatilsynet.no`,
-  },
-  {
-    title: 'Endringer i personvernerklæringen',
-    content: `Vi forbeholder oss retten til å oppdatere denne personvernerklæringen ved behov. Vesentlige endringer vil varsles tydelig på nettsiden. Datoen for siste oppdatering er angitt nederst på siden.`,
+post@velgtilbud.no`,
   },
 ]
 
@@ -102,20 +85,20 @@ export default function PersonvernPage() {
             Personvern og<br className="hidden sm:block" /> informasjonskapsler
           </h1>
           <p className="text-white/60 text-base max-w-xl">
-            Her finner du informasjon om hvordan Velgtilbud samler inn, bruker og beskytter dine personopplysninger.
+            Velgtilbud.no tar personvernet ditt på alvor. Denne siden forklarer hvordan vi samler inn, bruker og beskytter personopplysningene dine.
           </p>
-          <p className="text-white/30 text-xs mt-6">Sist oppdatert: mai 2025</p>
+          <p className="text-white/30 text-xs mt-6">Sist oppdatert: 29.05.2026</p>
         </div>
       </section>
 
       {/* Content */}
       <section className="bg-offwhite py-16 md:py-20">
         <div className="container-wide max-w-3xl">
-          <div className="flex flex-col gap-10">
+          <div className="flex flex-col gap-6">
             {sections.map((s, i) => (
-              <div key={i} className="bg-white rounded-2xl px-8 py-8 shadow-sm border border-sand/30">
-                <h2 className="text-lg font-bold text-navy mb-4">{s.title}</h2>
-                <div className="text-greige text-sm leading-relaxed whitespace-pre-line">{s.content}</div>
+              <div key={i} className="bg-white rounded-2xl px-8 py-7 shadow-sm border border-sand/30">
+                <h2 className="text-base font-bold text-navy mb-3">{s.title}</h2>
+                <p className="text-greige text-sm leading-relaxed whitespace-pre-line">{s.content}</p>
               </div>
             ))}
           </div>
