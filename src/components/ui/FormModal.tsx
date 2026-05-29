@@ -26,7 +26,7 @@ function choiceHeading(choice: ServiceChoice | undefined): string {
 
 export default function FormModal({ open, service, onClose, onServiceChange }: Props) {
   const cardRef = useRef<HTMLDivElement>(null)
-  const [choice, setChoice] = useState<ServiceChoice | undefined>(undefined)
+  const [choice, setChoice] = useState<ServiceChoice>('begge')
 
   const scrollToTop = useCallback(() => {
     cardRef.current?.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior })
@@ -34,7 +34,7 @@ export default function FormModal({ open, service, onClose, onServiceChange }: P
 
   // Reset choice when modal closes
   useEffect(() => {
-    if (!open) setChoice(undefined)
+    if (!open) setChoice('begge')
   }, [open])
 
   // Lock scroll when open
@@ -111,6 +111,7 @@ export default function FormModal({ open, service, onClose, onServiceChange }: P
             service={service ?? 'flytting'}
             onServiceChange={onServiceChange}
             onServiceChoiceChange={setChoice}
+            defaultServiceChoice="begge"
             onStepChange={scrollToTop}
           />
         </div>
