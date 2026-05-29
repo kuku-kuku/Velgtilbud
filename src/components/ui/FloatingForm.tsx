@@ -5,6 +5,13 @@ import LeadForm from './LeadForm'
 import { cn } from '@/lib/utils'
 
 type ActiveService = 'flytting' | 'rengjoring'
+type ServiceChoice = 'begge' | 'flyttehjelp' | 'rengjoring'
+
+function choiceHeading(choice: ServiceChoice): string {
+  if (choice === 'flyttehjelp') return 'Få gratis tilbud på flyttehjelp'
+  if (choice === 'rengjoring')  return 'Få gratis tilbud på rengjøring'
+  return 'Få gratis tilbud på flytting og rengjøring'
+}
 
 const config: Record<ActiveService, {
   label: string
@@ -34,6 +41,7 @@ const config: Record<ActiveService, {
 
 export default function FloatingForm() {
   const [service,   setService]   = useState<ActiveService>('flytting')
+  const [choice,    setChoice]    = useState<ServiceChoice>('begge')
   const [collapsed, setCollapsed] = useState(false)
   const [visible,   setVisible]   = useState(false)
   const [ready,     setReady]     = useState(false)
@@ -109,7 +117,7 @@ export default function FloatingForm() {
               <span className={cn('w-1.5 h-1.5 rounded-full', c.dot)} />
               <span className="text-white/50 text-xs">Gratis · Uforpliktende</span>
             </div>
-            <p className="text-white font-semibold text-sm leading-snug">{c.tagline}</p>
+            <p className="text-white font-semibold text-sm leading-snug">{choiceHeading(choice)}</p>
           </div>
           <button
             onClick={() => setCollapsed(!collapsed)}
@@ -128,7 +136,7 @@ export default function FloatingForm() {
           {(Object.keys(config) as ActiveService[]).map((s) => (
             <button
               key={s}
-              onClick={() => { setService(s); setCollapsed(false) }}
+              onClick={() => { setService(s); setCollapsed(false); setChoice('begge') }}
               className={cn(
                 'flex-1 py-2 text-xs font-bold rounded-lg transition-all duration-200',
                 service === s ? c.activePill : c.inactivePill
@@ -152,6 +160,8 @@ export default function FloatingForm() {
             <LeadForm
               service={service}
               onServiceChange={(s) => setService(s as ActiveService)}
+              onServiceChoiceChange={setChoice}
+              defaultServiceChoice="begge"
             />
           </div>
         </div>
