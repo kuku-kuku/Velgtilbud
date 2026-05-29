@@ -1,8 +1,10 @@
-import { useEffect, useRef, useCallback } from 'react'
+import { useEffect, useRef, useCallback, useState } from 'react'
 import { X } from 'lucide-react'
 import LeadForm from './LeadForm'
 import type { ServiceType } from '@/lib/types'
 import { cn } from '@/lib/utils'
+
+type ServiceChoice = 'begge' | 'flyttehjelp' | 'rengjoring'
 
 interface Props {
   open: boolean
@@ -16,11 +18,24 @@ const tabs: { value: ServiceType; label: string }[] = [
   { value: 'rengjoring', label: 'Rengjøring' },
 ]
 
+function choiceHeading(choice: ServiceChoice | undefined): string {
+  if (choice === 'flyttehjelp') return 'Få gratis tilbud på flyttehjelp'
+  if (choice === 'rengjoring')  return 'Få gratis tilbud på rengjøring'
+  return 'Få gratis tilbud på flytting og rengjøring'
+}
+
 export default function FormModal({ open, service, onClose, onServiceChange }: Props) {
   const cardRef = useRef<HTMLDivElement>(null)
+  const [choice, setChoice] = useState<ServiceChoice | undefined>(undefined)
+
   const scrollToTop = useCallback(() => {
     cardRef.current?.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior })
   }, [])
+
+  // Reset choice when modal closes
+  useEffect(() => {
+    if (!open) setChoice(undefined)
+  }, [open])
 
   // Lock scroll when open
   useEffect(() => {
@@ -34,6 +49,11 @@ export default function FormModal({ open, service, onClose, onServiceChange }: P
     window.addEventListener('keydown', handler)
     return () => window.removeEventListener('keydown', handler)
   }, [onClose])
+
+  function handleTabClick(value: ServiceType) {
+    onServiceChange(value)
+    setChoice(value === 'rengjoring' ? 'rengjoring' : 'begge')
+  }
 
   if (!open) return null
 
@@ -51,11 +71,7 @@ export default function FormModal({ open, service, onClose, onServiceChange }: P
         <div className="flex items-center justify-between px-6 pt-6 pb-4 border-b border-sand/20 sticky top-0 bg-white z-10">
           <div>
             <p className="text-xs font-semibold text-greige uppercase tracking-widest">Gratis · Uforpliktende</p>
-            <h2 className="text-lg font-bold text-navy mt-0.5">
-              {service === 'flytting'   ? 'Få gratis tilbud på flytting'
-             : service === 'rengjoring' ? 'Få gratis tilbud på rengjøring'
-             :                           'Få gratis tilbud på flytting og rengjøring'}
-            </h2>
+            <h2 className="text-lg font-bold text-navy mt-0.5">{choiceHeading(choice)}</h2>
           </div>
           <button
             onClick={onClose}
@@ -74,7 +90,7 @@ export default function FormModal({ open, service, onClose, onServiceChange }: P
               return (
                 <button
                   key={t.value}
-                  onClick={() => onServiceChange(t.value)}
+                  onClick={() => handleTabClick(t.value)}
                   className={cn(
                     'flex-1 py-2 text-sm font-semibold rounded-lg transition-all duration-150',
                     isActive
@@ -91,7 +107,12 @@ export default function FormModal({ open, service, onClose, onServiceChange }: P
 
         {/* Form */}
         <div className="px-6 pb-8 pt-4">
-          <LeadForm service={service ?? 'flytting'} onServiceChange={onServiceChange} onStepChange={scrollToTop} />
+          <LeadForm
+            service={service ?? 'flytting'}
+            onServiceChange={onServiceChange}
+            onServiceChoiceChange={setChoice}
+            onStepChange={scrollToTop}
+          />
         </div>
       </div>
     </div>
