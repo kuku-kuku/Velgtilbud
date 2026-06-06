@@ -12,7 +12,7 @@ export default function Testimonials() {
     <section className="section-padding bg-white">
       <div className="container-wide">
         <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3 mb-12">
-          <h2 className="section-title">Det sier våre kunder i Trondheim</h2>
+          <h2 className="section-title">Hva kundene sier om Velgtilbud</h2>
           <p className="text-sm text-greige pb-1 flex-shrink-0">
             <span className="font-bold text-navy">4.8 / 5</span> · 2 840 anmeldelser
           </p>
