@@ -46,7 +46,7 @@ function MobileButton({ onOpen }: { onOpen: () => void }) {
 function AppShell() {
   const { pathname } = useLocation()
   const [modalOpen,    setModalOpen]    = useState(false)
-  const [modalService, setModalService] = useState<ServiceType | undefined>(undefined)
+  const [modalService, setModalService] = useState<ServiceType>('flytting')
 
   const isAdmin = pathname === '/admin' || pathname.startsWith('/tilbud/') || pathname.startsWith('/mine-tilbud/')
 
@@ -76,7 +76,7 @@ function AppShell() {
           <FormModal
             open={modalOpen}
             service={modalService}
-            onClose={() => { setModalOpen(false); setModalService(undefined) }}
+            onClose={() => { setModalOpen(false); setModalService('flytting') }}
             onServiceChange={setModalService}
           />
         </>

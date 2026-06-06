@@ -8,7 +8,7 @@ type ServiceChoice = 'begge' | 'flyttehjelp' | 'rengjoring'
 
 interface Props {
   open: boolean
-  service: ServiceType | undefined
+  service: ServiceType
   onClose: () => void
   onServiceChange: (s: ServiceType) => void
 }
@@ -86,7 +86,7 @@ export default function FormModal({ open, service, onClose, onServiceChange }: P
         <div className="px-6 pt-4 pb-2">
           <div className="flex gap-1.5 p-1 bg-offwhite rounded-xl">
             {tabs.map((t) => {
-              const isActive = service != null && service === t.value
+              const isActive = service === t.value
               return (
                 <button
                   key={t.value}
@@ -108,7 +108,7 @@ export default function FormModal({ open, service, onClose, onServiceChange }: P
         {/* Form */}
         <div className="px-6 pb-8 pt-4">
           <LeadForm
-            service={service ?? 'flytting'}
+            service={service}
             onServiceChange={onServiceChange}
             onServiceChoiceChange={setChoice}
             defaultServiceChoice="begge"

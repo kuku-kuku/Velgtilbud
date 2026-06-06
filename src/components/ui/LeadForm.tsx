@@ -69,7 +69,7 @@ function getSteps(svc: ServiceChoice): StepId[] {
   if (svc === 'begge') {
     return ['service', 'customerType', 'date', 'fromAddress', 'toAddress', 'parking', 'propertyType', 'rooms', 'contact']
   }
-  return ['service', 'date', 'fromAddress', 'toAddress', 'parking', 'contact']
+  return ['service', 'customerType', 'date', 'fromAddress', 'toAddress', 'parking', 'contact']
 }
 
 function toServiceType(c: ServiceChoice): ServiceType {

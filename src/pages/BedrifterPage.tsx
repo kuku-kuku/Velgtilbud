@@ -32,7 +32,7 @@ export default function BedrifterPage() {
       </Helmet>
       {/* Hero */}
       <section className="bg-navy relative overflow-hidden">
-        <div className="absolute inset-0" style={{ background: `linear-gradient(to right, rgba(14,29,45,0.97) 0%, rgba(14,29,45,0.88) 50%, rgba(14,29,45,0.70) 100%), url('/hero.webp') 65% center / cover no-repeat` }} />
+        <div className="absolute inset-0" style={{ background: `linear-gradient(to right, rgba(14,29,45,0.97) 0%, rgba(14,29,45,0.88) 50%, rgba(14,29,45,0.70) 100%), url('/Bedrifter.png') 65% center / cover no-repeat` }} />
         <div className="container-wide pt-14 pb-14 lg:pb-20 relative z-10">
           <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-start">
             <div className="pt-6 pb-14 lg:pb-20">
