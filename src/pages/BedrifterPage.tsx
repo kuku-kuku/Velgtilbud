@@ -5,9 +5,9 @@ import LeadForm from '@/components/ui/LeadForm'
 
 type ServiceChoice = 'begge' | 'flyttehjelp' | 'rengjoring'
 function choiceHeading(c: ServiceChoice) {
-  if (c === 'rengjoring')  return 'Få tilbud på kontorrengjøring'
-  if (c === 'flyttehjelp') return 'Få tilbud på kontorflytting'
-  return 'Få tilbud på kontorflytting og rengjøring'
+  if (c === 'rengjoring')  return 'Få gratis tilbud på rengjøring'
+  if (c === 'flyttehjelp') return 'Få gratis tilbud på flyttehjelp'
+  return 'Få gratis tilbud på flytting og rengjøring'
 }
 import FAQ from '@/components/sections/FAQ'
 
