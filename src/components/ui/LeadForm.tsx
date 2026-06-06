@@ -297,7 +297,7 @@ export default function LeadForm({ service: ctrl, onServiceChange, onServiceChoi
           <div>
             <h3 className="text-base font-bold text-navy mb-1">Takk for henvendelsen!</h3>
             <p className="text-sm text-greige max-w-xs mx-auto">
-              Vi har mottatt forespørselen din og sender den videre til relevante flyttebyråer og rengjøringsfirma i Trondheim.
+              Vi har mottatt forespørselen din og sender den videre til relevante flyttebyråer og rengjøringsfirma i Trøndelag.
             </p>
             <p className="text-sm text-greige max-w-xs mx-auto mt-2">
               Du vil bli kontaktet innen kort tid. Vi anbefaler at du svarer på ukjente telefonnumre, da bedriftene ofte tar kontakt direkte.
@@ -576,7 +576,7 @@ export default function LeadForm({ service: ctrl, onServiceChange, onServiceChoi
               </div>
               <div>
                 <label className="label">Sted</label>
-                <input value={data.fromCity} onChange={e => set('fromCity', e.target.value)} placeholder="Trondheim" className="input-field" />
+                <input value={data.fromCity} onChange={e => set('fromCity', e.target.value)} placeholder="Trøndelag" className="input-field" />
               </div>
             </div>
             <div className="grid grid-cols-2 gap-2">
@@ -667,7 +667,7 @@ export default function LeadForm({ service: ctrl, onServiceChange, onServiceChoi
               </div>
               <div>
                 <label className="label">Sted</label>
-                <input value={data.toCity} onChange={e => set('toCity', e.target.value)} placeholder="Trondheim" className="input-field" />
+                <input value={data.toCity} onChange={e => set('toCity', e.target.value)} placeholder="Trøndelag" className="input-field" />
               </div>
             </div>
             <div className="grid grid-cols-2 gap-2">

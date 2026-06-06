@@ -2,12 +2,12 @@ const steps = [
   {
     number: '01',
     title: 'Fyll ut skjemaet',
-    description: 'Beskriv hva du trenger hjelp med innen flytting eller rengjøring i Trondheim. Det tar kun 2 minutter å sende inn forespørselen — helt gratis og uforpliktende.',
+    description: 'Beskriv hva du trenger hjelp med innen flytting eller rengjøring i Trøndelag. Det tar kun 2 minutter å sende inn forespørselen — helt gratis og uforpliktende.',
   },
   {
     number: '02',
     title: 'Motta tilbud fra flere bedrifter',
-    description: 'Vi matcher deg med opptil 5 kvalitetssikrede flyttebyråer og rengjøringsfirma i Trondheim, som sender deg sine beste tilbud.',
+    description: 'Vi matcher deg med opptil 5 kvalitetssikrede flyttebyråer og rengjøringsfirma i Trøndelag, som sender deg sine beste tilbud.',
   },
   {
     number: '03',

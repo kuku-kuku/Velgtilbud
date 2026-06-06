@@ -5,7 +5,7 @@ const cards = [
   {
     tag: 'Privatpersoner',
     href: '/privatpersoner',
-    title: 'Trygg flytting og rengjøring for private i Trondheim',
+    title: 'Trygg flytting og rengjøring for private i Trøndelag',
     body: 'Få tilbud fra kvalitetssikrede flyttebyråer og rengjøringsfirma tilpasset dine behov. Vi gjør det enkelt å sammenligne priser og tjenester på ett sted.',
     items: ['Boligflytting', 'Flyttevask og rengjøring', 'Pakking og emballasje', 'Bæring og transport'],
     cta: 'Få tilbud som privatkunde',
@@ -17,7 +17,7 @@ const cards = [
   {
     tag: 'Bedrifter',
     href: '/bedrifter',
-    title: 'Effektiv kontorflytting for bedrifter i Trondheim',
+    title: 'Effektiv kontorflytting for bedrifter i Trøndelag',
     body: 'Vi hjelper bedrifter med å finne erfarne aktører innen næringsflytting, kontorrengjøring og mellomlagring — med minst mulig nedetid.',
     items: ['Kontorflytting', 'Næringsflytting', 'Kontorrengjøring', 'Lager og mellomlagring'],
     cta: 'Få tilbud til bedriften',
@@ -34,7 +34,7 @@ export default function Services() {
       <div className="container-wide">
         <div className="mb-14">
           <h2 className="section-title">Alt du trenger på ett sted</h2>
-          <p className="section-subtitle">Sammenlign flyttebyrå og rengjøringsfirma i Trondheim — raskt, gratis og uforpliktende.</p>
+          <p className="section-subtitle">Sammenlign flyttebyrå og rengjøringsfirma i Trøndelag — raskt, gratis og uforpliktende.</p>
         </div>
 
         <div className="grid md:grid-cols-2 gap-5 items-stretch">

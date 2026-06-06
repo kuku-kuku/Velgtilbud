@@ -93,7 +93,7 @@ const TIER_COLORS: Record<string, string> = {
 }
 
 const EMPTY_PARTNER: Omit<Partner, 'id' | 'created_at'> = {
-  name: '', email: '', phone: '', service_types: [], city: 'Trondheim',
+  name: '', email: '', phone: '', service_types: [], city: 'Trøndelag',
   daily_limit: 10, monthly_limit: 100, active: true, tier: 'budget',
 }
 

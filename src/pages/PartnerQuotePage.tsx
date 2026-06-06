@@ -290,7 +290,7 @@ export default function PartnerQuotePage() {
             </div>
           </div>
 
-          <p className="text-center text-xs text-greige mt-4">Velgtilbud.no — Trondheims ledende markedsplass</p>
+          <p className="text-center text-xs text-greige mt-4">Velgtilbud.no — Trøndelags ledende markedsplass</p>
         </div>
       </div>
     )
@@ -338,7 +338,7 @@ export default function PartnerQuotePage() {
             ← Tilbake til valg
           </button>
 
-          <p className="text-center text-xs text-greige mt-3">Velgtilbud.no — Trondheims ledende markedsplass</p>
+          <p className="text-center text-xs text-greige mt-3">Velgtilbud.no — Trøndelags ledende markedsplass</p>
         </div>
       </div>
     )
@@ -424,7 +424,7 @@ export default function PartnerQuotePage() {
           ← Tilbake til valg
         </button>
 
-        <p className="text-center text-xs text-greige mt-2">Velgtilbud.no — Trondheims ledende markedsplass</p>
+        <p className="text-center text-xs text-greige mt-2">Velgtilbud.no — Trøndelags ledende markedsplass</p>
       </div>
     </div>
   )

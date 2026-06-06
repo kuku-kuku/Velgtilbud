@@ -12,8 +12,8 @@ function choiceHeading(c: ServiceChoice) {
 import FAQ from '@/components/sections/FAQ'
 
 const services = [
-  { title: 'Kontorflytting i Trondheim', desc: 'Effektiv og planlagt kontorflytting med minimal nedetid. Vi hjelper bedrifter med trygg flytting av arbeidsplasser, inventar og IT-utstyr.' },
-  { title: 'Næringsflytting',            desc: 'Finn flyttefirma som håndterer små og store næringsflyttinger i Trondheim og omegn — tilpasset bedriftens størrelse og behov.' },
+  { title: 'Kontorflytting i Trøndelag', desc: 'Effektiv og planlagt kontorflytting med minimal nedetid. Vi hjelper bedrifter med trygg flytting av arbeidsplasser, inventar og IT-utstyr.' },
+  { title: 'Næringsflytting',            desc: 'Finn flyttefirma som håndterer små og store næringsflyttinger i Trøndelag og omegn — tilpasset bedriftens størrelse og behov.' },
   { title: 'Kontorrengjøring',           desc: 'Sammenlign tilbud på fast renhold og engangsvask for kontor, butikk og næringslokaler — utført av profesjonelle rengjøringsfirma.' },
   { title: 'Mellomlagring',              desc: 'Få tilgang til sikre og fleksible lagerløsninger ved flytting, oppussing eller midlertidig behov for oppbevaring av inventar og utstyr.' },
 ]
@@ -32,11 +32,11 @@ export default function BedrifterPage() {
   return (
     <div className="page-enter">
       <Helmet>
-        <title>Bedrifter – Kontorflytting og Rengjøring i Trondheim | Velgtilbud</title>
-        <meta name="description" content="Profesjonell hjelp til kontorflytting, næringsflytting og kontorrengjøring i Trondheim. Sammenlign tilbud fra erfarne leverandører med minimal nedetid for din bedrift." />
+        <title>Bedrifter – Kontorflytting og Rengjøring i Trøndelag | Velgtilbud</title>
+        <meta name="description" content="Profesjonell hjelp til kontorflytting, næringsflytting og kontorrengjøring i Trøndelag. Sammenlign tilbud fra erfarne leverandører med minimal nedetid for din bedrift." />
         <link rel="canonical" href="https://velgtilbud.no/bedrifter" />
-        <meta property="og:title" content="Bedrifter – Kontorflytting og Rengjøring i Trondheim | Velgtilbud" />
-        <meta property="og:description" content="Finn profesjonelle leverandører for kontorflytting og rengjøring i Trondheim. Sammenlign tilbud gratis." />
+        <meta property="og:title" content="Bedrifter – Kontorflytting og Rengjøring i Trøndelag | Velgtilbud" />
+        <meta property="og:description" content="Finn profesjonelle leverandører for kontorflytting og rengjøring i Trøndelag. Sammenlign tilbud gratis." />
         <meta property="og:url" content="https://velgtilbud.no/bedrifter" />
       </Helmet>
       {/* Hero */}
@@ -45,13 +45,13 @@ export default function BedrifterPage() {
         <div className="container-wide pt-28 pb-14 lg:pb-20 relative z-10">
           <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-start">
             <div className="pt-6 pb-14 lg:pb-20">
-              <p className="text-sand text-xs font-semibold uppercase tracking-[0.2em] mb-6">Bedrifter · Trondheim</p>
+              <p className="text-sand text-xs font-semibold uppercase tracking-[0.2em] mb-6">Bedrifter · Trøndelag</p>
               <h1 className="text-4xl md:text-5xl font-bold text-white leading-tight mb-5">
                 <span className="text-sand">Kontorflytting</span>
-                {' '}i Trondheim for bedrifter
+                {' '}i Trøndelag for bedrifter
               </h1>
               <p className="text-white/50 text-sm leading-relaxed mb-8 max-w-md">
-                Finn erfarne selskaper innen <strong className="text-white/80">kontorflytting og næringsflytting i Trondheim</strong>. Vi kobler din bedrift med kvalitetssikrede aktører som sørger for en effektiv flytteprosess med minimal nedetid.
+                Finn erfarne selskaper innen <strong className="text-white/80">kontorflytting og næringsflytting i Trøndelag</strong>. Vi kobler din bedrift med kvalitetssikrede aktører som sørger for en effektiv flytteprosess med minimal nedetid.
               </p>
               <div className="grid grid-cols-2 gap-2">
                 {benefits.map((b) => (
@@ -75,8 +75,8 @@ export default function BedrifterPage() {
       {/* Services */}
       <section className="section-padding bg-offwhite">
         <div className="container-wide">
-          <h2 className="section-title mb-2">Tjenester for bedrifter i Trondheim</h2>
-          <p className="section-subtitle mb-10">Finn profesjonelle tjenester innen kontorflytting, næringsflytting og kontorrengjøring i Trondheim. Vi hjelper bedrifter med å sammenligne tilbud fra erfarne og kvalitetssikrede leverandører.</p>
+          <h2 className="section-title mb-2">Tjenester for bedrifter i Trøndelag</h2>
+          <p className="section-subtitle mb-10">Finn profesjonelle tjenester innen kontorflytting, næringsflytting og kontorrengjøring i Trøndelag. Vi hjelper bedrifter med å sammenligne tilbud fra erfarne og kvalitetssikrede leverandører.</p>
           <div className="grid sm:grid-cols-2 gap-4">
             {services.map((s) => (
               <div key={s.title} className="bg-white rounded-2xl p-6 border border-sand/20">
@@ -93,11 +93,11 @@ export default function BedrifterPage() {
         <div className="container-wide">
           <div className="mb-10">
             <h2 className="section-title mb-2">Derfor bruker bedrifter Velgtilbud!</h2>
-            <p className="section-subtitle">Bedriftsflytting krever planlegging, presisjon og erfarne fagfolk. Vi matcher deg med kvalitetssikrede selskaper i Trondheim — raskt og enkelt.</p>
+            <p className="section-subtitle">Bedriftsflytting krever planlegging, presisjon og erfarne fagfolk. Vi matcher deg med kvalitetssikrede selskaper i Trøndelag — raskt og enkelt.</p>
           </div>
           <div className="grid sm:grid-cols-2 gap-4">
             {[
-              { title: 'Erfarne næringsaktører',  text: 'Vi matcher deg med selskaper som spesialiserer seg på bedrifts- og næringsflytting i Trondheim.' },
+              { title: 'Erfarne næringsaktører',  text: 'Vi matcher deg med selskaper som spesialiserer seg på bedrifts- og næringsflytting i Trøndelag.' },
               { title: 'Minimal nedetid',          text: 'Effektiv koordinering sørger for at virksomheten er raskt i gang igjen etter flyttingen.' },
               { title: 'Alt på ett sted',          text: 'Flytting av kontor, lager, inventar og IT-utstyr — vi finner firma som dekker hele behovet.' },
               { title: 'Gratis og uforpliktende',  text: 'Det koster ingenting å innhente og sammenligne tilbud. Ingen binding, ingen skjulte kostnader.' },

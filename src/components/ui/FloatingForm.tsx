@@ -24,7 +24,7 @@ const config: Record<ActiveService, {
   flytting: {
     label:        'Flytting',
     headerBg:     'bg-navy',
-    tagline:      'Beste flyttebyrå i Trondheim',
+    tagline:      'Beste flyttebyrå i Trøndelag',
     activePill:   'bg-white text-navy shadow-sm',
     inactivePill: 'text-white/50 hover:text-white/80',
     dot:          'bg-sand',
@@ -32,7 +32,7 @@ const config: Record<ActiveService, {
   rengjoring: {
     label:        'Rengjøring',
     headerBg:     'bg-taupe',
-    tagline:      'Rengjøring og flyttevask i Trondheim',
+    tagline:      'Rengjøring og flyttevask i Trøndelag',
     activePill:   'bg-white text-taupe shadow-sm',
     inactivePill: 'text-white/50 hover:text-white/80',
     dot:          'bg-offwhite',

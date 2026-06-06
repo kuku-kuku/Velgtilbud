@@ -21,10 +21,10 @@ const values = [
 ]
 
 const milestones = [
-  { year: 'For over 20 år siden', text: 'Flyttelasset vårt fikk plass i baksetet på en Toyota Celica da vi flyttet til Trondheim. Det ble starten på en lang reise i flyttebransjen.' },
+  { year: 'For over 20 år siden', text: 'Flyttelasset vårt fikk plass i baksetet på en Toyota Celica da vi flyttet til Trøndelag. Det ble starten på en lang reise i flyttebransjen.' },
   { year: 'Den første tanken', text: 'Da vi så at en lokal flyttejobb kostet 18 000 kroner, tenkte vi: «Dette må kunne gjøres enklere, tryggere og til en mer riktig pris.»' },
   { year: 'Mange år i bransjen', text: 'Gjennom årene bygget vi erfaring fra både flyttebyrå, flyttevask og rengjøring. Vi lærte hvordan bransjen fungerer — både for kundene og selskapene.' },
-  { year: 'I dag', text: 'Velgtilbud ble startet for å gjøre det enklere å finne seriøse flyttebyråer og rengjøringsfirma i Trondheim. Kunden sender én forespørsel og mottar flere relevante tilbud på ett sted.' },
+  { year: 'I dag', text: 'Velgtilbud ble startet for å gjøre det enklere å finne seriøse flyttebyråer og rengjøringsfirma i Trøndelag. Kunden sender én forespørsel og mottar flere relevante tilbud på ett sted.' },
 ]
 
 export default function OmOssPage() {
@@ -32,11 +32,11 @@ export default function OmOssPage() {
   return (
     <div className="page-enter">
       <Helmet>
-        <title>Om Oss – Velgtilbud Trondheim</title>
-        <meta name="description" content="Les mer om Velgtilbud og historien bak plattformen. Vi kobler privatpersoner og bedrifter med godkjente flyttebyråer og rengjøringsfirma i Trondheim — basert på mange års erfaring i bransjen." />
+        <title>Om Oss – Velgtilbud Trøndelag</title>
+        <meta name="description" content="Les mer om Velgtilbud og historien bak plattformen. Vi kobler privatpersoner og bedrifter med godkjente flyttebyråer og rengjøringsfirma i Trøndelag — basert på mange års erfaring i bransjen." />
         <link rel="canonical" href="https://velgtilbud.no/om-oss" />
-        <meta property="og:title" content="Om Oss – Velgtilbud Trondheim" />
-        <meta property="og:description" content="Historien bak Velgtilbud — mange års erfaring fra flytte- og rengjøringsbransjen i Trondheim." />
+        <meta property="og:title" content="Om Oss – Velgtilbud Trøndelag" />
+        <meta property="og:description" content="Historien bak Velgtilbud — mange års erfaring fra flytte- og rengjøringsbransjen i Trøndelag." />
         <meta property="og:url" content="https://velgtilbud.no/om-oss" />
       </Helmet>
 
@@ -52,7 +52,7 @@ export default function OmOssPage() {
                 <span className="text-sand">rengjøringsbransjen</span>
               </h1>
               <p className="text-white/50 text-sm leading-relaxed mb-2 max-w-md">
-                Velgtilbud ble startet for å gjøre det enklere å finne seriøse flyttebyråer og rengjøringsfirma i Trondheim. Plattformen er utviklet av personer med erfaring fra både flytting og rengjøring — med fokus på kvalitet, trygghet og en enklere prosess for kunden.
+                Velgtilbud ble startet for å gjøre det enklere å finne seriøse flyttebyråer og rengjøringsfirma i Trøndelag. Plattformen er utviklet av personer med erfaring fra både flytting og rengjøring — med fokus på kvalitet, trygghet og en enklere prosess for kunden.
               </p>
               <p className="text-white/50 text-sm leading-relaxed mb-6 max-w-md">
                 Vi vet hvor vanskelig det kan være å finne pålitelige firma, sammenligne priser og få raske svar. Derfor samler vi kvalitetssikrede bedrifter på ett sted, slik at privatpersoner og bedrifter enkelt kan innhente og sammenligne tilbud.
@@ -62,7 +62,7 @@ export default function OmOssPage() {
                   'Erfaring fra flytte- og rengjøringsbransjen',
                   'Fokus på kvalitetssikrede bedrifter',
                   'Gratis og uforpliktende å bruke',
-                  'Enklere måte å sammenligne tilbud i Trondheim',
+                  'Enklere måte å sammenligne tilbud i Trøndelag',
                 ].map((t) => (
                   <div key={t} className="flex items-center gap-2.5 text-sm text-white/50">
                     <Check className="w-3.5 h-3.5 text-sand flex-shrink-0" /> {t}
@@ -87,7 +87,7 @@ export default function OmOssPage() {
           <h2 className="section-title mb-4">Hvem er Velgtilbud?</h2>
           <div className="space-y-4 text-greige leading-relaxed mb-6">
             <p>
-              Velgtilbud er en tjeneste som gjør det enklere å finne seriøse flyttebyråer og rengjøringsfirma i Trondheim. Mange opplever at det er vanskelig å vite hvilke aktører som tilbyr god kvalitet, riktige priser og pålitelig service — spesielt når markedet er fullt av ulike alternativer.
+              Velgtilbud er en tjeneste som gjør det enklere å finne seriøse flyttebyråer og rengjøringsfirma i Trøndelag. Mange opplever at det er vanskelig å vite hvilke aktører som tilbyr god kvalitet, riktige priser og pålitelig service — spesielt når markedet er fullt av ulike alternativer.
             </p>
             <p>
               Vi startet Velgtilbud for å gjøre prosessen tryggere, enklere og mer oversiktlig. På plattformen kan privatpersoner og bedrifter sende inn én forespørsel og motta tilbud fra relevante og kvalitetssikrede firma innen flytting, flyttevask og rengjøring.
@@ -101,7 +101,7 @@ export default function OmOssPage() {
               'Sammenlign tilbud fra flere firma på ett sted',
               'Fokus på kvalitet, trygghet og seriøse aktører',
               'Gratis og uforpliktende å bruke',
-              'Enklere måte å finne flytte- og rengjøringstjenester i Trondheim',
+              'Enklere måte å finne flytte- og rengjøringstjenester i Trøndelag',
             ].map((t) => (
               <div key={t} className="flex items-center gap-2.5 text-sm text-greige">
                 <Check className="w-4 h-4 text-sand flex-shrink-0" /> {t}
@@ -167,7 +167,7 @@ export default function OmOssPage() {
               Gjennom erfaring fra både flytting og flyttevask lærte vi hva som faktisk betyr noe for kundene: tydelige priser, god kommunikasjon, pålitelig oppfølging og tjenester som holder det de lover.
             </p>
             <p>
-              Vi vet også hvor viktig det er at flyttevasken blir godkjent ved overtakelse. Derfor ønsket vi å gjøre det enklere å finne seriøse aktører innen flytting, rengjøring og flyttevask i Trondheim. Velgtilbud ble laget for å hjelpe kunder med å sammenligne kvalitetssikrede firma på ett sted — enkelt, trygt og uforpliktende.
+              Vi vet også hvor viktig det er at flyttevasken blir godkjent ved overtakelse. Derfor ønsket vi å gjøre det enklere å finne seriøse aktører innen flytting, rengjøring og flyttevask i Trøndelag. Velgtilbud ble laget for å hjelpe kunder med å sammenligne kvalitetssikrede firma på ett sted — enkelt, trygt og uforpliktende.
             </p>
           </div>
         </div>

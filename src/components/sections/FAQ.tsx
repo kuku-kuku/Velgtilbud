@@ -4,7 +4,7 @@ import { cn } from '@/lib/utils'
 
 const faqs = [
   { q: 'Koster det noe å bruke Velgtilbud?',              a: 'Nei — tjenesten er helt gratis for deg. Selskapene betaler en liten formidlingsavgift. Du betaler kun til selskapet du velger.' },
-  { q: 'Hvor raskt får jeg tilbud på flyttebyrå i Trondheim?', a: 'De fleste mottar sine første tilbud innen 1–2 timer på hverdager. Du vil motta varsling på e-post og SMS.' },
+  { q: 'Hvor raskt får jeg tilbud på flyttebyrå i Trøndelag?', a: 'De fleste mottar sine første tilbud innen 1–2 timer på hverdager. Du vil motta varsling på e-post og SMS.' },
   { q: 'Hvordan velger dere selskapene?',                    a: 'Vi godkjenner kun selskaper registrert i Brønnøysund med gyldig forsikring og gode referanser. Selskaper med dårlige anmeldelser fjernes.' },
   { q: 'Kan jeg få tilbud på både flytting og rengjøring?',  a: 'Ja, mange selskaper tilbyr begge tjenester. Du kan be om kombinert tilbud på flytting og flyttevask i samme forespørsel.' },
   { q: 'Er jeg forpliktet til å velge et tilbud?',           a: 'Absolutt ikke. Du kan sammenligne fritt og takke nei til alle tilbudene uten kostnad eller forklaring.' },
@@ -20,7 +20,7 @@ export default function FAQ() {
           <div>
             <h2 className="section-title mb-4">Vanlige spørsmål</h2>
             <p className="text-greige leading-relaxed">
-              Lurer du på noe om prosessen med å finne flyttebyrå i Trondheim? Her svarer vi på det vi oftest får spørsmål om.
+              Lurer du på noe om prosessen med å finne flyttebyrå i Trøndelag? Her svarer vi på det vi oftest får spørsmål om.
             </p>
           </div>
 

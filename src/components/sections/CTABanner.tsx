@@ -4,7 +4,7 @@ interface Props {
 }
 
 export default function CTABanner({
-  title   = 'Klar for å finne beste flyttebyrå i Trondheim?',
+  title   = 'Klar for å finne beste flyttebyrå i Trøndelag?',
   subtitle = 'Fyll ut skjemaet — vi sender deg opptil 5 gratis tilbud fra godkjente selskaper innen 2 timer.',
 }: Props) {
   return (

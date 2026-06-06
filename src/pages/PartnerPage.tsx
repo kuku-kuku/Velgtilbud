@@ -6,7 +6,7 @@ import { CheckCircle, Loader2, ArrowRight } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 const benefits = [
-  { num: '01', title: 'Kvalifiserte kundehenvendelser', text: 'Motta forespørsler fra privatpersoner og bedrifter i Trondheim som aktivt søker tilbud på flytting og rengjøring.' },
+  { num: '01', title: 'Kvalifiserte kundehenvendelser', text: 'Motta forespørsler fra privatpersoner og bedrifter i Trøndelag som aktivt søker tilbud på flytting og rengjøring.' },
   { num: '02', title: 'Betal kun for mottatte leads',   text: 'Ingen faste månedskostnader eller bindingstid. Du betaler kun for kundehenvendelser som sendes til din bedrift.' },
   { num: '03', title: 'Full kontroll over egne priser', text: 'Send tilbud basert på egne priser, tjenester og kapasitet. Dere bestemmer selv hvordan tilbudene utformes.' },
   { num: '04', title: 'Enkel håndtering av forespørsler', text: 'Motta og administrer forespørsler på en enkel og oversiktlig måte, slik at dere raskt kan følge opp potensielle kunder.' },
@@ -39,10 +39,10 @@ export default function PartnerPage() {
     <div className="page-enter">
       <Helmet>
         <title>Bli Partner – Få Flere Kunder Innen Flytting og Rengjøring | Velgtilbud</title>
-        <meta name="description" content="Er du et flyttebyrå eller rengjøringsfirma i Trondheim? Bli partner hos Velgtilbud og motta kvalifiserte kundehenvendelser direkte. Betal kun for leads du mottar." />
+        <meta name="description" content="Er du et flyttebyrå eller rengjøringsfirma i Trøndelag? Bli partner hos Velgtilbud og motta kvalifiserte kundehenvendelser direkte. Betal kun for leads du mottar." />
         <link rel="canonical" href="https://velgtilbud.no/bli-partner" />
         <meta property="og:title" content="Bli Partner – Få Flere Kunder Innen Flytting og Rengjøring | Velgtilbud" />
-        <meta property="og:description" content="Motta kvalifiserte kundehenvendelser fra Trondheim. Betal kun for leads du mottar. Registrer deg gratis." />
+        <meta property="og:description" content="Motta kvalifiserte kundehenvendelser fra Trøndelag. Betal kun for leads du mottar. Registrer deg gratis." />
         <meta property="og:url" content="https://velgtilbud.no/bli-partner" />
       </Helmet>
       {/* Hero */}
@@ -52,25 +52,25 @@ export default function PartnerPage() {
           <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-start">
             <div className="pt-6 pb-14 lg:pb-20">
               <p className="text-sand text-xs font-semibold uppercase tracking-[0.2em] mb-6">
-                For bedrifter · Trondheim
+                For bedrifter · Trøndelag
               </p>
               <h1 className="text-4xl md:text-5xl font-bold text-white leading-tight mb-5">
                 Bli partner og motta{' '}
                 <span className="text-sand">kvalifiserte leads</span>
-                {' '}fra Trondheim
+                {' '}fra Trøndelag
               </h1>
               <p className="text-white/50 text-sm leading-relaxed mb-2 max-w-md">
-                Få flere kunder innen flytting, rengjøring og næringstjenester i Trondheim gjennom Velgtilbud. Vi kobler din bedrift med personer og selskaper som aktivt søker etter tjenestene dere tilbyr.
+                Få flere kunder innen flytting, rengjøring og næringstjenester i Trøndelag gjennom Velgtilbud. Vi kobler din bedrift med personer og selskaper som aktivt søker etter tjenestene dere tilbyr.
               </p>
               <p className="text-white/50 text-sm leading-relaxed mb-6 max-w-md">
-                Motta relevante forespørsler fra kunder i Trondheim — uten bindingstid eller faste abonnementskostnader. Du velger selv hvilke leads du ønsker å kontakte.
+                Motta relevante forespørsler fra kunder i Trøndelag — uten bindingstid eller faste abonnementskostnader. Du velger selv hvilke leads du ønsker å kontakte.
               </p>
               <div className="flex flex-col gap-2">
                 {[
                   'Kvalifiserte leads fra privatpersoner og bedrifter',
                   'Ingen binding eller faste månedskostnader',
                   'Velg selv hvilke forespørsler du vil motta',
-                  'Flere muligheter for oppdrag og vekst i Trondheim',
+                  'Flere muligheter for oppdrag og vekst i Trøndelag',
                   'Enkel og effektiv måte å få nye kunder på',
                 ].map((t) => (
                   <div key={t} className="flex items-center gap-2.5 text-sm text-white/50">
@@ -118,7 +118,7 @@ export default function PartnerPage() {
                       </div>
                       <div>
                         <label className="label">By / område dere dekker</label>
-                        <input {...register('city', { required: 'Påkrevd' })} placeholder="Trondheim og omegn" className={cn('input-field', errors.city && 'border-red-300')} />
+                        <input {...register('city', { required: 'Påkrevd' })} placeholder="Trøndelag og omegn" className={cn('input-field', errors.city && 'border-red-300')} />
                       </div>
                       <div>
                         <label className="label">Tjenester dere tilbyr</label>
@@ -141,7 +141,7 @@ export default function PartnerPage() {
       <section className="section-padding bg-white">
         <div className="container-wide">
           <h2 className="section-title mb-2">Fordeler med å bli partner hos Velgtilbud</h2>
-          <p className="section-subtitle mb-10">Få flere relevante kundehenvendelser i Trondheim innen flytting, rengjøring og næringstjenester.</p>
+          <p className="section-subtitle mb-10">Få flere relevante kundehenvendelser i Trøndelag innen flytting, rengjøring og næringstjenester.</p>
           <div className="grid sm:grid-cols-2 gap-4">
             {benefits.map((b) => (
               <div key={b.num} className="bg-offwhite rounded-2xl p-6 border border-sand/20">

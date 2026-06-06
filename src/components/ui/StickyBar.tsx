@@ -57,8 +57,8 @@ export default function StickyBar({ onOpen }: Props) {
             {/* Label */}
             <p className="hidden sm:block text-white/40 text-sm flex-1 truncate">
               {selected === 'flytting'
-                ? 'Finn beste flyttebyrå i Trondheim'
-                : 'Finn beste rengjøringsselskap i Trondheim'}
+                ? 'Finn beste flyttebyrå i Trøndelag'
+                : 'Finn beste rengjøringsselskap i Trøndelag'}
             </p>
 
             {/* CTA */}

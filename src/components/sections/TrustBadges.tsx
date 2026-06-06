@@ -13,7 +13,7 @@ export default function TrustBadges() {
       <div className="container-wide">
         <div className="mb-14">
           <h2 className="section-title">Din trygghet er vår prioritet</h2>
-          <p className="section-subtitle">Vi gjør det enkelt, trygt og gratis å finne kvalitetssikrede flyttebyråer og rengjøringsfirma i Trondheim.</p>
+          <p className="section-subtitle">Vi gjør det enkelt, trygt og gratis å finne kvalitetssikrede flyttebyråer og rengjøringsfirma i Trøndelag.</p>
         </div>
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
