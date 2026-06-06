@@ -20,8 +20,8 @@ export default function Header({ onOpenModal }: Props) {
   const [scrolled, setScrolled] = useState(false)
   const { pathname } = useLocation()
 
-  const isHome = pathname === '/'
-  const transparent = isHome && !scrolled && !open
+  const hasDarkHero = ['/', '/privatpersoner', '/bedrifter', '/bli-partner', '/om-oss'].includes(pathname)
+  const transparent = hasDarkHero && !scrolled && !open
 
   useEffect(() => {
     const handler = () => setScrolled(window.scrollY > 40)
