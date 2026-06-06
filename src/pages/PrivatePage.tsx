@@ -1,6 +1,14 @@
+import { useState } from 'react'
 import { Helmet } from 'react-helmet-async'
 import { Check } from 'lucide-react'
 import LeadForm from '@/components/ui/LeadForm'
+
+type ServiceChoice = 'begge' | 'flyttehjelp' | 'rengjoring'
+function choiceHeading(c: ServiceChoice) {
+  if (c === 'rengjoring')  return 'Få gratis tilbud på rengjøring'
+  if (c === 'flyttehjelp') return 'Få gratis tilbud på flyttehjelp'
+  return 'Få gratis tilbud på flytting og rengjøring'
+}
 import TrustBadges from '@/components/sections/TrustBadges'
 import Testimonials from '@/components/sections/Testimonials'
 import FAQ from '@/components/sections/FAQ'
@@ -27,6 +35,7 @@ const priceGuide = [
 ]
 
 export default function PrivatePage() {
+  const [choice, setChoice] = useState<ServiceChoice>('begge')
   return (
     <div className="page-enter">
       <Helmet>
@@ -63,8 +72,8 @@ export default function PrivatePage() {
             <div className="lg:self-center">
               <div id="hero-form" className="bg-white rounded-2xl shadow-2xl shadow-black/20 px-7 py-8">
                 <p className="text-xs font-semibold text-greige uppercase tracking-widest mb-1">Privatpersoner</p>
-                <h2 className="text-xl font-bold text-navy mb-6">Få gratis tilbud nå</h2>
-                <LeadForm defaultService="flytting" />
+                <h2 className="text-xl font-bold text-navy mb-6">{choiceHeading(choice)}</h2>
+                <LeadForm defaultService="flytting" defaultServiceChoice="begge" onServiceChoiceChange={setChoice} />
               </div>
             </div>
           </div>
