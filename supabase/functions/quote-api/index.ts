@@ -103,7 +103,7 @@ serve(async (req) => {
         // Verify token matches distribution
         const { data: dist, error } = await sb
           .from('lead_distributions')
-          .select('id, lead_id, partner_id')
+          .select('id, lead_id, partner_id, leads(name, email, customer_token), partners(name)')
           .eq('partner_token', token)
           .eq('id', distribution_id)
           .single()
@@ -130,6 +130,32 @@ serve(async (req) => {
         })
 
         if (insertErr) throw insertErr
+
+        // Notify customer that a new offer has arrived
+        const lead = dist.leads as Record<string, string>
+        const partnerName = (dist.partners as Record<string, string>).name
+        const portalUrl = `${SITE_URL}/tilbud?token=${lead.customer_token}`
+
+        await fetch('https://api.resend.com/emails', {
+          method:  'POST',
+          headers: { Authorization: `Bearer ${RESEND_API_KEY}`, 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            from:    FROM_EMAIL,
+            to:      lead.email,
+            subject: `Du har mottatt et nytt tilbud fra ${partnerName}`,
+            html: `<!DOCTYPE html><html><body style="font-family:sans-serif;max-width:580px;margin:0 auto;padding:28px 20px;color:#333">
+  <h2 style="color:#0E1D2D;margin:0 0 4px">Du har fått et nytt tilbud!</h2>
+  <p style="color:#555;font-size:14px;margin:0 0 16px">
+    Hei ${lead.name}, <strong>${partnerName}</strong> har sendt deg et tilbud.
+  </p>
+  <p style="color:#555;font-size:14px;margin:0 0 20px">
+    Logg inn på din side for å se og sammenligne alle tilbudene du har mottatt.
+  </p>
+  <a href="${portalUrl}" style="display:inline-block;background:#0E1D2D;color:#fff;text-decoration:none;padding:12px 24px;border-radius:6px;font-size:14px;font-weight:600">Se tilbudene dine</a>
+  <p style="font-size:11px;color:#bbb;margin-top:28px;border-top:1px solid #eee;padding-top:12px">Velgtilbud.no</p>
+</body></html>`,
+          }),
+        })
 
         return json({ success: true })
       }
@@ -177,7 +203,7 @@ serve(async (req) => {
       // Verify customer token and get lead
       const { data: lead, error: leadErr } = await sb
         .from('leads')
-        .select('id, name, service_type')
+        .select('id, name, email, service_type')
         .eq('customer_token', token)
         .single()
 
@@ -207,6 +233,29 @@ serve(async (req) => {
       const svcLabel =
         lead.service_type === 'rengjoring' ? 'Rengjøring' :
         lead.service_type === 'begge'      ? 'Flytting + Rengjøring' : 'Flytting'
+
+      // Notify the customer
+      await fetch('https://api.resend.com/emails', {
+        method:  'POST',
+        headers: { Authorization: `Bearer ${RESEND_API_KEY}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          from:    FROM_EMAIL,
+          to:      lead.email,
+          subject: `Bekreftelse — du har valgt et tilbud`,
+          html: `<!DOCTYPE html><html><body style="font-family:sans-serif;max-width:580px;margin:0 auto;padding:28px 20px;color:#333">
+  <h2 style="color:#0E1D2D;margin:0 0 4px">Tilbudet er bekreftet!</h2>
+  <p style="color:#555;font-size:14px;margin:0 0 16px">
+    Hei ${lead.name}, du har valgt tilbudet fra <strong>${(quote.partners as Record<string, string>).name}</strong> på <strong>${svcLabel}</strong> (${(quote as Record<string, unknown>).price?.toLocaleString('nb-NO')} kr inkl. mva).
+  </p>
+  <p style="color:#555;font-size:14px;margin:0 0 16px">
+    Leverandøren vil ta kontakt med deg for å avtale tidspunkt og detaljer.<br>
+    Du kan også nå dem på <strong>${(quote.partners as Record<string, string>).phone}</strong> eller <strong>${(quote.partners as Record<string, string>).email}</strong>.
+  </p>
+  <p style="color:#888;font-size:13px;">Takk for at du brukte Velgtilbud!</p>
+  <p style="font-size:11px;color:#bbb;margin-top:28px;border-top:1px solid #eee;padding-top:12px">Velgtilbud.no</p>
+</body></html>`,
+        }),
+      })
 
       // Notify the chosen partner
       await fetch('https://api.resend.com/emails', {
