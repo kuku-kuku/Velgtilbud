@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { supabase } from '@/lib/supabase'
 import type { Partner, Lead, Distribution } from '@/lib/supabase'
 import type { Session } from '@supabase/supabase-js'
-import { LogOut, Plus, Pencil, X, Check, AlertCircle, ChevronRight, Phone, Mail, MapPin, Home, Trash2, Search, Users, TrendingUp, Activity, FileText, LayoutDashboard, Menu } from 'lucide-react'
+import { LogOut, Plus, Pencil, X, Check, AlertCircle, ChevronRight, Phone, Mail, MapPin, Home, Trash2, Search, Users, TrendingUp, Activity, FileText, LayoutDashboard, Menu, Info } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 // ── Auth ──────────────────────────────────────────────────────────────────────
@@ -231,11 +231,14 @@ type QuoteRow = {
 
 type LeadWithCount = Lead & { quotes: { id: string }[] }
 
+type DistRow = { id: string; email_status: string; created_at: string; partners: { name: string; email: string } | null }
+
 function LeadModal({ lead, onClose, onDelete }: { lead: Lead; onClose: () => void; onDelete: (id: string) => void }) {
   const cleaning = lead.service_type !== 'flyttehjelp'
   const moving   = lead.service_type !== 'rengjoring'
   const [quotes, setQuotes]  = useState<QuoteRow[]>([])
   const [qLoading, setQLoad] = useState(true)
+  const [dists, setDists]    = useState<DistRow[]>([])
 
   useEffect(() => {
     supabase
@@ -244,6 +247,12 @@ function LeadModal({ lead, onClose, onDelete }: { lead: Lead; onClose: () => voi
       .eq('lead_id', lead.id)
       .order('price', { ascending: true })
       .then(({ data }) => { setQuotes((data as unknown as QuoteRow[]) ?? []); setQLoad(false) })
+    supabase
+      .from('lead_distributions')
+      .select('id, email_status, created_at, partners(name, email)')
+      .eq('lead_id', lead.id)
+      .order('created_at', { ascending: true })
+      .then(({ data }) => setDists((data as unknown as DistRow[]) ?? []))
   }, [lead.id])
 
   function row(label: string, value: string | number | boolean | null | undefined) {
@@ -318,6 +327,40 @@ function LeadModal({ lead, onClose, onDelete }: { lead: Lead; onClose: () => voi
               </div>
             </div>
           )}
+
+          <div>
+            <p className="text-xs font-bold text-greige uppercase tracking-wider mb-3 flex items-center gap-1.5">
+              <Mail className="w-3.5 h-3.5" /> Partners notified ({dists.length})
+            </p>
+            {dists.length === 0 ? (
+              <div className="bg-offwhite rounded-xl p-4 flex items-center justify-between">
+                <span className="text-sm text-greige">No partners notified</span>
+                <div className="relative group/tip">
+                  <Info className="w-4 h-4 text-greige/60 cursor-help" />
+                  <div className="absolute right-0 bottom-6 w-64 bg-navy text-white text-xs rounded-xl p-3 leading-relaxed shadow-lg opacity-0 pointer-events-none group-hover/tip:opacity-100 transition-opacity z-10">
+                    Possible reasons:<br />
+                    • No active partners match this tier (budget/premium)<br />
+                    • Partner hit their daily or monthly lead limit<br />
+                    • No partner handles this service type
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <div className="flex flex-col gap-1.5">
+                {dists.map(d => (
+                  <div key={d.id} className="flex items-center justify-between bg-offwhite rounded-xl px-4 py-2.5">
+                    <div>
+                      <p className="text-sm font-medium text-navy">{d.partners?.name ?? '—'}</p>
+                      <p className="text-xs text-greige">{d.partners?.email}</p>
+                    </div>
+                    <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${d.email_status === 'sent' ? 'bg-sage/10 text-sage' : 'bg-red-50 text-red-400'}`}>
+                      {d.email_status}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
 
           <div>
             <p className="text-xs font-bold text-greige uppercase tracking-wider mb-3 flex items-center gap-1.5">

@@ -134,7 +134,7 @@ serve(async (req) => {
         // Notify customer that a new offer has arrived
         const lead = dist.leads as Record<string, string>
         const partnerName = (dist.partners as Record<string, string>).name
-        const portalUrl = `${SITE_URL}/tilbud?token=${lead.customer_token}`
+        const portalUrl = `${SITE_URL}/mine-tilbud/${lead.customer_token}`
 
         await fetch('https://api.resend.com/emails', {
           method:  'POST',
@@ -203,7 +203,7 @@ serve(async (req) => {
       // Verify customer token and get lead
       const { data: lead, error: leadErr } = await sb
         .from('leads')
-        .select('id, name, email, service_type')
+        .select('id, name, email, phone, service_type')
         .eq('customer_token', token)
         .single()
 
@@ -272,6 +272,10 @@ serve(async (req) => {
   </p>
   <p style="color:#555;font-size:14px;margin:0 0 16px">
     Kunden heter <strong>${lead.name}</strong>. Ta kontakt for å avtale tidspunkt og detaljer.
+  </p>
+  <p style="color:#555;font-size:14px;margin:0 0 16px">
+    📞 <a href="tel:${lead.phone}" style="color:#0E1D2D">${lead.phone}</a><br>
+    ✉️ <a href="mailto:${lead.email}" style="color:#0E1D2D">${lead.email}</a>
   </p>
   <p style="color:#888;font-size:13px;">Lykke til!</p>
   <p style="font-size:11px;color:#bbb;margin-top:28px;border-top:1px solid #eee;padding-top:12px">Velgtilbud.no</p>

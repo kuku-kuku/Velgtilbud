@@ -126,7 +126,7 @@ export default function PartnerQuotePage() {
     </div>
   )
 
-  if (!data) return (
+  if (!data || !data.lead) return (
     <div className="min-h-screen bg-offwhite flex items-center justify-center p-4">
       <div className="bg-white rounded-2xl border border-sand/50 p-8 max-w-sm text-center">
         <p className="text-navy font-semibold mb-2">Noe gikk galt</p>
