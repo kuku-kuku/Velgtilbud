@@ -366,7 +366,7 @@ export default function LeadForm({ service: ctrl, onServiceChange, onServiceChoi
           <div className="flex flex-col gap-2">
             {([
               { v: 'privat',     l: 'Privat'      },
-              { v: 'borettslag', l: 'Borettslag'  },
+              ...(data.service !== 'flyttehjelp' ? [{ v: 'borettslag', l: 'Borettslag' }] : []),
               { v: 'bedrift',    l: 'Bedrift'      },
             ] as { v: CustomerType; l: string }[]).map(({ v, l }) => (
               <button
