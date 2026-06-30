@@ -38,7 +38,17 @@ export default function BedrifterPage() {
         <meta property="og:title" content="Kontorflytting Trondheim – Tilbud på Næringsflytting og Rengjøring | Velgtilbud" />
         <meta property="og:description" content="Finn profesjonelle leverandører for kontorflytting og rengjøring i Trondheim. Sammenlign gratis tilbud – minimal nedetid for din bedrift." />
         <meta property="og:url" content="https://velgtilbud.no/bedrifter" />
-        <meta property="og:image" content="https://velgtilbud.no/og-image.png" />
+        <meta property="og:image" content="https://velgtilbud.no/logo.jpg" />
+        <script type="application/ld+json">{JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Service",
+          "name": "Kontorflytting og næringsflytting Trondheim",
+          "description": "Profesjonell kontorflytting og næringsflytting i Trondheim. Finn og sammenlign erfarne leverandører med minimal nedetid for din bedrift.",
+          "provider": { "@type": "LocalBusiness", "name": "Velgtilbud", "url": "https://velgtilbud.no" },
+          "areaServed": { "@type": "City", "name": "Trondheim" },
+          "serviceType": ["Kontorflytting", "Næringsflytting", "Kontorrengjøring", "Mellomlagring"],
+          "offers": { "@type": "Offer", "price": "0", "priceCurrency": "NOK", "description": "Gratis og uforpliktende å innhente tilbud" }
+        })}</script>
       </Helmet>
       {/* Hero */}
       <section className="bg-navy relative overflow-hidden -mt-16">

@@ -45,7 +45,17 @@ export default function PrivatePage() {
         <meta property="og:title" content="Flyttebyrå Trondheim – Tilbud på Flytting og Flyttevask | Velgtilbud" />
         <meta property="og:description" content="Finn godkjente flyttebyråer og rengjøringsfirma i Trondheim. Sammenlign gratis tilbud og velg det beste for deg." />
         <meta property="og:url" content="https://velgtilbud.no/privatpersoner" />
-        <meta property="og:image" content="https://velgtilbud.no/og-image.png" />
+        <meta property="og:image" content="https://velgtilbud.no/logo.jpg" />
+        <script type="application/ld+json">{JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Service",
+          "name": "Flyttebyrå og rengjøring Trondheim",
+          "description": "Finn og sammenlign godkjente flyttebyråer og rengjøringsfirma i Trondheim. Gratis tilbud på boligflytting, flyttevask og hjemmerengjøring.",
+          "provider": { "@type": "LocalBusiness", "name": "Velgtilbud", "url": "https://velgtilbud.no" },
+          "areaServed": { "@type": "City", "name": "Trondheim" },
+          "serviceType": ["Boligflytting", "Flyttevask", "Hjemmerengjøring", "Pianotransport", "Langtransport"],
+          "offers": { "@type": "Offer", "price": "0", "priceCurrency": "NOK", "description": "Gratis og uforpliktende å innhente tilbud" }
+        })}</script>
       </Helmet>
       {/* Hero */}
       <section className="bg-navy relative overflow-hidden -mt-16">

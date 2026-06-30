@@ -38,7 +38,7 @@ export default function OmOssPage() {
         <meta property="og:title" content="Om Oss – Velgtilbud Trondheim" />
         <meta property="og:description" content="Historien bak Velgtilbud — mange års erfaring fra flytte- og rengjøringsbransjen i Trondheim. Gratis tilbud fra godkjente firma." />
         <meta property="og:url" content="https://velgtilbud.no/om-oss" />
-        <meta property="og:image" content="https://velgtilbud.no/og-image.png" />
+        <meta property="og:image" content="https://velgtilbud.no/logo.jpg" />
       </Helmet>
 
       {/* Hero */}

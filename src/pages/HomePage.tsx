@@ -19,24 +19,42 @@ export default function HomePage() {
         <meta property="og:title" content="Flyttebyrå Trondheim – Gratis tilbud fra godkjente flyttebyråer | Velgtilbud" />
         <meta property="og:description" content="Skal du flytte i Trondheim? Motta gratis tilbud fra godkjente flyttebyråer og rengjøringsfirma. Sammenlign og velg det beste – helt uforpliktende." />
         <meta property="og:url" content="https://velgtilbud.no/" />
-        <meta property="og:image" content="https://velgtilbud.no/og-image.png" />
+        <meta property="og:image" content="https://velgtilbud.no/logo.jpg" />
         <script type="application/ld+json">{JSON.stringify({
           "@context": "https://schema.org",
           "@type": "LocalBusiness",
           "name": "Velgtilbud",
-          "description": "Trondheims ledende markedsplass for flytting og rengjøring. Sammenlign tilbud fra godkjente selskaper gratis og uforpliktende.",
+          "description": "Trondheims ledende markedsplass for flytting og rengjøring. Sammenlign gratis tilbud fra godkjente flyttebyråer og rengjøringsfirma i Trondheim.",
           "url": "https://velgtilbud.no",
+          "logo": "https://velgtilbud.no/logo.jpg",
+          "image": "https://velgtilbud.no/logo.jpg",
           "email": "post@velgtilbud.no",
           "address": {
             "@type": "PostalAddress",
             "addressLocality": "Trondheim",
+            "addressRegion": "Trøndelag",
             "addressCountry": "NO"
+          },
+          "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": 63.4305,
+            "longitude": 10.3951
           },
           "areaServed": {
             "@type": "City",
             "name": "Trondheim"
           },
-          "serviceType": ["Flyttebyrå", "Rengjøringsfirma", "Flyttevask", "Flyttehjelp", "Kontorflytting"],
+          "hasOfferCatalog": {
+            "@type": "OfferCatalog",
+            "name": "Flytte- og rengjøringstjenester i Trondheim",
+            "itemListElement": [
+              { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Flyttebyrå Trondheim" } },
+              { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Flyttevask Trondheim" } },
+              { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Rengjøringsbyrå Trondheim" } },
+              { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Kontorflytting Trondheim" } },
+              { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Flyttehjelp Trondheim" } }
+            ]
+          },
           "priceRange": "Gratis",
           "inLanguage": "nb"
         })}</script>
@@ -50,6 +68,37 @@ export default function HomePage() {
             "target": "https://velgtilbud.no/?q={search_term_string}",
             "query-input": "required name=search_term_string"
           }
+        })}</script>
+        <script type="application/ld+json">{JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "Koster det noe å bruke Velgtilbud?",
+              "acceptedAnswer": { "@type": "Answer", "text": "Nei — tjenesten er helt gratis for deg. Selskapene betaler en liten formidlingsavgift. Du betaler kun til selskapet du velger." }
+            },
+            {
+              "@type": "Question",
+              "name": "Hvor raskt får jeg tilbud på flyttebyrå i Trondheim?",
+              "acceptedAnswer": { "@type": "Answer", "text": "De fleste mottar sine første tilbud innen 1–2 timer på hverdager. Du vil motta varsling på e-post og SMS." }
+            },
+            {
+              "@type": "Question",
+              "name": "Hvordan velger dere selskapene?",
+              "acceptedAnswer": { "@type": "Answer", "text": "Vi godkjenner kun selskaper registrert i Brønnøysund med gyldig forsikring og gode referanser. Selskaper med dårlige anmeldelser fjernes." }
+            },
+            {
+              "@type": "Question",
+              "name": "Kan jeg få tilbud på både flytting og rengjøring?",
+              "acceptedAnswer": { "@type": "Answer", "text": "Ja, mange selskaper tilbyr begge tjenester. Du kan be om kombinert tilbud på flytting og flyttevask i samme forespørsel." }
+            },
+            {
+              "@type": "Question",
+              "name": "Er jeg forpliktet til å velge et tilbud?",
+              "acceptedAnswer": { "@type": "Answer", "text": "Absolutt ikke. Du kan sammenligne fritt og takke nei til alle tilbudene uten kostnad eller forklaring." }
+            }
+          ]
         })}</script>
       </Helmet>
       <Hero />

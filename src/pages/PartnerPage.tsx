@@ -44,7 +44,7 @@ export default function PartnerPage() {
         <meta property="og:title" content="Bli Partner i Trondheim – Få Leads Innen Flytting og Rengjøring | Velgtilbud" />
         <meta property="og:description" content="Motta kvalifiserte kundehenvendelser fra Trondheim. Ingen binding – betal kun for leads du mottar. Registrer deg gratis." />
         <meta property="og:url" content="https://velgtilbud.no/bli-partner" />
-        <meta property="og:image" content="https://velgtilbud.no/og-image.png" />
+        <meta property="og:image" content="https://velgtilbud.no/logo.jpg" />
       </Helmet>
       {/* Hero */}
       <section className="bg-navy relative overflow-hidden -mt-16">
