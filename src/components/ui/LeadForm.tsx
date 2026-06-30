@@ -89,7 +89,7 @@ interface FS {
   size: string
   toStreet: string; toNo: string; toPostal: string; toCity: string; toFloor: string; toElevator: boolean
   parkA: string; parkB: string
-  propType: string; floors: string; wholeProperty: boolean; area: string
+  propType: string; floors: string; wholeProperty: boolean; area: string; petTraces: boolean | null
   soverom: number; badwc: number; kjokken: number; stue: number
   areaExtras: string[]; comments: string
   name: string; phone: string; email: string
@@ -103,7 +103,7 @@ const INIT: Omit<FS, 'service'> = {
   size: '',
   toStreet: '', toNo: '', toPostal: '', toCity: '', toFloor: '', toElevator: false,
   parkA: '', parkB: '',
-  propType: '', floors: '', wholeProperty: true, area: '',
+  propType: '', floors: '', wholeProperty: true, area: '', petTraces: null,
   soverom: 0, badwc: 0, kjokken: 0, stue: 0,
   areaExtras: [], comments: '',
   name: '', phone: '', email: '',
@@ -804,6 +804,27 @@ export default function LeadForm({ service: ctrl, onServiceChange, onServiceChoi
                   className={cn('input-field py-1.5 md:text-sm', errors.area && 'border-red-300')}
                 />
                 {errors.area && <p className="text-xs text-red-400 mt-1">{errors.area}</p>}
+              </div>
+            </div>
+
+            <div>
+              <label className="label">Spor etter husdyr?</label>
+              <div className="flex gap-1.5">
+                {([true, false] as const).map(v => (
+                  <button
+                    key={String(v)}
+                    type="button"
+                    onClick={() => set('petTraces', v)}
+                    className={cn(
+                      'flex-1 py-1.5 text-xs font-semibold rounded-lg border transition-all',
+                      data.petTraces === v
+                        ? `${activeBg} text-white border-transparent`
+                        : 'bg-white text-greige border-sand/50 hover:border-navy/30 hover:text-navy'
+                    )}
+                  >
+                    {v ? 'Ja' : 'Nei'}
+                  </button>
+                ))}
               </div>
             </div>
           </div>

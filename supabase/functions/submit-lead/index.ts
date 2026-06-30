@@ -61,6 +61,7 @@ serve(async (req) => {
         kjokken:        body.kjokken        ?? null,
         stue:           body.stue           ?? null,
         area_extras:    body.areaExtras     || [],
+        pet_traces:     body.petTraces      ?? null,
         comments:       body.comments       || null,
         desired_date:   body.date           || null,
         flex:           body.flex           ?? false,
@@ -73,17 +74,19 @@ serve(async (req) => {
     if (leadErr) { console.error('leadErr:', JSON.stringify(leadErr)); throw leadErr }
 
     // ── 2. Round-robin tier assignment ────────────────────────
-    // Count all leads including this one; odd = budget, even = premium.
-    // Lead #1 → budget, #2 → premium, #3 → budget, #4 → premium …
-    const { count: totalLeads } = await sb
-      .from('leads')
-      .select('*', { count: 'exact', head: true })
-
-    const assignedTier: 'budget' | 'premium' =
-      (totalLeads ?? 1) % 2 === 1 ? 'budget' : 'premium'
-
-    // Persist the tier on the lead record for admin visibility
-    await sb.from('leads').update({ budget_tier: assignedTier }).eq('id', lead.id)
+    // TEMPORARILY DISABLED: owner is manually communicating with customers,
+    // so all leads go to ALL active partners regardless of tier.
+    // Re-enable when automated lead distribution resumes.
+    //
+    // const { count: totalLeads } = await sb
+    //   .from('leads')
+    //   .select('*', { count: 'exact', head: true })
+    //
+    // const assignedTier: 'budget' | 'premium' =
+    //   (totalLeads ?? 1) % 2 === 1 ? 'budget' : 'premium'
+    //
+    // // Persist the tier on the lead record for admin visibility
+    // await sb.from('leads').update({ budget_tier: assignedTier }).eq('id', lead.id)
 
     // ── 3. Determine matching service types ───────────────────
     const match =
@@ -91,13 +94,13 @@ serve(async (req) => {
       lead.service_type === 'rengjoring' ? ['cleaning', 'both'] :
                                            ['moving',   'both']
 
-    // ── 4. Fetch ALL active partners of the assigned tier ─────
+    // ── 4. Fetch ALL active partners (all tiers) ──────────────
     const { data: allPartners } = await sb
       .from('partners')
       .select('*')
       .eq('active', true)
       .eq('city', 'Trondheim')
-      .eq('tier', assignedTier)
+    // .eq('tier', assignedTier)  // DISABLED: send to all tiers
 
     const eligible: Record<string, unknown>[] = []
 
@@ -178,7 +181,7 @@ serve(async (req) => {
     })
 
     return new Response(
-      JSON.stringify({ success: true, lead_id: lead.id, sent_to: selected.length, tier: assignedTier }),
+      JSON.stringify({ success: true, lead_id: lead.id, sent_to: selected.length }),
       { headers: { 'Content-Type': 'application/json', ...CORS } }
     )
   } catch (err) {
@@ -240,6 +243,7 @@ function buildPartnerEmail(lead: Record<string, unknown>, partner: Record<string
     row('Etasjer',      lead.floors),
     row('Areal',        lead.area ? `${lead.area} kvm` : null),
     row('Hele boligen', lead.whole_property ? 'Ja' : 'Nei'),
+    row('Spor etter husdyr', lead.pet_traces != null ? (lead.pet_traces ? 'Ja' : 'Nei') : null),
     row('Soverom',      lead.soverom),
     row('Bad/WC',       lead.badwc),
     row('Kjøkken',      lead.kjokken),
