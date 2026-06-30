@@ -32,12 +32,13 @@ export default function OmOssPage() {
   return (
     <div className="page-enter">
       <Helmet>
-        <title>Om Oss – Velgtilbud Trøndelag</title>
-        <meta name="description" content="Les mer om Velgtilbud og historien bak plattformen. Vi kobler privatpersoner og bedrifter med godkjente flyttebyråer og rengjøringsfirma i Trøndelag — basert på mange års erfaring i bransjen." />
+        <title>Om Oss – Velgtilbud Trondheim | Erfaring fra Flytte- og Rengjøringsbransjen</title>
+        <meta name="description" content="Les om Velgtilbud og historien bak plattformen. Vi kobler privatpersoner og bedrifter i Trondheim med godkjente flyttebyråer og rengjøringsfirma – basert på mange års erfaring i bransjen." />
         <link rel="canonical" href="https://velgtilbud.no/om-oss" />
-        <meta property="og:title" content="Om Oss – Velgtilbud Trøndelag" />
-        <meta property="og:description" content="Historien bak Velgtilbud — mange års erfaring fra flytte- og rengjøringsbransjen i Trøndelag." />
+        <meta property="og:title" content="Om Oss – Velgtilbud Trondheim" />
+        <meta property="og:description" content="Historien bak Velgtilbud — mange års erfaring fra flytte- og rengjøringsbransjen i Trondheim. Gratis tilbud fra godkjente firma." />
         <meta property="og:url" content="https://velgtilbud.no/om-oss" />
+        <meta property="og:image" content="https://velgtilbud.no/og-image.png" />
       </Helmet>
 
       {/* Hero */}

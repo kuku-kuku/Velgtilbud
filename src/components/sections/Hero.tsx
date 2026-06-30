@@ -31,12 +31,12 @@ export default function Hero() {
           {/* Left — copy */}
           <div className="lg:pl-2">
             <p className="text-white/60 text-xs font-semibold uppercase tracking-[0.2em] mb-5">
-              Trøndelags ledende markedsplass
+              Trondheims ledende markedsplass
             </p>
 
             <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-white leading-[1.05] mb-6">
               Finn flyttebyrå og
-              <br className="hidden md:block" />{' '}rengjøringsbyrå i Trøndelag
+              <br className="hidden md:block" />{' '}rengjøringsbyrå i Trondheim
             </h1>
 
             <div className="min-h-[1.6rem] mb-4">
