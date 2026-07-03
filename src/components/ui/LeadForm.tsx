@@ -80,6 +80,17 @@ function toServiceChoice(s: ServiceType): ServiceChoice {
   return s === 'rengjoring' ? 'rengjoring' : 'flyttehjelp'
 }
 
+// Fires a GA4/Google Ads conversion event via GTM. The form is a popup with no
+// thank-you page or URL change, so page-view-based conversion tracking never
+// triggers — this is the only signal Ads/GA4 gets that a lead was submitted.
+function pushLeadConversion(service: ServiceChoice) {
+  window.dataLayer = window.dataLayer || []
+  window.dataLayer.push({
+    event: 'generate_lead',
+    lead_service: toServiceType(service),
+  })
+}
+
 interface FS {
   service:      ServiceChoice
   customerType: CustomerType
@@ -265,6 +276,7 @@ export default function LeadForm({ service: ctrl, onServiceChange, onServiceChoi
       })
       if (res.status === 409) { setSubmitted('duplicate'); return }
       if (!res.ok) throw new Error(`HTTP ${res.status}`)
+      pushLeadConversion(data.service)
       setSubmitted('success')
     } catch (err) {
       console.error('Lead submission failed:', err)
