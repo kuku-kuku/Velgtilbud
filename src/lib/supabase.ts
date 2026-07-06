@@ -53,6 +53,7 @@ export interface Lead {
   prop_type:      string | null
   floors:         string | null
   whole_property: boolean | null
+  pet_traces:     boolean | null
   area:           string | null
   soverom:        number | null
   badwc:          number | null

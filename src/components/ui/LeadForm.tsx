@@ -218,6 +218,7 @@ export default function LeadForm({ service: ctrl, onServiceChange, onServiceChoi
       if (!data.cleaningType) errs.cleaningType = 'Velg type rengjøring'
     } else if (currentStep === 'date') {
       if (!data.date) errs.date = 'Velg en dato'
+      if (data.flex && !data.flexRange) errs.flexRange = 'Velg hvor fleksibel'
     } else if (currentStep === 'fromAddress') {
       if (!data.fromStreet.trim()) errs.fromStreet = 'Påkrevd'
       if (!data.fromPostal.match(/^\d{4}$/)) errs.fromPostal = '4 sifre'
@@ -517,13 +518,17 @@ export default function LeadForm({ service: ctrl, onServiceChange, onServiceChoi
                 <button
                   type="button"
                   onClick={() => setFlexOpen(o => !o)}
-                  className="input-field flex items-center justify-between gap-2 text-left"
+                  className={cn(
+                    'input-field flex items-center justify-between gap-2 text-left',
+                    errors.flexRange && 'border-red-300'
+                  )}
                 >
                   <span className={selectedFlexLabel ? 'text-navy font-medium' : 'text-warm-gray/70'}>
                     {selectedFlexLabel ?? 'Velg fleksibilitet…'}
                   </span>
                   <ChevronDown className={cn('w-4 h-4 text-greige flex-shrink-0 transition-transform duration-150', flexOpen && 'rotate-180')} />
                 </button>
+                {errors.flexRange && <p className="text-xs text-red-400 mt-1">{errors.flexRange}</p>}
                 <div className={cn(
                   'grid transition-[grid-template-rows] duration-200 ease-in-out',
                   flexOpen ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'

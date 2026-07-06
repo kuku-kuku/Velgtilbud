@@ -196,6 +196,17 @@ serve(async (req) => {
 
 // ── Helpers ───────────────────────────────────────────────
 
+function flexRangeLabel(v: string | null) {
+  const labels: Record<string, string> = {
+    '1dag':   '± 1 dag',
+    '2dager': '± 2 dager',
+    '3dager': '± 3 dager',
+    '1uke':   '± 1 uke',
+    'mer':    'Mer enn en uke',
+  }
+  return v ? (labels[v] ?? v) : null
+}
+
 function svcLabel(t: string) {
   if (t === 'rengjoring') return 'Rengjøring'
   if (t === 'begge')      return 'Flytting + Rengjøring'
@@ -234,6 +245,7 @@ function buildPartnerEmail(lead: Record<string, unknown>, partner: Record<string
     row('Telefon',     lead.phone),
     row('E-post',      lead.email),
     row('Ønsket dato', lead.desired_date),
+    row('Fleksibel dato', lead.flex ? (flexRangeLabel(lead.flex_range as string | null) ?? 'Ja') : null),
   ].join(''))}
 
   ${cleaning ? section('Rengjøringsdetaljer', [

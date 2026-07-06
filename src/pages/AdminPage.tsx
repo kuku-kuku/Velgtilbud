@@ -301,6 +301,7 @@ function LeadModal({ lead, onClose, onDelete }: { lead: Lead; onClose: () => voi
                 {row('Floors', lead.floors)}
                 {row('Area', lead.area ? `${lead.area} m²` : null)}
                 {row('Whole property', lead.whole_property)}
+                {row('Pet traces', lead.pet_traces)}
                 {row('Bedrooms', lead.soverom)}
                 {row('Bathrooms', lead.badwc)}
                 {row('Kitchen', lead.kjokken)}
