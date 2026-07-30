@@ -4,28 +4,28 @@ const sections = [
   {
     number: '1.',
     title: 'Om tjenesten',
-    content: `Velgtilbud.no er en gratis tjeneste som hjelper privatpersoner og bedrifter med å innhente tilbud fra relevante flytte- og rengjøringsselskaper.
+    content: `Velgtilbud.no drives av Værnes Multiservice AS og er en gratis tjeneste som hjelper privatpersoner og bedrifter med å innhente konkurransedyktige tilbud på flytting og rengjøring i hele Norge.
 
-Ved å sende inn en forespørsel samtykker du til at opplysningene dine deles med aktuelle samarbeidspartnere. Du kan motta tilbud fra opptil 5 selskaper.`,
+Ved å sende inn en forespørsel samtykker du til at Værnes Multiservice AS kan bruke opplysningene dine til å innhente og forhandle tilbud fra relevante, kvalitetssikrede leverandører. Du mottar ett eller flere ferdig forhandlede tilbud fra oss.`,
   },
   {
     number: '2.',
     title: 'Kontakt mellom kunde og leverandør',
-    content: `Etter at forespørselen er sendt inn, kan du bli kontaktet via telefon, e-post eller SMS av selskaper som ønsker å gi deg et tilbud.
+    content: `Når tilbudet/tilbudene er klare, sender Værnes Multiservice AS det til deg. Dersom du velger å akseptere tilbudet, blir kontaktinformasjonen din delt med leverandøren som skal utføre oppdraget.
 
-Velgtilbud.no formidler kun kontakten mellom kunde og leverandør. Eventuelle avtaler inngås direkte mellom deg og selskapet du velger.`,
+Avtalen om utførelse av tjenesten inngås direkte mellom deg og leverandøren etter at tilbudet er akseptert.`,
   },
   {
     number: '3.',
     title: 'Ansvar',
-    content: `Velgtilbud.no kan ikke garantere at du mottar tilbud, eller at tilbudene er markedets beste eller billigste.
+    content: `Velgtilbud.no og Værnes Multiservice AS kan ikke garantere at alle forespørsler resulterer i et tilbud eller at et tilbud vil være markedets laveste pris.
 
-Vi samarbeider med kvalitetssikrede aktører, men er ikke ansvarlige for tjenester, priser, kvalitet, levering eller andre forhold knyttet til avtalen mellom kunde og leverandør.`,
+Vi samarbeider med kvalitetssikrede leverandører, men er ikke ansvarlige for utførelsen av tjenesten, priser, kvalitet, levering eller andre forhold knyttet til avtalen mellom kunde og leverandør.`,
   },
   {
     number: '4.',
     title: 'Bruk av tjenesten',
-    content: `Det er ikke tillatt å misbruke tjenesten, sende falske forespørsler eller forsøke å få tilgang til systemer eller informasjon som ikke er offentlig tilgjengelig.`,
+    content: `Det er ikke tillatt å misbruke tjenesten, sende uriktige forespørsler eller forsøke å få uautorisert tilgang til systemer eller informasjon. Tjenesten skal brukes i samsvar med gjeldende lover og regler.`,
   },
   {
     number: '5.',

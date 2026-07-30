@@ -5,10 +5,10 @@ const cards = [
   {
     tag: 'Privatpersoner',
     href: '/privatpersoner',
-    title: 'Trygg flytting og rengjøring for private i Trøndelag',
-    body: 'Få tilbud fra kvalitetssikrede flyttebyråer og rengjøringsfirma tilpasset dine behov. Vi gjør det enkelt å sammenligne priser og tjenester på ett sted.',
-    items: ['Boligflytting', 'Flyttevask og rengjøring', 'Pakking og emballasje', 'Bæring og transport'],
-    cta: 'Få tilbud som privatkunde',
+    title: 'Flytting og rengjøring til best mulig pris',
+    body: 'Vi innhenter tilbud fra kvalitetssikrede leverandører og forhandler på dine vegne, slik at du får den beste løsningen til riktig pris – helt kostnadsfritt.',
+    items: ['Vi innhenter tilbudene', 'Vi forhandler for deg', 'Kvalitetssikrede leverandører', 'Gratis og uforpliktende'],
+    cta: 'Få ditt tilbud som privatkunde',
     bg: 'bg-navy',
     accent: 'text-sand',
     check: 'text-sand',
@@ -17,9 +17,9 @@ const cards = [
   {
     tag: 'Bedrifter',
     href: '/bedrifter',
-    title: 'Effektiv kontorflytting for bedrifter i Trøndelag',
-    body: 'Vi hjelper bedrifter med å finne erfarne aktører innen næringsflytting, kontorrengjøring og mellomlagring — med minst mulig nedetid.',
-    items: ['Kontorflytting', 'Næringsflytting', 'Kontorrengjøring', 'Lager og mellomlagring'],
+    title: 'Skreddersydde løsninger for bedrifter',
+    body: 'Vi finner den beste leverandøren for din bedrift og forhandler frem konkurransedyktige priser på flytting og renhold.',
+    items: ['Flyttetjenester', 'Renholdstjenester', 'Konkurransedyktige priser', 'Én kontakt gjennom hele prosessen'],
     cta: 'Få tilbud til bedriften',
     bg: 'bg-taupe',
     accent: 'text-offwhite/70',
@@ -33,8 +33,8 @@ export default function Services() {
     <section className="section-padding bg-white">
       <div className="container-wide">
         <div className="mb-14">
-          <h2 className="section-title">Alt du trenger på ett sted</h2>
-          <p className="section-subtitle">Sammenlign flyttebyrå og rengjøringsfirma i Trøndelag — raskt, gratis og uforpliktende.</p>
+          <h2 className="section-title">Vi finner det beste tilbudet for deg</h2>
+          <p className="section-subtitle">Vi gjør jobben for deg ved å innhente og forhandle frem det beste tilbudet — helt gratis og uforpliktende.</p>
         </div>
 
         <div className="grid md:grid-cols-2 gap-5 items-stretch">

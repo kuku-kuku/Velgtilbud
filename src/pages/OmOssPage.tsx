@@ -53,17 +53,17 @@ export default function OmOssPage() {
                 <span className="text-sand">rengjøringsbransjen</span>
               </h1>
               <p className="text-white/50 text-sm leading-relaxed mb-2 max-w-md">
-                Velgtilbud ble startet for å gjøre det enklere å finne seriøse flyttebyråer og rengjøringsfirma i Trøndelag. Plattformen er utviklet av personer med erfaring fra både flytting og rengjøring — med fokus på kvalitet, trygghet og en enklere prosess for kunden.
+                Velgtilbud drives av <strong className="text-white/80">Værnes Multiservice AS</strong> og er utviklet for å gjøre det enklere å finne kvalitetssikrede leverandører innen flytting og rengjøring i hele Norge. Vårt dedikerte meglerteam innhenter og forhandler frem konkurransedyktige tilbud, slik at kundene slipper å bruke tid på å kontakte flere bedrifter selv.
               </p>
               <p className="text-white/50 text-sm leading-relaxed mb-6 max-w-md">
-                Vi vet hvor vanskelig det kan være å finne pålitelige firma, sammenligne priser og få raske svar. Derfor samler vi kvalitetssikrede bedrifter på ett sted, slik at privatpersoner og bedrifter enkelt kan innhente og sammenligne tilbud.
+                Vi vet hvor tidkrevende det kan være å finne pålitelige leverandører og vurdere ulike alternativer. Derfor håndterer vi hele prosessen med å innhente og forhandle tilbud, slik at både privatpersoner og bedrifter mottar ett eller flere ferdig forhandlede tilbud – enkelt, trygt og helt uforpliktende.
               </p>
               <div className="flex flex-col gap-2">
                 {[
                   'Erfaring fra flytte- og rengjøringsbransjen',
-                  'Fokus på kvalitetssikrede bedrifter',
-                  'Gratis og uforpliktende å bruke',
-                  'Enklere måte å sammenligne tilbud i Trøndelag',
+                  'Kvalitetssikrede leverandører i hele Norge',
+                  'Gratis og uforpliktende tjeneste',
+                  'Ferdig forhandlede tilbud uten skjulte kostnader eller overraskelser',
                 ].map((t) => (
                   <div key={t} className="flex items-center gap-2.5 text-sm text-white/50">
                     <Check className="w-3.5 h-3.5 text-sand flex-shrink-0" /> {t}
@@ -88,21 +88,21 @@ export default function OmOssPage() {
           <h2 className="section-title mb-4">Hvem er Velgtilbud?</h2>
           <div className="space-y-4 text-greige leading-relaxed mb-6">
             <p>
-              Velgtilbud er en tjeneste som gjør det enklere å finne seriøse flyttebyråer og rengjøringsfirma i Trøndelag. Mange opplever at det er vanskelig å vite hvilke aktører som tilbyr god kvalitet, riktige priser og pålitelig service — spesielt når markedet er fullt av ulike alternativer.
+              Velgtilbud er en tjeneste drevet av Værnes Multiservice AS som gjør det enklere å finne kvalitetssikrede leverandører innen flytting og rengjøring i hele Norge. Vårt dedikerte meglerteam innhenter og forhandler frem konkurransedyktige tilbud, slik at du slipper å bruke tid på å kontakte flere bedrifter selv.
             </p>
             <p>
-              Vi startet Velgtilbud for å gjøre prosessen tryggere, enklere og mer oversiktlig. På plattformen kan privatpersoner og bedrifter sende inn én forespørsel og motta tilbud fra relevante og kvalitetssikrede firma innen flytting, flyttevask og rengjøring.
+              Med én forespørsel håndterer vi hele prosessen med å innhente og forhandle tilbud fra relevante leverandører. Du mottar ett eller flere ferdig forhandlede tilbud, og dersom du aksepterer det, blir du satt i kontakt med leverandøren som utfører oppdraget.
             </p>
             <p className="font-semibold text-navy">
-              Målet vårt er ikke bare å hjelpe kunder med å finne en lav pris — men å finne riktig firma til riktig pris.
+              Målet vårt er å gjøre det enklere, tryggere og mer oversiktlig å finne riktig leverandør – til riktig pris.
             </p>
           </div>
           <div className="flex flex-col gap-2">
             {[
-              'Sammenlign tilbud fra flere firma på ett sted',
-              'Fokus på kvalitet, trygghet og seriøse aktører',
-              'Gratis og uforpliktende å bruke',
-              'Enklere måte å finne flytte- og rengjøringstjenester i Trøndelag',
+              'Kvalitetssikrede leverandører i hele Norge',
+              'Vi innhenter og forhandler tilbud på dine vegne',
+              'Gratis og uforpliktende tjeneste',
+              'Ferdig forhandlede tilbud uten skjulte kostnader eller overraskelser',
             ].map((t) => (
               <div key={t} className="flex items-center gap-2.5 text-sm text-greige">
                 <Check className="w-4 h-4 text-sand flex-shrink-0" /> {t}

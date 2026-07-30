@@ -6,7 +6,7 @@ const sentences = [
   'Tilbud fra flere godkjente byråer.',
   'Du velger det beste tilbudet selv.',
   'Svar innen 2 timer på hverdager.',
-  'Brukt av tusenvis i Trøndelag.',
+  'Brukt av tusenvis over hele Norge.',
 ]
 
 export default function RotatingText({ className }: { className?: string }) {

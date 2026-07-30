@@ -3,8 +3,8 @@ import { ChevronDown } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 const faqs = [
-  { q: 'Koster det noe å bruke Velgtilbud?',              a: 'Nei — tjenesten er helt gratis for deg. Selskapene betaler en liten formidlingsavgift. Du betaler kun til selskapet du velger.' },
-  { q: 'Hvor raskt får jeg tilbud på flyttebyrå i Trondheim?', a: 'De fleste mottar sine første tilbud innen 1–2 timer på hverdager. Du vil motta varsling på e-post og SMS.' },
+  { q: 'Koster det noe å bruke Velgtilbud?',              a: 'Du betaler ingen skjulte gebyrer eller ekstra kostnader for å bruke VelgTilbud. Vår megleravgift er allerede inkludert i tilbudet du mottar, slik at prisen du ser er den endelige prisen. Ingen overraskelser – full oversikt fra start til slutt.' },
+  { q: 'Hvor raskt mottar jeg et tilbud?', a: 'Våre meglere starter behandlingen av forespørselen din så raskt som mulig. Avhengig av hvor i landet du bor og tjenesten du trenger, kan det ta alt fra ca. 2 timer til opptil 2 dager før du mottar et tilbud. Du blir varslet på e-post og SMS så snart tilbudet er klart.' },
   { q: 'Hvordan velger dere selskapene?',                    a: 'Vi godkjenner kun selskaper registrert i Brønnøysund med gyldig forsikring og gode referanser. Selskaper med dårlige anmeldelser fjernes.' },
   { q: 'Kan jeg få tilbud på både flytting og rengjøring?',  a: 'Ja, mange selskaper tilbyr begge tjenester. Du kan be om kombinert tilbud på flytting og flyttevask i samme forespørsel.' },
   { q: 'Er jeg forpliktet til å velge et tilbud?',           a: 'Absolutt ikke. Du kan sammenligne fritt og takke nei til alle tilbudene uten kostnad eller forklaring.' },
@@ -20,7 +20,7 @@ export default function FAQ() {
           <div>
             <h2 className="section-title mb-4">Vanlige spørsmål</h2>
             <p className="text-greige leading-relaxed">
-              Lurer du på noe om prosessen med å finne flyttebyrå i Trondheim? Her svarer vi på det vi oftest får spørsmål om.
+              Lurer du på noe om hvordan VelgTilbud fungerer? Her svarer vi på de vanligste spørsmålene om hvordan du får tilbud gjennom oss.
             </p>
           </div>
 

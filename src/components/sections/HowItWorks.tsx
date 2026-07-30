@@ -2,17 +2,17 @@ const steps = [
   {
     number: '01',
     title: 'Fyll ut skjemaet',
-    description: 'Beskriv hva du trenger hjelp med innen flytting eller rengjøring i Trøndelag. Det tar kun 2 minutter å sende inn forespørselen — helt gratis og uforpliktende.',
+    description: 'Beskriv hva du trenger hjelp med innen flytting eller rengjøring. Det tar kun 2 minutter å sende inn forespørselen — helt gratis og uforpliktende.',
   },
   {
     number: '02',
-    title: 'Motta tilbud fra flere bedrifter',
-    description: 'Vi matcher deg med opptil 5 kvalitetssikrede flyttebyråer og rengjøringsfirma i Trøndelag, som sender deg sine beste tilbud.',
+    title: 'Vi finner riktig firma',
+    description: 'Våre rådgivere vurderer forespørselen din og finner det firmaet som passer best basert på dine behov, beliggenhet og ønsket tidspunkt.',
   },
   {
     number: '03',
-    title: 'Sammenlign og velg',
-    description: 'Sammenlign priser, tjenester og kundeanmeldelser på ett sted. Velg firmaet som passer dine behov og budsjett best — uten binding.',
+    title: 'Firmaet kontakter deg',
+    description: 'Du mottar et skreddersydd tilbud. Ved aksept tar leverandøren direkte kontakt for å avtale detaljene.',
   },
 ]
 
@@ -22,7 +22,7 @@ export default function HowItWorks() {
       <div className="container-wide">
         <div className="mb-14">
           <h2 className="section-title">Slik fungerer det</h2>
-          <p className="section-subtitle">Én forespørsel. Flere tilbud. Du velger det som passer best.</p>
+          <p className="section-subtitle">Én forespørsel. Vi finner riktig firma for deg.</p>
         </div>
 
         <div className="grid md:grid-cols-3 gap-5">

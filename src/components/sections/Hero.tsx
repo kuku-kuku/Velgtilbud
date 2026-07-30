@@ -31,27 +31,31 @@ export default function Hero() {
           {/* Left — copy */}
           <div className="lg:pl-2">
             <p className="text-white/60 text-xs font-semibold uppercase tracking-[0.2em] mb-5">
-              Trondheims ledende markedsplass
+              Norges uavhengige tilbudstjeneste for flytting og renhold
             </p>
 
             <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-white leading-[1.05] mb-6">
-              Finn flyttebyrå og
-              <br className="hidden md:block" />{' '}rengjøringsbyrå i Trondheim
+              Vi finner det beste flytte- eller
+              <br className="hidden md:block" />{' '}rengjøringstilbudet for deg
             </h1>
 
             <div className="min-h-[1.6rem] mb-4">
               <RotatingText className="text-white text-lg font-medium" />
             </div>
 
-            <p className="text-white/80 text-base leading-relaxed mb-10 max-w-md">
-              Send én forespørsel – motta tilbud fra flere kvalitetssikrede bedrifter. Sammenlign priser, tjenester og velg det som passer deg best.
+            <p className="text-white/80 text-base leading-relaxed mb-4 max-w-md">
+              Slipp å kontakte flere bedrifter selv. Våre meglere innhenter, vurderer og sammenligner tilbud fra seriøse flytte- og rengjøringsbedrifter over hele Norge – slik at du får den beste løsningen tilpasset dine behov.
+            </p>
+
+            <p className="text-white/70 text-base leading-relaxed mb-10 max-w-md">
+              Du forteller oss hva du trenger, og vi tar oss av resten. Din personlige kontaktperson følger deg gjennom hele prosessen – fra første henvendelse til oppdraget er utført og fakturaen er betalt.
             </p>
 
             <div className="flex flex-col gap-4">
               {[
-                { title: 'Raskt svar',                      desc: 'Alle henvendelser besvares raskt' },
-                { title: 'Kun godkjente bedrifter',         desc: 'Vi samarbeider med seriøse og pålitelige aktører' },
-                { title: 'Enkelt, gratis og uforpliktende', desc: 'Helt gratis å sende forespørsel – uten forpliktelser' },
+                { title: 'Norsk kundeservice',              desc: 'Du forholder deg kun til én rådgiver gjennom hele prosessen.' },
+                { title: 'Kun kvalitetssikrede bedrifter',  desc: 'Vi vurderer pris, kvalitet, kundeanmeldelser, erfaring og service før vi anbefaler de beste alternativene.' },
+                { title: 'Spar tid og penger',              desc: 'Vi forhandler og sammenligner tilbudene for deg – helt kostnadsfritt og uten forpliktelser.' },
               ].map(({ title, desc }) => (
                 <div key={title} className="flex items-start gap-3">
                   <span className="w-1.5 h-1.5 rounded-full bg-sand flex-shrink-0 mt-1.5" />

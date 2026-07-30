@@ -4,7 +4,7 @@ const stats = [
   { icon: Users,           value: '3 000+',   label: 'Fornøyde kunder' },
   { icon: ShieldCheck,     value: '40+',       label: 'Kvalitetssikrede firma' },
   { icon: Tag,             value: 'Gratis',    label: 'Å sammenligne' },
-  { icon: ClipboardCheck,  value: '1 skjema',  label: 'Flere tilbud' },
+  { icon: ClipboardCheck,  value: '1 skjema',  label: 'Vi finner riktig firma' },
 ]
 
 export default function Stats() {

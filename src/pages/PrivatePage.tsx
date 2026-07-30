@@ -14,17 +14,17 @@ import Testimonials from '@/components/sections/Testimonials'
 import FAQ from '@/components/sections/FAQ'
 
 const movingItems = [
-  { title: 'Flytting av leilighet og hus', desc: 'Vi hjelper deg med å finne riktig flyttefirma for små og store flytteoppdrag i Trondheim — enkelt, trygt og effektivt.' },
+  { title: 'Flytting av leilighet og hus', desc: 'Vi innhenter og forhandler frem et konkurransedyktig tilbud på flytting, tilpasset dine behov – uansett hvor i Norge du skal flytte.' },
   { title: 'Pakking og emballasje',         desc: 'Få hjelp med trygg pakking, flytteesker og sikker transport av møbler, klær og skjøre eiendeler.' },
-  { title: 'Pianotransport',                desc: 'Sammenlign tilbud på pianotransport og spesialflytting av tunge eller verdifulle gjenstander i Trondheim.' },
-  { title: 'Langtransport',                 desc: 'Finn flyttebyrå for flytting til og fra Trondheim — både lokalt og over hele Norge.' },
+  { title: 'Pianotransport',                desc: 'Vi hjelper deg med å innhente et konkurransedyktig tilbud på pianotransport og spesialflytting av tunge eller verdifulle gjenstander.' },
+  { title: 'Langtransport',                 desc: 'Vi innhenter tilbud på langtransport og flytteoppdrag over hele Norge – enten du flytter lokalt eller mellom landsdeler.' },
 ]
 
 const cleaningItems = [
-  { title: 'Flyttevask i Trondheim',   desc: 'Få tilbud på profesjonell flyttevask med fornøydgaranti. Grundig utvask godkjent ved overlevering av bolig.' },
-  { title: 'Hjemmerengjøring',         desc: 'Finn rengjøringshjelp i Trondheim til fast vask eller engangsvask — tilpasset din bolig og timeplan.' },
-  { title: 'Vindusvask',               desc: 'Sammenlign tilbud på innvendig og utvendig vindusvask for leilighet, hus og hytter.' },
-  { title: 'Byggvask og visningsvask', desc: 'Få hjelp med rengjøring etter oppussing, byggearbeid eller før visning og salg av bolig.' },
+  { title: 'Flyttevask',                desc: 'Få et konkurransedyktig tilbud på profesjonell flyttevask med fornøydgaranti. Vi finner en kvalitetssikret leverandør som passer ditt behov.' },
+  { title: 'Hjemmerengjøring',          desc: 'Få tilbud på fast eller engangs rengjøring tilpasset boligen, ønskene og timeplanen din.' },
+  { title: 'Vindusvask',                desc: 'Få et godt tilbud på innvendig og utvendig vindusvask for leilighet, hus eller annen bolig.' },
+  { title: 'Byggvask og visningsvask',  desc: 'Få hjelp med rengjøring etter oppussing, byggearbeid eller før visning og salg av bolig – utført av en kvalitetssikret leverandør.' },
 ]
 
 const priceGuide = [
@@ -63,17 +63,17 @@ export default function PrivatePage() {
         <div className="container-wide pt-28 pb-14 lg:pb-20 relative z-10">
           <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-start">
             <div className="pt-6 pb-14 lg:pb-20">
-              <p className="text-sand text-xs font-semibold uppercase tracking-[0.2em] mb-6">Privatpersoner · Trondheim</p>
+              <p className="text-sand text-xs font-semibold uppercase tracking-[0.2em] mb-6">Privatpersoner · Hele Norge</p>
               <h1 className="text-4xl md:text-5xl font-bold text-white leading-tight mb-5">
-                Finn{' '}
-                <span className="text-sand">flyttebyrå</span>
-                {' '}og rengjøringsfirma i Trondheim
+                Få det beste{' '}
+                <span className="text-sand">tilbudet</span>
+                {' '}på flytting og rengjøring
               </h1>
               <p className="text-white/50 text-sm leading-relaxed mb-8 max-w-md">
-                Sammenlign tilbud på <strong className="text-white/80">flytting, flyttevask og rengjøring</strong> i Trondheim fra kvalitetssikrede firma. Send inn én forespørsel gratis og uforpliktende — motta flere tilbud og velg selv.
+                Send inn én forespørsel – <strong className="text-white/80">vårt meglerteam innhenter og forhandler frem det beste tilbudet</strong> fra kvalitetssikrede leverandører. Du mottar ett ferdigforhandlet tilbud, helt gratis og uforpliktende.
               </p>
               <div className="flex flex-col gap-2.5">
-                {['Gratis tilbud fra flyttebyrå i Trondheim', 'Sammenlign opptil 5 relevante firma', 'Tilbud på flytting, utvask og rengjøring'].map((t) => (
+                {['Vi forhandler frem det beste tilbudet for deg', 'Tilbud fra kvalitetssikrede leverandører', 'Gratis og uforpliktende – uten skjulte kostnader'].map((t) => (
                   <div key={t} className="flex items-center gap-2.5 text-sm text-white/50">
                     <Check className="w-3.5 h-3.5 text-sand flex-shrink-0" /> {t}
                   </div>
@@ -94,8 +94,8 @@ export default function PrivatePage() {
       {/* Moving services */}
       <section className="section-padding bg-white">
         <div className="container-wide">
-          <h2 className="section-title mb-2">Flyttetjenester i Trondheim</h2>
-          <p className="section-subtitle mb-10">Finn kvalitetssikrede <strong>flyttebyrå i Trondheim</strong> som hjelper deg med hele flytteprosessen — fra pakking og transport til flyttevask og montering.</p>
+          <h2 className="section-title mb-2">Våre flyttetjenester</h2>
+          <p className="section-subtitle mb-10">Vi hjelper deg med å finne riktig løsning for hele flytteprosessen. Vårt meglerteam innhenter og forhandler frem konkurransedyktige tilbud fra <strong>kvalitetssikrede leverandører over hele Norge</strong>.</p>
           <div className="grid sm:grid-cols-2 gap-4">
             {movingItems.map((s) => (
               <div key={s.title} className="bg-offwhite rounded-2xl p-6 border border-sand/20">
@@ -110,8 +110,8 @@ export default function PrivatePage() {
       {/* Cleaning services */}
       <section className="section-padding bg-offwhite">
         <div className="container-wide">
-          <h2 className="section-title mb-2">Flyttevask og rengjøring i Trondheim</h2>
-          <p className="section-subtitle mb-10">Finn kvalitetssikrede <strong>rengjøringsfirma i Trondheim</strong> for flyttevask, hjemmerengjøring og vask etter oppussing. Sammenlign tilbud gratis og velg det firmaet som passer deg best.</p>
+          <h2 className="section-title mb-2">Flyttevask og rengjøring i hele Norge</h2>
+          <p className="section-subtitle mb-10">Få et konkurransedyktig tilbud på <strong>flyttevask, hjemmerengjøring, vindusvask og byggvask</strong> – uansett hvor i Norge du bor. Vårt team innhenter og forhandler frem et godt tilbud fra kvalitetssikrede leverandører, helt gratis og uforpliktende.</p>
           <div className="grid sm:grid-cols-2 gap-4">
             {cleaningItems.map((s) => (
               <div key={s.title} className="bg-white rounded-2xl p-6 border border-sand/20">
@@ -126,8 +126,8 @@ export default function PrivatePage() {
       {/* Price guide */}
       <section className="section-padding bg-white">
         <div className="container-wide max-w-3xl mx-auto">
-          <h2 className="section-title mb-2">Prisoversikt for flytting og rengjøring i Trondheim</h2>
-          <p className="section-subtitle mb-10">Se veiledende priser for <strong>flyttehjelp, flyttevask og rengjøring i Trondheim</strong>. Endelig pris varierer etter boligstørrelse, avstand, etasje og ønskede tjenester.</p>
+          <h2 className="section-title mb-2">Prisoversikt for flytting og rengjøring i hele Norge</h2>
+          <p className="section-subtitle mb-10">Alle oppdrag er ulike, og prisen avhenger blant annet av <strong>boligstørrelse, avstand, omfang og ønskede tjenester</strong>. Vårt team innhenter og forhandler frem et konkurransedyktig tilbud fra kvalitetssikrede leverandører – helt gratis og uforpliktende.</p>
           <div className="bg-offwhite rounded-2xl border border-sand/20 overflow-hidden">
             <div className="grid grid-cols-3 px-6 py-3 border-b border-sand/20">
               <p className="text-xs font-bold text-greige uppercase tracking-wider">Boligtype</p>
@@ -142,7 +142,7 @@ export default function PrivatePage() {
               </div>
             ))}
           </div>
-          <p className="text-xs text-warm-gray mt-3 text-center">Prisene er veiledende og basert på gjennomsnittlige oppdrag i Trondheim. Du mottar eksakte tilbud fra relevante firma etter innsending av forespørsel.</p>
+          <p className="text-xs text-warm-gray mt-3 text-center">Alle priser fastsettes individuelt etter oppdragets omfang. Tilbudene du mottar er ferdig forhandlet av Værnes Multiservice AS og inkluderer vår megleravgift – uten skjulte kostnader eller overraskelser.</p>
         </div>
       </section>
 
