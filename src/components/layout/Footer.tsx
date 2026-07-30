@@ -14,7 +14,7 @@ export default function Footer() {
               <Logo variant="light" full className="h-16 w-auto" />
             </Link>
             <p className="text-sm leading-relaxed text-white/50 max-w-xs mb-6">
-              Trondheims ledende markedsplass for flyttebyrå og rengjøring. Vi kobler deg med godkjente selskaper — gratis og uforpliktende.
+              VelgTilbud gjør det enkelt å finne konkurransedyktige tilbud fra kvalitetssikrede leverandører over hele Norge. Vi forhandler frem det beste tilbudet — enkelt, trygt og uforpliktende.
             </p>
             <div className="flex flex-col gap-2.5 text-sm">
               <a href="tel:+47 972 77 276" className="flex items-center gap-2.5 hover:text-white transition-colors">
@@ -24,7 +24,7 @@ export default function Footer() {
                 <Mail className="w-4 h-4 text-sand flex-shrink-0" /> post@velgtilbud.no
               </a>
               <span className="flex items-center gap-2.5">
-                <MapPin className="w-4 h-4 text-sand flex-shrink-0" /> Trondheim, Norge
+                <MapPin className="w-4 h-4 text-sand flex-shrink-0" /> Norge
               </span>
             </div>
           </div>
@@ -67,7 +67,7 @@ export default function Footer() {
 
       <div className="border-t border-white/10">
         <div className="container-wide py-5 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-white/30">
-          <p>© {new Date().getFullYear()} Velgtilbud AS. Alle rettigheter forbeholdt.</p>
+          <p>© {new Date().getFullYear()} Værnes Multiservice AS. Alle rettigheter forbeholdt.</p>
           <p>Org.nr: 935 830 621</p>
         </div>
       </div>

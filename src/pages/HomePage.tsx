@@ -76,12 +76,12 @@ export default function HomePage() {
             {
               "@type": "Question",
               "name": "Koster det noe å bruke Velgtilbud?",
-              "acceptedAnswer": { "@type": "Answer", "text": "Nei — tjenesten er helt gratis for deg. Selskapene betaler en liten formidlingsavgift. Du betaler kun til selskapet du velger." }
+              "acceptedAnswer": { "@type": "Answer", "text": "Du betaler ingen skjulte gebyrer eller ekstra kostnader for å bruke VelgTilbud. Vår megleravgift er allerede inkludert i tilbudet du mottar, slik at prisen du ser er den endelige prisen. Ingen overraskelser – full oversikt fra start til slutt." }
             },
             {
               "@type": "Question",
-              "name": "Hvor raskt får jeg tilbud på flyttebyrå i Trondheim?",
-              "acceptedAnswer": { "@type": "Answer", "text": "De fleste mottar sine første tilbud innen 1–2 timer på hverdager. Du vil motta varsling på e-post og SMS." }
+              "name": "Hvor raskt mottar jeg et tilbud?",
+              "acceptedAnswer": { "@type": "Answer", "text": "Våre meglere starter behandlingen av forespørselen din så raskt som mulig. Avhengig av hvor i landet du bor og tjenesten du trenger, kan det ta alt fra ca. 2 timer til opptil 2 dager før du mottar et tilbud. Du blir varslet på e-post og SMS så snart tilbudet er klart." }
             },
             {
               "@type": "Question",

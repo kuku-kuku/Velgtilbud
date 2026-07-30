@@ -27,11 +27,12 @@ Disse opplysningene er nødvendige for at relevante leverandører skal kunne gi 
     title: 'Hvordan bruker vi opplysningene?',
     content: `Opplysningene dine brukes kun for å:
 
-• Formidle forespørselen din til aktuelle leverandører
-• Hjelpe deg med å motta tilbud
+• Behandle forespørselen din og innhente tilbud fra relevante leverandører
+• Forhandle frem et konkurransedyktig tilbud på dine vegne
+• Kontakte deg med tilbudet og nødvendig informasjon om forespørselen
 • Administrere og forbedre tjenesten vår
 
-Ved å sende inn en forespørsel samtykker du til at du kan bli kontaktet av opptil 5 selskaper via telefon, e-post eller SMS.`,
+Ved å sende inn en forespørsel samtykker du til at Værnes Multiservice AS kan behandle opplysningene dine for å innhente og forhandle tilbud fra relevante leverandører. Dersom du aksepterer tilbudet, blir kontaktinformasjonen din delt med leverandøren som skal utføre oppdraget. Du kan bli kontaktet via telefon, e-post eller SMS i forbindelse med forespørselen din.`,
   },
   {
     title: 'Deling av opplysninger',
