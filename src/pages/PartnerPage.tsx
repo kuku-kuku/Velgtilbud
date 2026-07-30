@@ -29,10 +29,24 @@ export default function PartnerPage() {
 
   const onSubmit = async (data: PartnerForm) => {
     setLoading(true)
-    await new Promise((r) => setTimeout(r, 1100))
-    console.log('Partner application:', data)
-    setLoading(false)
-    setSubmitted(true)
+    try {
+      const url = import.meta.env.VITE_PARTNER_SIGNUP_URL as string
+      const res = await fetch(url, {
+        method:  'POST',
+        headers: {
+          'Content-Type':  'application/json',
+          'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
+          'apikey':        import.meta.env.VITE_SUPABASE_ANON_KEY as string,
+        },
+        body: JSON.stringify(data),
+      })
+      if (!res.ok) throw new Error(`HTTP ${res.status}`)
+    } catch (err) {
+      console.error('Partner signup failed:', err)
+    } finally {
+      setLoading(false)
+      setSubmitted(true)
+    }
   }
 
   return (
