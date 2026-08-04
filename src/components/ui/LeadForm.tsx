@@ -137,6 +137,11 @@ export default function LeadForm({ service: ctrl, onServiceChange, onServiceChoi
   const [errors, setErrors] = useState<Record<string, string>>({})
   const [submitted, setSubmitted] = useState<'success' | 'duplicate' | false>(false)
   const [loading, setLoading] = useState(false)
+  const [consent, setConsent] = useState(false)
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null)
+  const turnstileRef = useRef<HTMLDivElement>(null)
+  const turnstileWidgetId = useRef<string | null>(null)
+  const turnstileSiteKey  = import.meta.env.VITE_TURNSTILE_SITE_KEY as string | undefined
   const [calOpen,       setCalOpen]       = useState(false)
   const [flexOpen,      setFlexOpen]      = useState(false)
   const [calPopupStyle, setCalPopupStyle] = useState<React.CSSProperties>({})
@@ -149,6 +154,18 @@ export default function LeadForm({ service: ctrl, onServiceChange, onServiceChoi
     if (!mountedRef.current) { mountedRef.current = true; return }
     formRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
   }, [stepIdx])
+
+  // Load the Turnstile script once (only if site key configured)
+  useEffect(() => {
+    if (!turnstileSiteKey) return
+    if (document.querySelector('script[data-turnstile]')) return
+    const s = document.createElement('script')
+    s.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit'
+    s.async = true
+    s.defer = true
+    s.setAttribute('data-turnstile', '1')
+    document.head.appendChild(s)
+  }, [turnstileSiteKey])
 
   const localISO = (d: Date) =>
     `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
@@ -199,6 +216,37 @@ export default function LeadForm({ service: ctrl, onServiceChange, onServiceChoi
   const currentStep = steps[stepIdx]
   const isLast = stepIdx === steps.length - 1
   const progress = ((stepIdx + 1) / steps.length) * 100
+
+  // Render the Turnstile widget when we reach the last step
+  useEffect(() => {
+    if (!isLast || !turnstileSiteKey) return
+    let cancelled = false
+    const tryRender = () => {
+      if (cancelled) return
+      const ts = (window as unknown as { turnstile?: {
+        render: (el: HTMLElement, opts: Record<string, unknown>) => string
+        remove: (id: string) => void
+      } }).turnstile
+      if (!ts || !turnstileRef.current) { setTimeout(tryRender, 200); return }
+      if (turnstileWidgetId.current) return
+      turnstileWidgetId.current = ts.render(turnstileRef.current, {
+        sitekey:  turnstileSiteKey,
+        callback: (token: string) => setTurnstileToken(token),
+        'expired-callback': () => setTurnstileToken(null),
+        'error-callback':   () => setTurnstileToken(null),
+      })
+    }
+    tryRender()
+    return () => {
+      cancelled = true
+      const ts = (window as unknown as { turnstile?: { remove: (id: string) => void } }).turnstile
+      if (ts && turnstileWidgetId.current) {
+        ts.remove(turnstileWidgetId.current)
+        turnstileWidgetId.current = null
+        setTurnstileToken(null)
+      }
+    }
+  }, [isLast, turnstileSiteKey])
 
   function set<K extends keyof FS>(k: K, v: FS[K]) {
     setData(d => ({ ...d, [k]: v }))
@@ -263,6 +311,14 @@ export default function LeadForm({ service: ctrl, onServiceChange, onServiceChoi
 
   async function submit() {
     if (!validate()) return
+    if (!consent) {
+      setErrors(e => ({ ...e, consent: 'Du må godta samtykket for å sende inn' }))
+      return
+    }
+    if (turnstileSiteKey && !turnstileToken) {
+      setErrors(e => ({ ...e, consent: 'Vennligst bekreft at du ikke er en robot' }))
+      return
+    }
     setLoading(true)
     try {
       const url = import.meta.env.VITE_SUBMIT_LEAD_URL as string
@@ -273,7 +329,7 @@ export default function LeadForm({ service: ctrl, onServiceChange, onServiceChoi
           'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
           'apikey':        import.meta.env.VITE_SUPABASE_ANON_KEY as string,
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify({ ...data, consent: true, turnstileToken }),
       })
       if (res.status === 409) { setSubmitted('duplicate'); return }
       if (!res.ok) throw new Error(`HTTP ${res.status}`)
@@ -1018,6 +1074,32 @@ export default function LeadForm({ service: ctrl, onServiceChange, onServiceChoi
       <p className="text-sm font-semibold text-navy -mb-1">{STEP_LABELS[currentStep]}</p>
 
       {renderStep()}
+
+      {isLast && (
+        <div className="flex flex-col gap-3 mt-1">
+          <label className="flex items-start gap-2 text-xs text-greige cursor-pointer select-none">
+            <input
+              type="checkbox"
+              checked={consent}
+              onChange={e => {
+                setConsent(e.target.checked)
+                if (e.target.checked) setErrors(er => { const n = { ...er }; delete n.consent; return n })
+              }}
+              className="mt-0.5 h-4 w-4 flex-shrink-0 accent-navy cursor-pointer"
+            />
+            <span>
+              Jeg samtykker til at mine opplysninger deles med relevante samarbeidspartnere
+              (flyttebyråer og rengjøringsfirma i Trøndelag) for å motta tilbud, og har lest{' '}
+              <a href="/personvern" target="_blank" rel="noreferrer" className="underline hover:text-navy">
+                personvernerklæringen
+              </a>
+              .
+            </span>
+          </label>
+          {turnstileSiteKey && <div ref={turnstileRef} className="min-h-[65px]" />}
+          {errors.consent && <p className="text-xs text-red-600">{errors.consent}</p>}
+        </div>
+      )}
 
       <div className="flex gap-2 mt-1">
         {stepIdx > 0 && (

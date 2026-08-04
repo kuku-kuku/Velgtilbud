@@ -6,8 +6,15 @@ import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
 const RESEND_API_KEY       = Deno.env.get('RESEND_API_KEY')!
 const SUPABASE_URL         = Deno.env.get('SUPABASE_URL')!
 const SUPABASE_SERVICE_KEY = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
+const TURNSTILE_SECRET     = Deno.env.get('TURNSTILE_SECRET_KEY') ?? ''
 const FROM_EMAIL           = 'post@velgtilbud.no'
 const SITE_URL             = Deno.env.get('SITE_URL') ?? 'https://velgtilbud.no'
+
+// Bumped whenever the on-screen consent wording changes, so old records
+// still show which text was accepted.
+const CONSENT_TEXT_V1 =
+  'Jeg samtykker til at mine opplysninger deles med relevante samarbeidspartnere ' +
+  '(flyttebyråer og rengjøringsfirma i Trøndelag) for å motta tilbud, og har lest personvernerklæringen.'
 
 const CORS = {
   'Access-Control-Allow-Origin':  '*',
@@ -20,6 +27,61 @@ serve(async (req) => {
   try {
     const body = await req.json()
     const sb   = createClient(SUPABASE_URL, SUPABASE_SERVICE_KEY)
+
+    // ── 0. Anti-fraud: consent, IP, rate limit, Turnstile ─────
+    if (!body.consent) {
+      return new Response(
+        JSON.stringify({ success: false, error: 'consent_required' }),
+        { status: 400, headers: { 'Content-Type': 'application/json', ...CORS } },
+      )
+    }
+
+    const rawFwd    = req.headers.get('x-forwarded-for') ?? ''
+    const clientIp  = rawFwd.split(',')[0].trim() || req.headers.get('x-real-ip') || null
+    const userAgent = req.headers.get('user-agent') ?? null
+
+    // Turnstile verification (only enforced when the secret is configured;
+    // lets local/dev environments run without it)
+    if (TURNSTILE_SECRET) {
+      if (!body.turnstileToken) {
+        return new Response(
+          JSON.stringify({ success: false, error: 'captcha_required' }),
+          { status: 400, headers: { 'Content-Type': 'application/json', ...CORS } },
+        )
+      }
+      const form = new FormData()
+      form.append('secret',   TURNSTILE_SECRET)
+      form.append('response', body.turnstileToken)
+      if (clientIp) form.append('remoteip', clientIp)
+      const verify = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
+        method: 'POST',
+        body:   form,
+      })
+      const verifyJson = await verify.json().catch(() => ({ success: false }))
+      if (!verifyJson.success) {
+        console.warn('Turnstile failed:', verifyJson)
+        return new Response(
+          JSON.stringify({ success: false, error: 'captcha_failed' }),
+          { status: 403, headers: { 'Content-Type': 'application/json', ...CORS } },
+        )
+      }
+    }
+
+    // Simple per-IP rate limit: no more than 3 submissions in the last hour
+    if (clientIp) {
+      const hourAgo = new Date(Date.now() - 60 * 60 * 1000).toISOString()
+      const { count: recent } = await sb
+        .from('leads')
+        .select('*', { count: 'exact', head: true })
+        .eq('ip_address', clientIp)
+        .gte('created_at', hourAgo)
+      if ((recent ?? 0) >= 3) {
+        return new Response(
+          JSON.stringify({ success: false, error: 'rate_limited' }),
+          { status: 429, headers: { 'Content-Type': 'application/json', ...CORS } },
+        )
+      }
+    }
 
     // ── 1. Insert lead ────────────────────────────────────────
     const customerToken = crypto.randomUUID().replace(/-/g, '')
@@ -67,6 +129,11 @@ serve(async (req) => {
         flex:           body.flex           ?? false,
         flex_range:     body.flexRange      || null,
         customer_token: customerToken,
+        ip_address:     clientIp,
+        user_agent:     userAgent,
+        consent_given:  true,
+        consent_text:   CONSENT_TEXT_V1,
+        consent_at:     new Date().toISOString(),
       })
       .select()
       .single()
