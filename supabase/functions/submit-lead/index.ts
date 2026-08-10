@@ -166,7 +166,6 @@ serve(async (req) => {
       .from('partners')
       .select('*')
       .eq('active', true)
-      .eq('city', 'Trondheim')
     // .eq('tier', assignedTier)  // DISABLED: send to all tiers
 
     const eligible: Record<string, unknown>[] = []
