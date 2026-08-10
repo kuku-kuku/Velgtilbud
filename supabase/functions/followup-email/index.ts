@@ -56,7 +56,7 @@ serve(async () => {
     <p style="font-size:11px;color:#bbb;margin-top:10px">Eller kopier lenken: ${customerLink}</p>
   </div>
   <p style="color:#888;font-size:13px;">Vi anbefaler at du følger med på både innboksen og spam-/søppelpostmappen den kommende tiden, slik at du ikke går glipp av viktig informasjon og tilbud.</p>
-  <p style="font-size:11px;color:#bbb;margin-top:28px;border-top:1px solid #eee;padding-top:12px">Velgtilbud.no — Trondheims ledende markedsplass</p>
+  <p style="font-size:11px;color:#bbb;margin-top:28px;border-top:1px solid #eee;padding-top:12px">Velgtilbud.no — Norges ledende markedsplass</p>
 </body></html>`,
       }),
     })

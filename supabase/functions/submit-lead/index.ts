@@ -14,7 +14,7 @@ const SITE_URL             = Deno.env.get('SITE_URL') ?? 'https://velgtilbud.no'
 // still show which text was accepted.
 const CONSENT_TEXT_V1 =
   'Jeg samtykker til at mine opplysninger deles med relevante samarbeidspartnere ' +
-  '(flyttebyråer og rengjøringsfirma i Trøndelag) for å motta tilbud, og har lest personvernerklæringen.'
+  '(flyttebyråer og rengjøringsfirma) for å motta tilbud, og har lest personvernerklæringen.'
 
 const CORS = {
   'Access-Control-Allow-Origin':  '*',
@@ -362,7 +362,7 @@ function buildCustomerEmail(lead: Record<string, unknown>, customerLink: string,
     Hei ${lead.name}, takk for din forespørsel om <strong>${svcLabel(lead.service_type as string)}</strong>.
   </p>
   <p style="color:#555;font-size:14px;margin:0 0 16px">
-    Din forespørsel er nå sendt til <strong>${partnerCount} godkjente selskaper</strong> i Trondheim.
+    Din forespørsel er nå sendt til <strong>${partnerCount} godkjente selskaper</strong> i Norge.
     Når selskapene sender inn sine tilbud, kan du sammenligne dem på din personlige tilbudsside.
   </p>
   <div style="margin:24px 0;text-align:center">
@@ -372,6 +372,6 @@ function buildCustomerEmail(lead: Record<string, unknown>, customerLink: string,
     <p style="font-size:11px;color:#bbb;margin-top:10px">Eller kopier lenken: ${customerLink}</p>
   </div>
   <p style="color:#888;font-size:13px;">Vi anbefaler at du følger med på både innboksen og spam-/søppelpostmappen den kommende tiden, slik at du ikke går glipp av viktig informasjon og tilbud.</p>
-  <p style="font-size:11px;color:#bbb;margin-top:28px;border-top:1px solid #eee;padding-top:12px">Velgtilbud.no — Trondheims ledende markedsplass</p>
+  <p style="font-size:11px;color:#bbb;margin-top:28px;border-top:1px solid #eee;padding-top:12px">Velgtilbud.no — Norges ledende markedsplass</p>
 </body></html>`
 }

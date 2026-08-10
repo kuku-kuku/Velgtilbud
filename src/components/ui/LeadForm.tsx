@@ -366,7 +366,7 @@ export default function LeadForm({ service: ctrl, onServiceChange, onServiceChoi
           <div>
             <h3 className="text-base font-bold text-navy mb-1">Takk for henvendelsen!</h3>
             <p className="text-sm text-greige max-w-xs mx-auto">
-              Vi har mottatt forespørselen din og sender den videre til relevante flyttebyråer og rengjøringsfirma i Trøndelag.
+              Vi har mottatt forespørselen din og sender den videre til relevante flyttebyråer og rengjøringsfirma.
             </p>
             <p className="text-sm text-greige max-w-xs mx-auto mt-2">
               Du vil bli kontaktet innen kort tid. Vi anbefaler at du svarer på ukjente telefonnumre, da bedriftene ofte tar kontakt direkte.
@@ -1089,7 +1089,7 @@ export default function LeadForm({ service: ctrl, onServiceChange, onServiceChoi
             />
             <span>
               Jeg samtykker til at mine opplysninger deles med relevante samarbeidspartnere
-              (flyttebyråer og rengjøringsfirma i Trøndelag) for å motta tilbud, og har lest{' '}
+              (flyttebyråer og rengjøringsfirma) for å motta tilbud, og har lest{' '}
               <a href="/personvern" target="_blank" rel="noreferrer" className="underline hover:text-navy">
                 personvernerklæringen
               </a>
