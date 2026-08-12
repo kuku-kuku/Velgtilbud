@@ -63,7 +63,7 @@ export default function PartnerPage() {
       <section className="bg-navy relative overflow-hidden min-h-screen flex flex-col justify-center -mt-16">
         <div
           className="absolute inset-0 animate-hero-zoom bg-cover bg-no-repeat [background-position:50%_30%] sm:[background-position:center_center]"
-          style={{ backgroundImage: `linear-gradient(to bottom, rgba(14,29,45,0.82) 0%, rgba(14,29,45,0.72) 100%), url('/Bli partner.png')` }}
+          style={{ backgroundImage: `linear-gradient(to bottom, rgba(14,29,45,0.82) 0%, rgba(14,29,45,0.72) 100%), url('/bli partner (2).webp')` }}
         />
         <div className="container-wide relative z-10 py-24 lg:py-32">
           <div className="grid lg:grid-cols-[1fr_420px] gap-10 lg:gap-20 items-center">

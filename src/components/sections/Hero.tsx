@@ -20,7 +20,7 @@ export default function Hero() {
         style={{
           backgroundImage: `
             linear-gradient(to bottom, rgba(14,29,45,0.82) 0%, rgba(14,29,45,0.72) 100%),
-            url('/hero.webp')
+            url('/front page.webp')
           `,
         }}
       />
