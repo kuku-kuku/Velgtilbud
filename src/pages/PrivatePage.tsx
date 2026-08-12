@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import { Helmet } from 'react-helmet-async'
-import { Check } from 'lucide-react'
 import LeadForm from '@/components/ui/LeadForm'
 
 type ServiceChoice = 'begge' | 'flyttehjelp' | 'rengjoring'
