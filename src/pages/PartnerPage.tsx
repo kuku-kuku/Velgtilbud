@@ -1,6 +1,5 @@
 import { Helmet } from 'react-helmet-async'
 import { useState } from 'react'
-import { Check } from 'lucide-react'
 import { useForm } from 'react-hook-form'
 import { CheckCircle, Loader2, ArrowRight } from 'lucide-react'
 import { cn } from '@/lib/utils'
@@ -61,41 +60,45 @@ export default function PartnerPage() {
         <meta property="og:image" content="https://velgtilbud.no/logo.jpg" />
       </Helmet>
       {/* Hero */}
-      <section className="bg-navy relative overflow-hidden -mt-16">
-        <div className="absolute inset-0" style={{ background: `linear-gradient(to right, rgba(14,29,45,0.97) 0%, rgba(14,29,45,0.88) 50%, rgba(14,29,45,0.70) 100%), url('/Bli partner.png') 50% 30% / cover no-repeat` }} />
-        <div className="container-wide pt-28 pb-14 lg:pb-20 relative z-10">
-          <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-start">
-            <div className="pt-6 pb-14 lg:pb-20">
-              <p className="text-sand text-xs font-semibold uppercase tracking-[0.2em] mb-6">
-                For bedrifter · Trondheim
+      <section className="bg-navy relative overflow-hidden min-h-screen flex flex-col justify-center -mt-16">
+        <div
+          className="absolute inset-0 animate-hero-zoom bg-cover bg-no-repeat [background-position:50%_30%] sm:[background-position:center_center]"
+          style={{ backgroundImage: `linear-gradient(to bottom, rgba(14,29,45,0.82) 0%, rgba(14,29,45,0.72) 100%), url('/Bli partner.png')` }}
+        />
+        <div className="container-wide relative z-10 py-24 lg:py-32">
+          <div className="grid lg:grid-cols-[1fr_420px] gap-10 lg:gap-20 items-center">
+            <div className="lg:pl-2">
+              <p className="text-white/60 text-xs font-semibold uppercase tracking-[0.2em] mb-5">
+                For bedrifter · Hele Norge
               </p>
-              <h1 className="text-4xl md:text-5xl font-bold text-white leading-tight mb-5">
+              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-white leading-[1.05] mb-6">
                 Bli partner og motta{' '}
                 <span className="text-sand">kvalifiserte leads</span>
-                {' '}fra Trondheim
               </h1>
-              <p className="text-white/50 text-sm leading-relaxed mb-2 max-w-md">
-                Få flere kunder innen flytting, rengjøring og næringstjenester i Trondheim gjennom Velgtilbud. Vi kobler din bedrift med personer og selskaper som aktivt søker etter tjenestene dere tilbyr.
+              <p className="text-white/80 text-base leading-relaxed mb-4 max-w-md">
+                Få flere kunder innen flytting, rengjøring og næringstjenester gjennom Velgtilbud. Vi kobler din bedrift med personer og selskaper som aktivt søker etter tjenestene dere tilbyr.
               </p>
-              <p className="text-white/50 text-sm leading-relaxed mb-6 max-w-md">
-                Motta relevante forespørsler fra kunder i Trondheim — uten bindingstid eller faste abonnementskostnader. Du velger selv hvilke leads du ønsker å kontakte.
+              <p className="text-white/70 text-base leading-relaxed mb-10 max-w-md">
+                Motta relevante forespørsler fra kunder over hele Norge — uten bindingstid eller faste abonnementskostnader. Du velger selv hvilke leads du ønsker å kontakte.
               </p>
-              <div className="flex flex-col gap-2">
+              <div className="flex flex-col gap-4">
                 {[
-                  'Kvalifiserte leads fra privatpersoner og bedrifter',
-                  'Ingen binding eller faste månedskostnader',
-                  'Velg selv hvilke forespørsler du vil motta',
-                  'Flere muligheter for oppdrag og vekst i Trondheim',
-                  'Enkel og effektiv måte å få nye kunder på',
-                ].map((t) => (
-                  <div key={t} className="flex items-center gap-2.5 text-sm text-white/50">
-                    <Check className="w-3.5 h-3.5 text-sand flex-shrink-0" /> {t}
+                  { title: 'Kvalifiserte leads', desc: 'Motta forespørsler fra privatpersoner og bedrifter som aktivt søker etter dine tjenester.' },
+                  { title: 'Ingen binding', desc: 'Ingen faste månedskostnader eller bindingstid – du betaler kun for leads du velger.' },
+                  { title: 'Enkel vekst', desc: 'Flere muligheter for oppdrag uten å bruke tid på markedsføring og kundeakkvisisjon.' },
+                ].map(({ title, desc }) => (
+                  <div key={title} className="flex items-start gap-3">
+                    <span className="w-1.5 h-1.5 rounded-full bg-sand flex-shrink-0 mt-1.5" />
+                    <div>
+                      <p className="text-sm font-bold text-white uppercase tracking-wide leading-none mb-0.5">{title}</p>
+                      <p className="text-sm text-white/50">{desc}</p>
+                    </div>
                   </div>
                 ))}
               </div>
             </div>
-            <div className="lg:self-center">
-              <div className="bg-white rounded-2xl shadow-2xl shadow-black/20 px-7 py-8">
+            <div>
+              <div className="bg-white/85 backdrop-blur-md rounded-2xl shadow-2xl shadow-black/30 px-4 sm:px-7 py-8">
                 {submitted ? (
                   <div className="flex flex-col items-center text-center py-8 gap-4">
                     <div className="w-14 h-14 rounded-full bg-sage/20 flex items-center justify-center">
