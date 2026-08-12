@@ -16,7 +16,7 @@ export default function Stats() {
             <div key={label} className="flex flex-col items-center text-center px-4 sm:px-6 lg:px-8 py-5 sm:py-6 gap-2 sm:gap-3 border border-sand/40 rounded-xl">
               <Icon className="w-10 h-10 sm:w-12 sm:h-12 lg:w-14 lg:h-14 text-greige/60 stroke-[1]" />
               <div>
-                <div className="text-3xl sm:text-4xl lg:text-5xl font-bold text-navy leading-none mb-1.5 whitespace-nowrap">
+                <div className="text-3xl sm:text-4xl lg:text-5xl font-bold text-navy leading-none mb-1.5">
                   {value}
                 </div>
                 <div className="text-xs text-greige uppercase tracking-widest font-semibold">

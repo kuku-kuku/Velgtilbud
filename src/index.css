@@ -3,8 +3,8 @@
 @tailwind utilities;
 
 @layer base {
-  html { scroll-behavior: smooth; }
-  body { @apply font-sans text-navy bg-offwhite antialiased; }
+  html { scroll-behavior: smooth; overflow-x: hidden; }
+  body { @apply font-sans text-navy bg-offwhite antialiased overflow-x-hidden; }
   * { @apply box-border; }
 }
 

@@ -81,7 +81,7 @@ export default function PrivatePage() {
               </div>
             </div>
             <div className="lg:self-center">
-              <div id="hero-form" className="bg-white rounded-2xl shadow-2xl shadow-black/20 px-7 py-8">
+              <div id="hero-form" className="bg-white rounded-2xl shadow-2xl shadow-black/20 px-4 sm:px-7 py-8">
                 <p className="text-xs font-semibold text-greige uppercase tracking-widest mb-1">Privatpersoner</p>
                 <h2 className="text-xl font-bold text-navy mb-6">{choiceHeading(choice)}</h2>
                 <LeadForm defaultService="flytting" defaultServiceChoice="begge" onServiceChoiceChange={setChoice} />
@@ -129,16 +129,16 @@ export default function PrivatePage() {
           <h2 className="section-title mb-2">Prisoversikt for flytting og rengjøring i hele Norge</h2>
           <p className="section-subtitle mb-10">Alle oppdrag er ulike, og prisen avhenger blant annet av <strong>boligstørrelse, avstand, omfang og ønskede tjenester</strong>. Vårt team innhenter og forhandler frem et konkurransedyktig tilbud fra kvalitetssikrede leverandører – helt gratis og uforpliktende.</p>
           <div className="bg-offwhite rounded-2xl border border-sand/20 overflow-hidden">
-            <div className="grid grid-cols-3 px-6 py-3 border-b border-sand/20">
-              <p className="text-xs font-bold text-greige uppercase tracking-wider">Boligtype</p>
-              <p className="text-xs font-bold text-greige uppercase tracking-wider">Flytting</p>
-              <p className="text-xs font-bold text-greige uppercase tracking-wider">Rengjøring</p>
+            <div className="grid grid-cols-3 px-3 sm:px-6 py-3 border-b border-sand/20">
+              <p className="text-[10px] sm:text-xs font-bold text-greige uppercase tracking-wider">Boligtype</p>
+              <p className="text-[10px] sm:text-xs font-bold text-greige uppercase tracking-wider">Flytting</p>
+              <p className="text-[10px] sm:text-xs font-bold text-greige uppercase tracking-wider">Rengjøring</p>
             </div>
             {priceGuide.map((p, i) => (
-              <div key={i} className={`grid grid-cols-3 px-6 py-4 ${i < priceGuide.length - 1 ? 'border-b border-sand/20' : ''}`}>
-                <p className="text-sm font-semibold text-navy">{p.label}</p>
-                <p className="text-sm text-greige">{p.move}</p>
-                <p className="text-sm text-greige">{p.clean}</p>
+              <div key={i} className={`grid grid-cols-3 px-3 sm:px-6 py-4 ${i < priceGuide.length - 1 ? 'border-b border-sand/20' : ''}`}>
+                <p className="text-xs sm:text-sm font-semibold text-navy">{p.label}</p>
+                <p className="text-xs sm:text-sm text-greige">{p.move}</p>
+                <p className="text-xs sm:text-sm text-greige">{p.clean}</p>
               </div>
             ))}
           </div>

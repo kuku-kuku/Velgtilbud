@@ -685,7 +685,7 @@ export default function LeadForm({ service: ctrl, onServiceChange, onServiceChoi
       case 'size':
         return (
           <div>
-            <div className="grid grid-cols-5 gap-1.5">
+            <div className="grid grid-cols-3 sm:grid-cols-5 gap-1.5">
               {SIZE_OPTIONS.map(s => (
                 <button
                   key={s}
@@ -914,7 +914,7 @@ export default function LeadForm({ service: ctrl, onServiceChange, onServiceChoi
           <div className="flex flex-col gap-3">
             <div>
               <label className="label">Antall rom som skal vaskes</label>
-              <div className="grid grid-cols-2 gap-2 mt-1">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-1">
                 {roomTypes.map(({ key, label }) => (
                   <div key={key} className="flex items-center justify-between bg-white rounded-xl border border-sand/50 px-3 py-2">
                     <span className="text-xs text-navy font-medium">{label}</span>

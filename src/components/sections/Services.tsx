@@ -44,7 +44,7 @@ export default function Services() {
                 <p className={`text-xs font-semibold uppercase tracking-widest mb-4 ${c.accent}`}>{c.tag}</p>
                 <h3 className="text-xl font-bold text-white mb-3 leading-snug">{c.title}</h3>
                 <p className="text-white/50 text-sm leading-relaxed mb-6">{c.body}</p>
-                <ul className="grid grid-cols-2 gap-y-2 gap-x-4 mb-8 flex-1">
+                <ul className="grid grid-cols-1 sm:grid-cols-2 gap-y-2 gap-x-4 mb-8 flex-1">
                   {c.items.map((s) => (
                     <li key={s} className="flex items-center gap-2 text-sm text-white/70">
                       <Check className={`w-3.5 h-3.5 flex-shrink-0 ${c.check}`} />

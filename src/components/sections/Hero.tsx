@@ -70,7 +70,7 @@ export default function Hero() {
 
           {/* Right — form */}
           <div>
-            <div id="hero-form" className="bg-white/85 backdrop-blur-md rounded-2xl shadow-2xl shadow-black/30 px-7 py-8">
+            <div id="hero-form" className="bg-white/85 backdrop-blur-md rounded-2xl shadow-2xl shadow-black/30 px-4 sm:px-7 py-8">
               <p className="text-xs font-semibold text-greige uppercase tracking-widest mb-1">Gratis tilbud</p>
               <h2 className="text-xl font-bold text-navy mb-6">{heading}</h2>
               <LeadForm defaultService="flytting" defaultServiceChoice="begge" onServiceChoiceChange={setChoice} />

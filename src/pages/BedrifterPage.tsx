@@ -64,7 +64,7 @@ export default function BedrifterPage() {
               <p className="text-white/50 text-sm leading-relaxed mb-8 max-w-md">
                 Få et konkurransedyktig tilbud på <strong className="text-white/80">kontorflytting, næringsflytting og rengjøring for bedrifter</strong> – uansett hvor i Norge virksomheten holder til. Vårt team innhenter og forhandler frem et godt tilbud fra kvalitetssikrede leverandører, slik at bedriften får en effektiv og trygg løsning.
               </p>
-              <div className="grid grid-cols-2 gap-2">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                 {benefits.map((b) => (
                   <div key={b} className="flex items-start gap-2 text-sm text-white/50">
                     <Check className="w-3.5 h-3.5 text-sand flex-shrink-0 mt-0.5" /> {b}
@@ -73,7 +73,7 @@ export default function BedrifterPage() {
               </div>
             </div>
             <div className="lg:self-center">
-              <div id="hero-form" className="bg-white rounded-2xl shadow-2xl shadow-black/20 px-7 py-8">
+              <div id="hero-form" className="bg-white rounded-2xl shadow-2xl shadow-black/20 px-4 sm:px-7 py-8">
                 <p className="text-xs font-semibold text-greige uppercase tracking-widest mb-1">Bedrifter</p>
                 <h2 className="text-xl font-bold text-navy mb-6">{choiceHeading(choice)}</h2>
                 <LeadForm defaultService="flytting" defaultServiceChoice="begge" onServiceChoiceChange={setChoice} />

@@ -72,7 +72,7 @@ export default function OmOssPage() {
               </div>
             </div>
             <div className="lg:self-center">
-              <div id="hero-form" className="bg-white rounded-2xl shadow-2xl shadow-black/20 px-7 py-8">
+              <div id="hero-form" className="bg-white rounded-2xl shadow-2xl shadow-black/20 px-4 sm:px-7 py-8">
                 <p className="text-xs font-semibold text-greige uppercase tracking-widest mb-1">Kom i gang</p>
                 <h2 className="text-xl font-bold text-navy mb-6">{choiceHeading(choice)}</h2>
                 <LeadForm defaultService="flytting" defaultServiceChoice="begge" onServiceChoiceChange={setChoice} />
@@ -115,7 +115,7 @@ export default function OmOssPage() {
       {/* Pull quote */}
       <section className="bg-offwhite py-14">
         <div className="container-wide max-w-3xl mx-auto">
-          <div className="bg-navy rounded-2xl px-8 py-10 flex gap-6 items-start">
+          <div className="bg-navy rounded-2xl px-5 sm:px-8 py-8 sm:py-10 flex flex-col sm:flex-row gap-4 sm:gap-6 items-start">
             <Quote className="w-8 h-8 text-sand flex-shrink-0 mt-1" />
             <div>
               <div className="text-white text-lg md:text-xl font-medium leading-relaxed mb-4 flex flex-col gap-2">
