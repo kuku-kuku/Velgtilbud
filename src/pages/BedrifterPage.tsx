@@ -51,11 +51,14 @@ export default function BedrifterPage() {
         })}</script>
       </Helmet>
       {/* Hero */}
-      <section className="bg-navy relative overflow-hidden -mt-16">
-        <div className="absolute inset-0" style={{ background: `linear-gradient(to right, rgba(14,29,45,0.97) 0%, rgba(14,29,45,0.88) 50%, rgba(14,29,45,0.70) 100%), url('/Bedrifter.png') 65% center / cover no-repeat` }} />
-        <div className="container-wide pt-28 pb-14 lg:pb-20 relative z-10">
-          <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-start">
-            <div className="pt-6 pb-14 lg:pb-20">
+      <section className="bg-navy relative overflow-hidden min-h-screen flex flex-col justify-center -mt-16">
+        <div
+          className="absolute inset-0 animate-hero-zoom bg-cover bg-no-repeat [background-position:65%_center] sm:[background-position:center_center]"
+          style={{ backgroundImage: `linear-gradient(to bottom, rgba(14,29,45,0.82) 0%, rgba(14,29,45,0.72) 100%), url('/Bedrifter.png')` }}
+        />
+        <div className="container-wide relative z-10 py-24 lg:py-32">
+          <div className="grid lg:grid-cols-[1fr_420px] gap-10 lg:gap-20 items-center">
+            <div>
               <p className="text-sand text-xs font-semibold uppercase tracking-[0.2em] mb-6">Bedrifter · Hele Norge</p>
               <h1 className="text-4xl md:text-5xl font-bold text-white leading-tight mb-5">
                 <span className="text-sand">Kontorflytting</span>
@@ -72,8 +75,8 @@ export default function BedrifterPage() {
                 ))}
               </div>
             </div>
-            <div className="lg:self-center">
-              <div id="hero-form" className="bg-white rounded-2xl shadow-2xl shadow-black/20 px-4 sm:px-7 py-8">
+            <div>
+              <div id="hero-form" className="bg-white/85 backdrop-blur-md rounded-2xl shadow-2xl shadow-black/30 px-4 sm:px-7 py-8">
                 <p className="text-xs font-semibold text-greige uppercase tracking-widest mb-1">Bedrifter</p>
                 <h2 className="text-xl font-bold text-navy mb-6">{choiceHeading(choice)}</h2>
                 <LeadForm defaultService="flytting" defaultServiceChoice="begge" onServiceChoiceChange={setChoice} />
