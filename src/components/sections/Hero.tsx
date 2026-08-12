@@ -29,7 +29,7 @@ export default function Hero() {
         <div className="grid lg:grid-cols-[1fr_420px] gap-10 lg:gap-20 items-center">
 
           {/* Left — copy */}
-          <div className="lg:pl-2">
+          <div className="lg:pl-2 overflow-hidden">
             <p className="text-white/60 text-xs font-semibold uppercase tracking-[0.2em] mb-5">
               Norges uavhengige tilbudstjeneste for flytting og renhold
             </p>

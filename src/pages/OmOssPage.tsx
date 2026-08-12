@@ -49,7 +49,7 @@ export default function OmOssPage() {
         />
         <div className="container-wide relative z-10 py-24 lg:py-32">
           <div className="grid lg:grid-cols-[1fr_420px] gap-10 lg:gap-20 items-center">
-            <div className="lg:pl-2">
+            <div className="lg:pl-2 overflow-hidden">
               <p className="text-white/60 text-xs font-semibold uppercase tracking-[0.2em] mb-5">Om oss</p>
               <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-white leading-[1.05] mb-6">
                 Bygget på erfaring fra flytte- og{' '}

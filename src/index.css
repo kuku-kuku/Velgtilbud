@@ -6,6 +6,7 @@
   html { scroll-behavior: smooth; overflow-x: hidden; }
   body { @apply font-sans text-navy bg-offwhite antialiased overflow-x-hidden; }
   * { @apply box-border; }
+  h1, h2, h3, p { overflow-wrap: break-word; word-break: break-word; }
 }
 
 @layer components {
