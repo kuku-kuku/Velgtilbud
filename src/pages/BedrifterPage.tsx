@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Helmet } from 'react-helmet-async'
-import { Check, CheckCircle2 } from 'lucide-react'
+import { CheckCircle2 } from 'lucide-react'
 import LeadForm from '@/components/ui/LeadForm'
 
 type ServiceChoice = 'begge' | 'flyttehjelp' | 'rengjoring'
@@ -16,15 +16,6 @@ const services = [
   { title: 'Næringsflytting',   desc: 'Vi hjelper bedrifter med å finne en kvalitetssikret leverandør for små og store næringsflyttinger, tilpasset virksomhetens behov.' },
   { title: 'Bedriftsrengjøring', desc: 'Få tilbud på fast renhold, kontorvask, butikkrenhold eller engangsrengjøring utført av kvalitetssikrede leverandører.' },
   { title: 'Mellomlagring',     desc: 'Få tilbud på sikre og fleksible lagerløsninger ved flytting, oppussing eller midlertidig behov for oppbevaring av inventar og utstyr.' },
-]
-
-const benefits = [
-  'Tilbud på kontorflytting og bedriftsrengjøring',
-  'Flytting av kontor, lager, inventar og IT-utstyr',
-  'Fleksible løsninger tilpasset bedriftens behov',
-  'Effektiv koordinering fra forespørsel til ferdig tilbud',
-  'Minimal nedetid for ansatte og drift',
-  'Gratis og uforpliktende tilbud – ingen skjulte kostnader',
 ]
 
 export default function BedrifterPage() {
@@ -58,19 +49,30 @@ export default function BedrifterPage() {
         />
         <div className="container-wide relative z-10 py-24 lg:py-32">
           <div className="grid lg:grid-cols-[1fr_420px] gap-10 lg:gap-20 items-center">
-            <div>
-              <p className="text-sand text-xs font-semibold uppercase tracking-[0.2em] mb-6">Bedrifter · Hele Norge</p>
-              <h1 className="text-4xl md:text-5xl font-bold text-white leading-tight mb-5">
+            <div className="lg:pl-2">
+              <p className="text-white/60 text-xs font-semibold uppercase tracking-[0.2em] mb-5">Bedrifter · Hele Norge</p>
+              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-white leading-[1.05] mb-6">
                 <span className="text-sand">Kontorflytting</span>
-                {' '}og bedriftsrengjøring i hele Norge
+                {' '}og bedrifts&shy;rengjøring
               </h1>
-              <p className="text-white/50 text-sm leading-relaxed mb-8 max-w-md">
-                Få et konkurransedyktig tilbud på <strong className="text-white/80">kontorflytting, næringsflytting og rengjøring for bedrifter</strong> – uansett hvor i Norge virksomheten holder til. Vårt team innhenter og forhandler frem et godt tilbud fra kvalitetssikrede leverandører, slik at bedriften får en effektiv og trygg løsning.
+              <p className="text-white/80 text-base leading-relaxed mb-4 max-w-md">
+                Få et konkurransedyktig tilbud på kontorflytting, næringsflytting og rengjøring for bedrifter – uansett hvor i Norge virksomheten holder til.
               </p>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                {benefits.map((b) => (
-                  <div key={b} className="flex items-start gap-2 text-sm text-white/50">
-                    <Check className="w-3.5 h-3.5 text-sand flex-shrink-0 mt-0.5" /> {b}
+              <p className="text-white/70 text-base leading-relaxed mb-10 max-w-md">
+                Vårt team innhenter og forhandler frem et godt tilbud fra kvalitetssikrede leverandører, slik at bedriften får en effektiv og trygg løsning uten å bruke tid på å kontakte flere bedrifter selv.
+              </p>
+              <div className="flex flex-col gap-4">
+                {[
+                  { title: 'Skreddersydde løsninger', desc: 'Flytting, rengjøring og mellomlagring tilpasset bedriftens størrelse, behov og tidsplan.' },
+                  { title: 'Kvalitetssikrede leverandører', desc: 'Vi samarbeider med erfarne leverandører innen kontorflytting og bedriftsrengjøring over hele Norge.' },
+                  { title: 'Gratis og uforpliktende', desc: 'Vi forhandler frem konkurransedyktige tilbud – helt kostnadsfritt og uten forpliktelser.' },
+                ].map(({ title, desc }) => (
+                  <div key={title} className="flex items-start gap-3">
+                    <span className="w-1.5 h-1.5 rounded-full bg-sand flex-shrink-0 mt-1.5" />
+                    <div>
+                      <p className="text-sm font-bold text-white uppercase tracking-wide leading-none mb-0.5">{title}</p>
+                      <p className="text-sm text-white/50">{desc}</p>
+                    </div>
                   </div>
                 ))}
               </div>

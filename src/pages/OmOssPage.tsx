@@ -49,27 +49,30 @@ export default function OmOssPage() {
         />
         <div className="container-wide relative z-10 py-24 lg:py-32">
           <div className="grid lg:grid-cols-[1fr_420px] gap-10 lg:gap-20 items-center">
-            <div>
-              <p className="text-sand text-xs font-semibold uppercase tracking-[0.2em] mb-6">Om oss</p>
-              <h1 className="text-4xl md:text-5xl font-bold text-white leading-tight mb-5">
+            <div className="lg:pl-2">
+              <p className="text-white/60 text-xs font-semibold uppercase tracking-[0.2em] mb-5">Om oss</p>
+              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-white leading-[1.05] mb-6">
                 Bygget på erfaring fra flytte- og{' '}
-                <span className="text-sand">rengjøringsbransjen</span>
+                <span className="text-sand">rengjørings&shy;bransjen</span>
               </h1>
-              <p className="text-white/50 text-sm leading-relaxed mb-2 max-w-md">
-                Velgtilbud drives av <strong className="text-white/80">Værnes Multiservice AS</strong> og er utviklet for å gjøre det enklere å finne kvalitetssikrede leverandører innen flytting og rengjøring i hele Norge. Vårt dedikerte meglerteam innhenter og forhandler frem konkurransedyktige tilbud, slik at kundene slipper å bruke tid på å kontakte flere bedrifter selv.
+              <p className="text-white/80 text-base leading-relaxed mb-4 max-w-md">
+                Velgtilbud drives av Værnes Multiservice AS og er utviklet for å gjøre det enklere å finne kvalitetssikrede leverandører innen flytting og rengjøring i hele Norge.
               </p>
-              <p className="text-white/50 text-sm leading-relaxed mb-6 max-w-md">
-                Vi vet hvor tidkrevende det kan være å finne pålitelige leverandører og vurdere ulike alternativer. Derfor håndterer vi hele prosessen med å innhente og forhandle tilbud, slik at både privatpersoner og bedrifter mottar ett eller flere ferdig forhandlede tilbud – enkelt, trygt og helt uforpliktende.
+              <p className="text-white/70 text-base leading-relaxed mb-10 max-w-md">
+                Vi vet hvor tidkrevende det kan være å finne pålitelige leverandører og vurdere ulike alternativer. Derfor håndterer vi hele prosessen med å innhente og forhandle tilbud, slik at du mottar ferdig forhandlede tilbud – enkelt, trygt og helt uforpliktende.
               </p>
-              <div className="flex flex-col gap-2">
+              <div className="flex flex-col gap-4">
                 {[
-                  'Erfaring fra flytte- og rengjøringsbransjen',
-                  'Kvalitetssikrede leverandører i hele Norge',
-                  'Gratis og uforpliktende tjeneste',
-                  'Ferdig forhandlede tilbud uten skjulte kostnader eller overraskelser',
-                ].map((t) => (
-                  <div key={t} className="flex items-center gap-2.5 text-sm text-white/50">
-                    <Check className="w-3.5 h-3.5 text-sand flex-shrink-0" /> {t}
+                  { title: 'Mange års erfaring', desc: 'Bygget på lang erfaring fra flytte- og rengjøringsbransjen i Norge.' },
+                  { title: 'Kvalitetssikrede leverandører', desc: 'Vi vurderer pris, kvalitet og kundeanmeldelser før vi anbefaler de beste alternativene.' },
+                  { title: 'Gratis og uforpliktende', desc: 'Ferdig forhandlede tilbud uten skjulte kostnader eller overraskelser.' },
+                ].map(({ title, desc }) => (
+                  <div key={title} className="flex items-start gap-3">
+                    <span className="w-1.5 h-1.5 rounded-full bg-sand flex-shrink-0 mt-1.5" />
+                    <div>
+                      <p className="text-sm font-bold text-white uppercase tracking-wide leading-none mb-0.5">{title}</p>
+                      <p className="text-sm text-white/50">{desc}</p>
+                    </div>
                   </div>
                 ))}
               </div>

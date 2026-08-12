@@ -65,20 +65,31 @@ export default function PrivatePage() {
         />
         <div className="container-wide relative z-10 py-24 lg:py-32">
           <div className="grid lg:grid-cols-[1fr_420px] gap-10 lg:gap-20 items-center">
-            <div>
-              <p className="text-sand text-xs font-semibold uppercase tracking-[0.2em] mb-6">Privatpersoner · Hele Norge</p>
-              <h1 className="text-4xl md:text-5xl font-bold text-white leading-tight mb-5">
+            <div className="lg:pl-2">
+              <p className="text-white/60 text-xs font-semibold uppercase tracking-[0.2em] mb-5">Privatpersoner · Hele Norge</p>
+              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-white leading-[1.05] mb-6">
                 Få det beste{' '}
                 <span className="text-sand">tilbudet</span>
                 {' '}på flytting og rengjøring
               </h1>
-              <p className="text-white/50 text-sm leading-relaxed mb-8 max-w-md">
-                Send inn én forespørsel – <strong className="text-white/80">vårt meglerteam innhenter og forhandler frem det beste tilbudet</strong> fra kvalitetssikrede leverandører. Du mottar ett ferdigforhandlet tilbud, helt gratis og uforpliktende.
+              <p className="text-white/80 text-base leading-relaxed mb-4 max-w-md">
+                Send inn én forespørsel – vårt meglerteam innhenter og forhandler frem det beste tilbudet fra kvalitetssikrede leverandører. Du mottar ett ferdigforhandlet tilbud, helt gratis og uforpliktende.
               </p>
-              <div className="flex flex-col gap-2.5">
-                {['Vi forhandler frem det beste tilbudet for deg', 'Tilbud fra kvalitetssikrede leverandører', 'Gratis og uforpliktende – uten skjulte kostnader'].map((t) => (
-                  <div key={t} className="flex items-center gap-2.5 text-sm text-white/50">
-                    <Check className="w-3.5 h-3.5 text-sand flex-shrink-0" /> {t}
+              <p className="text-white/70 text-base leading-relaxed mb-10 max-w-md">
+                Vi tar oss av hele prosessen — fra innhenting av tilbud til forhandling og oppfølging. Du velger selv om du vil akseptere, helt uten forpliktelser.
+              </p>
+              <div className="flex flex-col gap-4">
+                {[
+                  { title: 'Personlig rådgiver', desc: 'Én kontaktperson som følger deg gjennom hele prosessen – fra forespørsel til ferdig oppdrag.' },
+                  { title: 'Kvalitetssikrede leverandører', desc: 'Vi vurderer pris, kvalitet, kundeanmeldelser og erfaring før vi anbefaler de beste alternativene.' },
+                  { title: 'Gratis og uforpliktende', desc: 'Vi forhandler og sammenligner tilbudene for deg – helt kostnadsfritt og uten forpliktelser.' },
+                ].map(({ title, desc }) => (
+                  <div key={title} className="flex items-start gap-3">
+                    <span className="w-1.5 h-1.5 rounded-full bg-sand flex-shrink-0 mt-1.5" />
+                    <div>
+                      <p className="text-sm font-bold text-white uppercase tracking-wide leading-none mb-0.5">{title}</p>
+                      <p className="text-sm text-white/50">{desc}</p>
+                    </div>
                   </div>
                 ))}
               </div>
